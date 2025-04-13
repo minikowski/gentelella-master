@@ -102,33 +102,39 @@
     </div>
   
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    
-const users = [
-  { username: "victor", password: "090824" },
-  { username: "neverton", password: "854528" },
-  { username: "viviane", password: "452087" },
-  { username: "talita", password: "587814" },
-  { username: "claudio", password: "058745" },
-  { username: "juliana", password: "745147" },
-  { username: "leonardo", password: "874524" },
-  { username: "daniela", password: "854178" },
-  { username: "user9", password: "senha9" },
-  { username: "user10", password: "senha10" }
-];
+    const users = [
+      { username: "victor", password: "090824" },
+      { username: "neverton", password: "854528" },
+      { username: "viviane", password: "452087" },
+      { username: "talita", password: "587814" },
+      { username: "claudio", password: "058745" },
+      { username: "juliana", password: "745147" },
+      { username: "leonardo", password: "874524" },
+      { username: "daniela", password: "854178" },
+      { username: "user9", password: "senha9" },
+      { username: "user10", password: "senha10" }
+    ];
 
-    $('#loginForm').on('submit', function(event) {
-      event.preventDefault();
-      const username = $('#username').val().trim().toLowerCase();
-      const password = $('#password').val().trim();
-      const user = users.find(u => u.username === username && u.password === password);
-      if (user) {
-        window.location.href = "index.html";
-      } else {
-        alert("Usuário ou senha inválidos.");
-      }
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('loginForm');
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value.trim().toLowerCase();
+        const password = document.getElementById('password').value.trim();
+
+        const user = users.find(u => u.username === username && u.password === password);
+        if (user) {
+          window.location.href = "index.html";
+        } else {
+          alert("Usuário ou senha inválidos.");
+        }
+      });
     });
   </script>
 </body>
+
 
 </html>
