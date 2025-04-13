@@ -107,13 +107,20 @@
   </ul>
 </div>
 
-  <div class="menu_section">
+<div class="menu_section">
     <h3>Realizar Alterações</h3>
     <ul class="nav side-menu">
-      <li><a href="https://docs.google.com/spreadsheets/d/1gji8w9dWk7aJceCVhjVVq8_2PFnx66KKVhqn6pAz41Y/edit?usp=sharing" target="_blank">Inscrições, Desligamentos e Lançamentos</a></li>
-      <li><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCvP8pO_dqeDeTxwbiQ1LjaUTDQTAH3J-lUfFQk0IwWbbcaDxsUpbFRwVtnnbN6CavTG7Ybs426Qzb/pub?output=xlsx" target="_blank">Exportar Excel</a></li>
+        <!-- O primeiro link abre dentro da tela no iframe -->
+        <li><a href="https://docs.google.com/spreadsheets/d/1gji8w9dWk7aJceCVhjVVq8_2PFnx66KKVhqn6pAz41Y/edit?usp=sharing" target="contentFrame">Inscrições, Desligamentos e Lançamentos</a></li>
+        
+        <!-- O segundo link abre em uma nova aba -->
+        <li><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCvP8pO_dqeDeTxwbiQ1LjaUTDQTAH3J-lUfFQk0IwWbbcaDxsUpbFRwVtnnbN6CavTG7Ybs426Qzb/pub?output=xlsx" target="_blank">Exportar Excel</a></li>
     </ul>
-  </div>
+</div>
+
+<!-- Área para exibir o conteúdo do link -->
+<iframe name="contentFrame" style="width: calc(100% - 250px); height: 100vh; border: none;"></iframe>
+
 
   <div class="menu_section">
     <h3>Métricas</h3>
