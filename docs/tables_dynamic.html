@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DataTables | Gentelella</title>
+
+    <link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link href="./vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="./vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="./vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <link href="./vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="./vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="./vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="./vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="./vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="../build/css/custom.min.css" rel="stylesheet">
+  </head>
+
+  <body class="nav-md">
+    <!-- ... conteúdo da página ... -->
+
+    <!-- Scripts JS padrão -->
+    <script src="./vendors/jquery/dist/jquery.min.js"></script>
+    <script src="./vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./vendors/fastclick/lib/fastclick.js"></script>
+    <script src="./vendors/nprogress/nprogress.js"></script>
+    <script src="./vendors/iCheck/icheck.min.js"></script>
+    <script src="./vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="./vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="./vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="./vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="./vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="./vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="./vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="./vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="./vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="./vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="./vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="./vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="./vendors/jszip/dist/jszip.min.js"></script>
+    <script src="./vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="./vendors/pdfmake/build/vfs_fonts.js"></script>
+    <script src="../build/js/custom.min.js"></script>
+
+    <!-- PapaParse para ler CSV -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSGRsnlr3_Io2jgY4EM4M-cBArPmiE77rHh8ksC1uVU_mqip68mufSjhIPkqZ6-Z_YYmZB1BCD7km_K/pub?output=csv";
+
+        Papa.parse(csvUrl, {
+          download: true,
+          header: true,
+          complete: function(results) {
+            const data = results.data;
+            const table = $('#datatable').DataTable();
+            table.clear();
+
+            data.forEach(row => {
+              table.row.add([
+                row["Name"],
+                row["Position"],
+                row["Office"],
+                row["Age"],
+                row["Start date"],
+                row["Salary"]
+              ]);
+            });
+
+            table.draw();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
