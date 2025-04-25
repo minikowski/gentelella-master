@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Requerimento - CMTU</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    label, input, select, textarea { display: block; margin-bottom: 10px; width: 100%; }
+    .familia { border: 1px solid #ccc; padding: 10px; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+  <h1>Formulário de Requerimento</h1>
+  <form id="formulario">
+    <label>Nome: <input name="nome" required></label>
+    <label>RG: <input name="rg" required></label>
+    <label>CPF: <input name="cpf" required></label>
+    <label>Endereço (Rua): <input name="rua" required></label>
+    <label>CEP: <input name="cep" required></label>
+    <label>Bairro: <input name="bairro" required></label>
+    <label>Telefone: <input name="telefone" required></label>
+
+    <label>Motivo: <textarea name="motivo" required></textarea></label>
+
+    <label>Dias da semana:</label>
+    <label><input type="checkbox" name="dias" value="SEGUNDA"> Segunda</label>
+    <label><input type="checkbox" name="dias" value="TERÇA"> Terça</label>
+    <label><input type="checkbox" name="dias" value="QUARTA"> Quarta</label>
+    <label><input type="checkbox" name="dias" value="QUINTA"> Quinta</label>
+    <label><input type="checkbox" name="dias" value="SEXTA"> Sexta</label>
+
+    <label>Horário de Entrada: <input name="entrada" required></label>
+    <label>Horário de Saída: <input name="saida" required></label>
+
+    <label>Linha de Ônibus: <input name="linhas" required placeholder="Separe com vírgulas"></label>
+
+    <h3>Informações dos Familiares (até 6)</h3>
+    <div id="familiares"></div>
+    <button type="button" onclick="adicionarFamiliar()">Adicionar Familiar</button>
+    <br><br>
+
+    <button type="submit">Gerar PDF</button>
+  </form>
+
+  <script>
+    let contadorFamilia = 0;
+
+    function adicionarFamiliar() {
+      if (contadorFamilia >= 6) return alert("Limite de 6 familiares atingido.");
+
+      const div = document.createElement('div');
+      div.className = 'familia';
+      div.innerHTML = `
+        <label>Nome: <input name="nome_familiar"></label>
+        <label>Idade: <input name="idade_familiar"></label>
+        <label>Vínculo: <input name="vinculo_familiar"></label>
+        <label>Profissão: <input name="profissao_familiar"></label>
+        <label>Renda: <input name="renda_familiar" type="number" step="0.01"></label>
+      `;
+      document.getElementById('familiares').appendChild(div);
+      contadorFamilia++;
+    }
+
+    document.getElementById('formulario').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const form = new FormData(e.target);
+      const diasSelecionados = Array.from(document.querySelectorAll('input[name="dias"]:checked')).map(el => el.value).join(", ");
+      const dataAtual = new Date().toLocaleDateString();
+
+      // Dados da família
+      let rendaTotal = 0;
+      const familiares = Array.from(document.querySelectorAll('.familia')).map(div => {
+        const nome = div.querySelector('[name="nome_familiar"]').value;
+        const idade = div.querySelector('[name="idade_familiar"]').value;
+        const vinculo = div.querySelector('[name="vinculo_familiar"]').value;
+        const profissao = div.querySelector('[name="profissao_familiar"]').value;
+        const renda = parseFloat(div.querySelector('[name="renda_familiar"]').value) || 0;
+        rendaTotal += renda;
+        return { nome, idade, vinculo, profissao, renda };
+      });
+      const perCapita = familiares.length ? (rendaTotal / familiares.length).toFixed(2) : "0.00";
+
+      // Cabeçalho com as imagens
+      const unificado = await loadImageBase64('unificado.jpg');
+      const guarda = await loadImageBase64('guarda.jpg');
+      doc.addImage(unificado, 'JPEG', 10, 10, 40, 20);
+      doc.addImage(guarda, 'JPEG', 150, 10, 40, 20);
+      doc.setFontSize(12);
+      doc.text("REQUERIMENTO", 90, 40, null, null, 'center');
+
+      let y = 50;
+      doc.setFontSize(10);
+      doc.text(`Eu, ${form.get("nome")}, portador da RG ${form.get("rg")} e CPF ${form.get("cpf")}, residente à ${form.get("rua")} – CEP ${form.get("cep")} - Bairro ${form.get("bairro")}, na cidade de LONDRINA-PR com telefone ${form.get("telefone")}, venho solicitar a:`, 10, y); y += 10;
+      doc.text("    (  ) Isenção Tarifária   (  ) Renovação da Isenção   (  ) 2ª via da isenção", 10, y); y += 10;
+      doc.text(`Motivo: ${form.get("motivo")}`, 10, y); y += 10;
+      doc.text("Na categoria: [  ] Aluno(a) da entidade", 10, y); y += 10;
+      doc.text("ASSOCIAÇÃO GUARDA MIRIM DE LONDRINA - AGML - CENTRAL", 10, y); y += 10;
+      doc.text(`Frequência: ${diasSelecionados}`, 10, y); y += 10;
+      doc.text(`Horário de Entrada: ${form.get("entrada")} - Saída: ${form.get("saida")}`, 10, y); y += 10;
+      doc.text(`Linhas de ônibus: ${form.get("linhas")}`, 10, y); y += 10;
+      doc.text(`LONDRINA-PR, ${dataAtual}`, 10, y); y += 20;
+
+      doc.text("Avaliação Socioeconômica", 10, y); y += 10;
+      familiares.forEach((f, i) => {
+        doc.text(`${i + 1}) Nome: ${f.nome}, Idade: ${f.idade}, Vínculo: ${f.vinculo}, Profissão: ${f.profissao}, Renda: R$ ${f.renda.toFixed(2)}`, 10, y);
+        y += 10;
+      });
+
+      doc.text(`RENDA TOTAL: R$ ${rendaTotal.toFixed(2)}`, 10, y); y += 10;
+      doc.text(`RENDA PER CAPITA: R$ ${perCapita}`, 10, y); y += 10;
+      doc.text("PARECER DA CMTU:", 10, y); y += 20;
+      doc.text("______________________________________", 10, y); y += 10;
+      doc.text("ASS.E CARIMBO DA ENTIDADE", 10, y); y += 10;
+      doc.text("Setor de Isenção Tarifária-CMTU", 10, y); y += 10;
+      doc.text("Fone: (43) 3356-1595", 10, y);
+
+      doc.save("requerimento.pdf");
+    });
+
+    function loadImageBase64(fileName) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+          resolve(canvas.toDataURL("image/jpeg"));
+        };
+        img.src = fileName;
+      });
+    }
+  </script>
+</body>
+</html>
