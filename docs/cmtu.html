@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <title>Requerimento - CMTU</title>
+
+  <!-- jsPDF e plugins -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     label, input, select, textarea { display: block; margin-bottom: 10px; width: 100%; }
@@ -73,7 +77,6 @@
       const diasSelecionados = Array.from(document.querySelectorAll('input[name="dias"]:checked')).map(el => el.value).join(", ");
       const dataAtual = new Date().toLocaleDateString();
 
-      // Dados da família
       let rendaTotal = 0;
       const familiares = Array.from(document.querySelectorAll('.familia')).map(div => {
         const nome = div.querySelector('[name="nome_familiar"]').value;
@@ -86,34 +89,51 @@
       });
       const perCapita = familiares.length ? (rendaTotal / familiares.length).toFixed(2) : "0.00";
 
-      // Cabeçalho com as imagens
       const unificado = await loadImageBase64('unificado.jpg');
       const guarda = await loadImageBase64('guarda.jpg');
       doc.addImage(unificado, 'JPEG', 10, 10, 40, 20);
-      doc.addImage(guarda, 'JPEG', 150, 10, 40, 20);
-      doc.setFontSize(12);
-      doc.text("REQUERIMENTO", 90, 40, null, null, 'center');
+      doc.addImage(guarda, 'JPEG', 160, 10, 40, 20);
+      doc.setFontSize(14);
+      doc.text("REQUERIMENTO", 105, 20, null, null, 'center');
 
-      let y = 50;
+      let y = 40;
       doc.setFontSize(10);
-      doc.text(`Eu, ${form.get("nome")}, portador da RG ${form.get("rg")} e CPF ${form.get("cpf")}, residente à ${form.get("rua")} – CEP ${form.get("cep")} - Bairro ${form.get("bairro")}, na cidade de LONDRINA-PR com telefone ${form.get("telefone")}, venho solicitar a:`, 10, y); y += 10;
+
+      const texto1 = `Eu, ${form.get("nome")}, portador da RG ${form.get("rg")} e CPF ${form.get("cpf")}, residente à ${form.get("rua")} – CEP ${form.get("cep")} - Bairro ${form.get("bairro")}, na cidade de LONDRINA-PR com telefone ${form.get("telefone")}, venho solicitar a:`;
+      const linhas = doc.splitTextToSize(texto1, 180);
+      doc.text(linhas, 10, y);
+      y += linhas.length * 7;
+
       doc.text("    (  ) Isenção Tarifária   (  ) Renovação da Isenção   (  ) 2ª via da isenção", 10, y); y += 10;
       doc.text(`Motivo: ${form.get("motivo")}`, 10, y); y += 10;
       doc.text("Na categoria: [  ] Aluno(a) da entidade", 10, y); y += 10;
       doc.text("ASSOCIAÇÃO GUARDA MIRIM DE LONDRINA - AGML - CENTRAL", 10, y); y += 10;
       doc.text(`Frequência: ${diasSelecionados}`, 10, y); y += 10;
       doc.text(`Horário de Entrada: ${form.get("entrada")} - Saída: ${form.get("saida")}`, 10, y); y += 10;
-      doc.text(`Linhas de ônibus: ${form.get("linhas")}`, 10, y); y += 10;
-      doc.text(`LONDRINA-PR, ${dataAtual}`, 10, y); y += 20;
+      doc.text(`Linhas de ônibus: ${form.get("linhas")}`, 10, y); y += 15;
+      doc.text(`LONDRINA-PR, ${dataAtual}`, 10, y); y += 15;
 
-      doc.text("Avaliação Socioeconômica", 10, y); y += 10;
-      familiares.forEach((f, i) => {
-        doc.text(`${i + 1}) Nome: ${f.nome}, Idade: ${f.idade}, Vínculo: ${f.vinculo}, Profissão: ${f.profissao}, Renda: R$ ${f.renda.toFixed(2)}`, 10, y);
-        y += 10;
+      doc.text("Avaliação Socioeconômica", 10, y); y += 8;
+
+      doc.autoTable({
+        startY: y,
+        head: [['Nome', 'Idade', 'Vínculo', 'Profissão', 'Renda (R$)']],
+        body: familiares.map(f => [
+          f.nome,
+          f.idade,
+          f.vinculo,
+          f.profissao,
+          f.renda.toFixed(2)
+        ]),
+        theme: 'grid',
+        styles: { fontSize: 9, cellPadding: 2 },
+        headStyles: { fillColor: [220, 220, 220] }
       });
 
-      doc.text(`RENDA TOTAL: R$ ${rendaTotal.toFixed(2)}`, 10, y); y += 10;
-      doc.text(`RENDA PER CAPITA: R$ ${perCapita}`, 10, y); y += 10;
+      y = doc.lastAutoTable.finalY + 10;
+      doc.text(`RENDA TOTAL: R$ ${rendaTotal.toFixed(2)}`, 10, y); y += 7;
+      doc.text(`RENDA PER CAPITA: R$ ${perCapita}`, 10, y); y += 15;
+
       doc.text("PARECER DA CMTU:", 10, y); y += 20;
       doc.text("______________________________________", 10, y); y += 10;
       doc.text("ASS.E CARIMBO DA ENTIDADE", 10, y); y += 10;
