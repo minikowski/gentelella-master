@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Atendimento Técnico – Formação Cidadã e Social</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 150px;
+            height: auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fafafa;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .signature-line {
+            margin-top: 60px;
+            text-align: center;
+        }
+        .signature-line div {
+            display: inline-block;
+            width: 40%;
+            border-top: 1px solid #000;
+            margin: 0 5%;
+            padding-top: 5px;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .row input {
+            width: 48%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="formulario">
+        <div class="logo">
+            <img src="guarda.jpg" alt="Logo da Instituição">
+        </div>
+
+        <h1>ATENDIMENTO TÉCNICO – FORMAÇÃO CIDADÃ E SOCIAL</h1>
+
+        <label>Data:</label>
+        <input type="text" id="data" readonly>
+
+        <div class="row">
+            <div>
+                <label>Turma:</label>
+                <input type="text" id="turma">
+            </div>
+            <div>
+                <label>Período:</label>
+                <input type="text" id="periodo">
+            </div>
+        </div>
+
+        <label>Gestor:</label>
+        <input type="text" id="gestor">
+
+        <label>Educador responsável:</label>
+        <input type="text" id="educador">
+
+        <label>Educando:</label>
+        <input type="text" id="educando">
+
+        <label>N.º Irsas:</label>
+        <input type="text" id="irsas">
+
+        <label>Nome do Responsável:</label>
+        <input type="text" id="responsavel">
+
+        <label>Participação Técnica:</label>
+        <textarea id="participacao"></textarea>
+
+        <label>Motivo do Encaminhamento:</label>
+        <textarea id="motivo"></textarea>
+
+        <label>Descrição do Atendimento:</label>
+        <textarea id="descricao"></textarea>
+
+        <label>Compromisso que o Educando/Família Assume com a Entidade:</label>
+        <textarea id="compromisso"></textarea>
+
+        <div class="signature-line">
+            <div>Técnico(a)</div>
+            <div>Educando(a)</div>
+        </div>
+        <div class="signature-line">
+            <div style="margin: auto;">Responsável</div>
+        </div>
+
+        <div class="button-container">
+            <button onclick="gerarPDF()">Gerar PDF</button>
+        </div>
+    </div>
+
+    <script>
+        // Preenche a data automaticamente
+        document.getElementById('data').value = new Date().toLocaleDateString('pt-BR');
+
+        function gerarPDF() {
+            const botao = document.querySelector('button');
+            botao.style.display = 'none';
+
+            const elemento = document.getElementById('formulario');
+
+            const opt = {
+                margin:       0.5,
+                filename:     'atendimento_tecnico.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(elemento).save().then(() => {
+                botao.style.display = 'block';
+            });
+        }
+    </script>
+</body>
+</html>
