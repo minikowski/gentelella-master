@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Requerimento - CMTU</title>
+
+  <!-- jsPDF e plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #e8f0fe, #ffffff);
+      margin: 0;
+      padding: 40px 0;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    form {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      width: 95%;
+      transition: all 0.3s ease;
+    }
+
+    form:hover {
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+    }
+
+    .cabecalho {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+      gap: 20px;
+    }
+
+    .cabecalho img {
+      height: 60px;
+      border-radius: 8px;
+    }
+
+    .cabecalho h1 {
+      font-size: 28px;
+      color: #004080;
+      margin: 0;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, textarea, select {
+      margin-top: 6px;
+      margin-bottom: 18px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 15px;
+      transition: border 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #4a90e2;
+      outline: none;
+      box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      background-color: #0077cc;
+      color: #fff;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+      transform: scale(1.02);
+    }
+
+    h3 {
+      text-align: center;
+      color: #333;
+      margin-top: 40px;
+    }
+
+    .familia {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .familia label {
+      font-weight: normal;
+    }
+
+    ::placeholder {
+      color: #aaa;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <form id="formulario">
+    <div class="cabecalho">
+      <img src="unificado.jpg" alt="Logo">
+      <h1>REQUERIMENTO - CMTU</h1>
+    </div>
+
+    <label>Nome: <input name="nome" required></label>
+    <label>RG: <input name="rg" required></label>
+    <label>CPF: <input name="cpf" required></label>
+    <label>Endereço (Rua): <input name="rua" required></label>
+    <label>CEP: <input name="cep" required></label>
+    <label>Bairro: <input name="bairro" required></label>
+    <label>Telefone: <input name="telefone" required></label>
+
+    <label>Motivo: <textarea name="motivo" required></textarea></label>
+
+    <label>Dias da semana:</label>
+    <label><input type="checkbox" name="dias" value="SEGUNDA"> Segunda</label>
+    <label><input type="checkbox" name="dias" value="TERÇA"> Terça</label>
+    <label><input type="checkbox" name="dias" value="QUARTA"> Quarta</label>
+    <label><input type="checkbox" name="dias" value="QUINTA"> Quinta</label>
+    <label><input type="checkbox" name="dias" value="SEXTA"> Sexta</label>
+
+    <label>Horário de Entrada: <input name="entrada" required></label>
+    <label>Horário de Saída: <input name="saida" required></label>
+    <label>Linha de Ônibus: <input name="linhas" required placeholder="Separe com vírgulas"></label>
+
+    <h3>Informações dos Familiares</h3>
+    <div id="familiares"></div>
+    <button type="button" onclick="adicionarFamiliar()">Adicionar Familiar</button>
+    <br><br>
+
+    <button type="submit">Gerar PDF</button>
+  </form>
+
+  <!-- Script JS permanece o mesmo -->
+</body>
+</html>
