@@ -28,8 +28,8 @@
   <label>Período:</label>
   <input type="text" id="periodo">
 
-  <label>Gestor:</label>
-  <input type="text" id="gestor">
+  <label>Técnico:</label>
+  <input type="text" id="técnico">
 
   <label>Educador Responsável:</label>
   <input type="text" id="educador">
@@ -70,7 +70,7 @@
     const data = document.getElementById('data').value;
     const turma = document.getElementById('turma').value;
     const periodo = document.getElementById('periodo').value;
-    const gestor = document.getElementById('gestor').value;
+    const técnico = document.getElementById('técnico').value;
     const educador = document.getElementById('educador').value;
     const educando = document.getElementById('educando').value;
     const irsas = document.getElementById('irsas').value;
@@ -101,7 +101,7 @@
 
     const dados = [
       `Data: ${data}           Turma: ${turma}`,
-      `Período: ${periodo}     Gestor: ${gestor}`,
+      `Período: ${periodo}     Técnico: ${técnico}`,
       `Educador Responsável: ${educador}`,
       `Educando: ${educando}   N.º Irsas: ${irsas}`,
       `Nome do Responsável: ${responsavel}`
