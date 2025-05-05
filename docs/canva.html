@@ -87,7 +87,7 @@
         // Descrição – 25% maior
         const descriptionLines = wrapText(ctx, descricao, 900);
         ctx.font = '28px Georgia';
-        let startY = 380;
+        let startY = 400;
         for (let line of descriptionLines) {
           ctx.fillText(line, canvas.width / 2, startY);
           startY += 40;
