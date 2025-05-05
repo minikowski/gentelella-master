@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de Imagem</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    form {
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: #fff;
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+    }
+    input, textarea, button {
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      font-family: inherit;
+    }
+    button {
+      background: #444;
+      color: #fff;
+      cursor: pointer;
+    }
+    canvas { display: none; }
+  </style>
+</head>
+<body>
+  <form id="form">
+    <label>Título</label>
+    <input type="text" id="titulo" maxlength="60" required>
+    <label>Descrição</label>
+    <textarea id="descricao" rows="4" maxlength="240" required></textarea>
+    <button type="submit">Gerar JPG</button>
+  </form>
+
+  <canvas id="canvas" width="1080" height="1080"></canvas>
+
+  <script>
+    const form = document.getElementById("form");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const titulo = document.getElementById("titulo").value.trim();
+      const descricao = document.getElementById("descricao").value.trim();
+
+      const cabeçalho = await loadImage("cabeçalho.jpg");
+      const rodapé = await loadImage("rodapé.jpg");
+
+      // Fundo branco
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, 1080, 1080);
+
+      // Cabeçalho
+      ctx.drawImage(cabeçalho, 0, 0, 1080, 200);
+
+      // Rodapé
+      ctx.drawImage(rodapé, 0, 880, 1080, 200);
+
+      // Título
+      ctx.fillStyle = "#000";
+      ctx.font = "bold 42px Georgia";
+      ctx.textAlign = "center";
+      ctx.fillText(titulo, 540, 300);
+
+      // Descrição com quebra de linha automática
+      ctx.font = "28px Georgia";
+      const lines = wrapText(ctx, descricao, 800);
+      lines.forEach((line, i) => {
+        ctx.fillText(line, 540, 360 + i * 40);
+      });
+
+      // Baixar imagem
+      const link = document.createElement('a');
+      link.download = 'imagem.jpg';
+      link.href = canvas.toDataURL("image/jpeg", 1.0);
+      link.click();
+    });
+
+    function loadImage(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+
+    function wrapText(ctx, text, maxWidth) {
+      const words = text.split(" ");
+      const lines = [];
+      let line = "";
+      for (let word of words) {
+        const testLine = line + word + " ";
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth) {
+          lines.push(line);
+          line = word + " ";
+        } else {
+          line = testLine;
+        }
+      }
+      lines.push(line.trim());
+      return lines;
+    }
+  </script>
+</body>
+</html>
