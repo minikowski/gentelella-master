@@ -2,115 +2,120 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Gerador de Imagem</title>
+  <title>Gerador de JPG</title>
   <style>
     body {
-      font-family: 'Georgia', serif;
-      background: #fff;
+      font-family: Georgia, serif;
+      background: white;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      height: 100vh;
     }
     form {
-      border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      background: #fff;
-      width: 320px;
-      display: flex;
-      flex-direction: column;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ccc;
+      background: white;
+      width: 300px;
     }
     input, textarea, button {
-      border-radius: 8px;
+      width: 100%;
+      margin-bottom: 12px;
       padding: 10px;
-      margin-top: 10px;
+      border-radius: 8px;
       border: 1px solid #ccc;
-      font-size: 16px;
-      font-family: inherit;
+      font-family: Georgia, serif;
     }
     button {
-      background: #444;
-      color: #fff;
+      background: #333;
+      color: white;
       cursor: pointer;
     }
-    canvas { display: none; }
   </style>
 </head>
 <body>
-  <form id="form">
-    <label>Título</label>
-    <input type="text" id="titulo" maxlength="60" required>
-    <label>Descrição</label>
-    <textarea id="descricao" rows="4" maxlength="240" required></textarea>
+
+  <form id="formulario">
+    <input type="text" id="titulo" maxlength="80" placeholder="Título" required>
+    <textarea id="descricao" maxlength="300" placeholder="Descrição" rows="5" required></textarea>
     <button type="submit">Gerar JPG</button>
   </form>
 
-  <canvas id="canvas" width="1080" height="1080"></canvas>
+  <canvas id="canvas" width="1080" height="1080" style="display:none;"></canvas>
 
   <script>
-    const form = document.getElementById("form");
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
+    const form = document.getElementById('formulario');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const titulo = document.getElementById("titulo").value.trim();
-      const descricao = document.getElementById("descricao").value.trim();
-
-      const cabeçalho = await loadImage("cabeçalho.jpg");
-      const rodapé = await loadImage("rodapé.jpg");
-
-      // Fundo branco
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, 1080, 1080);
-
-      // Cabeçalho
-      ctx.drawImage(cabeçalho, 0, 0, 1080, 200);
-
-      // Rodapé
-      ctx.drawImage(rodapé, 0, 880, 1080, 200);
-
-      // Título
-      ctx.fillStyle = "#000";
-      ctx.font = "bold 42px Georgia";
-      ctx.textAlign = "center";
-      ctx.fillText(titulo, 540, 300);
-
-      // Descrição com quebra de linha automática
-      ctx.font = "28px Georgia";
-      const lines = wrapText(ctx, descricao, 800);
-      lines.forEach((line, i) => {
-        ctx.fillText(line, 540, 360 + i * 40);
-      });
-
-      // Baixar imagem
-      const link = document.createElement('a');
-      link.download = 'imagem.jpg';
-      link.href = canvas.toDataURL("image/jpeg", 1.0);
-      link.click();
-    });
-
-    function loadImage(src) {
+    const loadImage = (src) => {
       return new Promise((resolve, reject) => {
         const img = new Image();
         img.onload = () => resolve(img);
         img.onerror = reject;
         img.src = src;
       });
-    }
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const titulo = document.getElementById('titulo').value.trim();
+      const descricao = document.getElementById('descricao').value.trim();
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      try {
+        const cabecalho = await loadImage('./cabeçalho.jpg');
+        const rodape = await loadImage('./rodapé.jpg');
+
+        // Desenha cabeçalho e rodapé
+        ctx.drawImage(cabecalho, 0, 0, canvas.width, cabecalho.height * (canvas.width / cabecalho.width));
+        ctx.drawImage(rodape, 0, canvas.height - (rodape.height * (canvas.width / rodape.width)), canvas.width, rodape.height * (canvas.width / rodape.width));
+
+        // Texto centralizado
+        ctx.fillStyle = '#000';
+        ctx.textAlign = 'center';
+
+        // Título – 25% maior
+        ctx.font = 'bold 50px Georgia';
+        ctx.fillText(titulo, canvas.width / 2, 450);
+
+        // Descrição – 25% maior
+        const descriptionLines = wrapText(ctx, descricao, 900);
+        ctx.font = '28px Georgia';
+        let startY = 520;
+        for (let line of descriptionLines) {
+          ctx.fillText(line, canvas.width / 2, startY);
+          startY += 40;
+        }
+
+        // Baixar imagem
+        const link = document.createElement('a');
+        link.download = 'imagem.jpg';
+        link.href = canvas.toDataURL('image/jpeg');
+        link.click();
+
+      } catch (err) {
+        alert('Erro ao carregar as imagens. Verifique se "cabeçalho.jpg" e "rodapé.jpg" estão na mesma pasta.');
+        console.error(err);
+      }
+    });
 
     function wrapText(ctx, text, maxWidth) {
-      const words = text.split(" ");
+      const words = text.split(' ');
       const lines = [];
-      let line = "";
+      let line = '';
+
       for (let word of words) {
-        const testLine = line + word + " ";
+        const testLine = line + word + ' ';
         const metrics = ctx.measureText(testLine);
-        if (metrics.width > maxWidth) {
-          lines.push(line);
-          line = word + " ";
+        if (metrics.width > maxWidth && line !== '') {
+          lines.push(line.trim());
+          line = word + ' ';
         } else {
           line = testLine;
         }
@@ -119,5 +124,6 @@
       return lines;
     }
   </script>
+
 </body>
 </html>
