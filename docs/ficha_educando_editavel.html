@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Ficha do Educando</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        .sidebar {
+            background-color: #0b1f3a;
+            color: white;
+            padding: 20px;
+            width: 35%;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        .main {
+            padding: 20px;
+            width: 65%;
+        }
+        h2, h3 {
+            color: #ff9900;
+        }
+        .contact-info i {
+            margin-right: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        #userPhoto {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .photo-upload {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="photo-upload">
+            <label for="photoInput">
+                <img id="userPhoto" src="https://via.placeholder.com/120x120.png?text=Foto" alt="Foto do Educando">
+            </label>
+            <input type="file" id="photoInput" accept="image/*">
+        </div>
+        <h2>OBJETIVO</h2>
+        <textarea placeholder="Digite aqui seu objetivo profissional...">Colaborar com o ambiente de trabalho, onde possa colocar em prática meus conhecimentos e habilidades em favor da instituição. Focando no benefício e crescimento da empresa, paralelamente com meu crescimento profissional.</textarea>
+        <h2>CONTATO</h2>
+        <div class="contact-info">
+            <input type="text" placeholder="Telefone">
+            <input type="text" placeholder="Endereço">
+        </div>
+        <h2>EDUCAÇÃO</h2>
+        <input type="text" placeholder="Nome do Colégio">
+        <input type="text" placeholder="Ano/Período">
+        <input type="text" placeholder="Cursos Complementares">
+    </div>
+    <div class="main">
+        <h1><input type="text" placeholder="Nome do Educando" style="font-size: 24px;"></h1>
+        <input type="text" placeholder="Idade" style="width: 100px;">
+        
+        <h3>ATIVIDADES COMPLEMENTARES</h3>
+        <strong>Serviço de Convivência e Fortalecimento de vínculos – Guarda Mirim Londrina</strong>
+        <ul>
+            <li>Vivências em diferentes temas como: juventude e trabalho, Direitos socioassistenciais, promoção à saúde, responsabilidade ambiental, entre outros;</li>
+            <li>Trabalho em equipe e valorização do coletivo, desenvolvimento de oficinas e atividades voltadas à formação cidadã;</li>
+            <li>Participação em atividades que visam o aperfeiçoamento para o mundo do trabalho.</li>
+        </ul>
+
+        <h3>HABILIDADES E COMPETÊNCIAS</h3>
+        <textarea placeholder="Liste aqui suas principais habilidades e competências..."></textarea>
+    </div>
+
+    <script>
+        const input = document.getElementById("photoInput");
+        const img = document.getElementById("userPhoto");
+
+        input.addEventListener("change", function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
