@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário Currículo PCE</title>
+</head>
+<body>
+  <h2>Preencher Currículo</h2>
+  <form action="/gerar_pdf" method="POST" enctype="multipart/form-data">
+    <label>Nome do Educando:</label><br>
+    <input type="text" name="nome"><br><br>
+
+    <label>Colégio:</label><br>
+    <input type="text" name="colegio"><br><br>
+
+    <label>Telefone:</label><br>
+    <input type="text" name="telefone"><br><br>
+
+    <label>Endereço:</label><br>
+    <input type="text" name="endereco"><br><br>
+
+    <label>Ano/Período:</label><br>
+    <input type="text" name="ano_periodo"><br><br>
+
+    <label>Educação:</label><br>
+    <textarea name="educacao"></textarea><br><br>
+
+    <label>Atividades Complementares:</label><br>
+    <textarea name="atividades"></textarea><br><br>
+
+    <label>Habilidades e Competências:</label><br>
+    <textarea name="habilidades"></textarea><br><br>
+
+    <label>Idade:</label><br>
+    <input type="text" name="idade"><br><br>
+
+    <label>Objetivo:</label><br>
+    <textarea name="objetivo"></textarea><br><br>
+
+    <label>Foto (JPG):</label><br>
+    <input type="file" name="foto" accept="image/jpeg"><br><br>
+
+    <input type="submit" value="Gerar PDF">
+  </form>
+</body>
+</html>
