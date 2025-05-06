@@ -68,6 +68,9 @@
     <label for="nome">Nome Completo:</label>
     <input type="text" id="nome" required />
 
+    <label for="idade">Idade:</label>
+    <input type="number" id="idade" required />
+
     <label for="objetivo">Objetivo:</label>
     <textarea id="objetivo" rows="3" required></textarea>
 
@@ -105,7 +108,7 @@
         format: 'a4'
       });
 
-      // Fundo (template)
+      // Adiciona o template como fundo
       const template = await fetch('template.jpg')
         .then(res => res.blob())
         .then(blob => createImageBitmap(blob));
@@ -133,6 +136,7 @@
 
       // Captura os campos
       const nome = document.getElementById("nome").value;
+      const idade = document.getElementById("idade").value;
       const objetivo = document.getElementById("objetivo").value;
       const telefone = document.getElementById("telefone").value;
       const email = document.getElementById("email").value;
@@ -145,9 +149,11 @@
       doc.setFontSize(12);
       doc.setTextColor(255, 165, 0); // Laranja
 
-      // Nome no topo (fora da sidebar)
+      // Nome e idade no topo (fora da sidebar)
       doc.setFontSize(20);
       doc.text(nome, 11, 3.5);
+      doc.setFontSize(12);
+      doc.text(`Idade: ${idade}`, 11, 4.5);
 
       // Menu Lateral (em branco)
       doc.setFontSize(12);
@@ -167,7 +173,6 @@
       doc.text("EDUCAÇÃO", 1.5, 20.5);
       doc.setTextColor(255, 255, 255);
       doc.text(formacao, 1.5, 21.5);
-      doc.setTextColor(255, 255, 255);
       if (cursos) doc.text(cursos, 1.5, 23.5);
 
       // Corpo (fora do menu lateral)
