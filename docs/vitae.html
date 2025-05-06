@@ -1,141 +1,156 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Gerador de Currículo</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário de Currículo</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      padding: 20px;
-      max-width: 800px;
-      margin: auto;
+      background-image: url('template.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      width: 595px;
+      height: 842px;
+      margin: 0 auto;
+      position: relative;
+      color: black;
     }
-    h1 {
-      text-align: center;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-    input, textarea {
+
+    form {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      padding: 8px;
-      margin-top: 4px;
+      height: 100%;
+      padding: 20px;
       box-sizing: border-box;
     }
+
+    .foto-preview {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: absolute;
+      left: 66px; /* 2.32 cm em pixels */
+      top: 74px;  /* 1.95 cm em pixels */
+      object-fit: cover;
+      border: 2px solid #000;
+    }
+
+    .input-group {
+      margin-bottom: 10px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+    }
+
+    input[type="text"], input[type="file"], textarea {
+      width: 90%;
+      padding: 5px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+
     button {
       margin-top: 20px;
-      padding: 10px 20px;
+      padding: 10px 15px;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
-  <h1>Gerador de Currículo</h1>
-  <form id="cvForm">
-    <label for="nome">Nome Completo:</label>
-    <input type="text" id="nome" required>
-
-    <label for="idade">Idade:</label>
-    <input type="number" id="idade" required>
-
-    <label for="email">Email:</label>
-    <input type="email" id="email" required>
-
-    <label for="telefone">Telefone:</label>
-    <input type="text" id="telefone" required>
-
-    <label for="linkedin">LinkedIn:</label>
-    <input type="text" id="linkedin">
-
-    <label for="objetivo">Objetivo:</label>
-    <textarea id="objetivo"></textarea>
-
-    <label for="formacao">Formação Acadêmica:</label>
-    <textarea id="formacao"></textarea>
-
-    <label for="cursos">Cursos Complementares:</label>
-    <textarea id="cursos"></textarea>
-
-    <label for="experiencia">Experiência Profissional:</label>
-    <textarea id="experiencia"></textarea>
-
-    <label for="foto">Foto (jpg/png):</label>
-    <input type="file" id="foto" accept="image/*">
-
+  <form id="cv-form">
+    <div class="input-group">
+      <label for="foto">Foto:</label>
+      <input type="file" id="foto" accept="image/*">
+      <img id="foto-preview" class="foto-preview" />
+    </div>
+    <div class="input-group">
+      <label for="nome">Nome Completo:</label>
+      <input type="text" id="nome">
+    </div>
+    <div class="input-group">
+      <label for="idade">Idade:</label>
+      <input type="text" id="idade">
+    </div>
+    <div class="input-group">
+      <label for="objetivo">Objetivo:</label>
+      <textarea id="objetivo"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="contato">Contato:</label>
+      <textarea id="contato"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="educacao">Educação:</label>
+      <textarea id="educacao"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="experiencia">Experiência Profissional:</label>
+      <textarea id="experiencia"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="cursos">Cursos Complementares:</label>
+      <textarea id="cursos"></textarea>
+    </div>
     <button type="button" onclick="gerarPDF()">Gerar PDF</button>
   </form>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
+    const fotoInput = document.getElementById('foto');
+    const fotoPreview = document.getElementById('foto-preview');
+
+    fotoInput.addEventListener('change', () => {
+      const file = fotoInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          fotoPreview.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
     async function gerarPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ unit: "px", format: "a4" });
+      const {{ jsPDF }} = window.jspdf;
+      const doc = new jsPDF();
 
-      const template = new Image();
-      template.src = "template.jpg";
-
-      template.onload = async () => {
-        doc.addImage(template, 'JPEG', 0, 0, 595, 842);
-
-        const nome = document.getElementById("nome").value;
-        const idade = document.getElementById("idade").value;
-        const email = document.getElementById("email").value;
-        const telefone = document.getElementById("telefone").value;
-        const linkedin = document.getElementById("linkedin").value;
-        const objetivo = document.getElementById("objetivo").value;
-        const formacao = document.getElementById("formacao").value;
-        const cursos = document.getElementById("cursos").value;
-        const experiencia = document.getElementById("experiencia").value;
-
-        doc.setFontSize(14);
-        doc.setTextColor("#FF7F00");
-        doc.text("OBJETIVO", 66, 120);
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(12);
-        doc.text(objetivo, 66, 140, { maxWidth: 180 });
-
-        doc.setTextColor("#FF7F00");
-        doc.text("CONTATO", 66, 220);
-        doc.setTextColor(255, 255, 255);
-        doc.text(`Email: ${email}\nTelefone: ${telefone}\nLinkedIn: ${linkedin}`, 66, 240, { maxWidth: 180 });
-
-        doc.setTextColor("#FF7F00");
-        doc.text("EDUCAÇÃO", 66, 340);
-        doc.setTextColor(255, 255, 255);
-        doc.text(formacao, 66, 360, { maxWidth: 180 });
-
-        doc.setTextColor("#FF7F00");
-        doc.text("CURSOS COMPLEMENTARES", 66, 440);
-        doc.setTextColor(255, 255, 255);
-        doc.text(cursos, 66, 460, { maxWidth: 180 });
-
-        doc.setTextColor("#FF7F00");
-        doc.text(nome, 270, 80);
-        doc.setTextColor(0, 0, 0);
-        doc.setFontSize(12);
-        doc.text(`Idade: ${idade}`, 270, 100);
-        doc.text(experiencia, 270, 140, { maxWidth: 280 });
-
-        const fotoInput = document.getElementById("foto");
-        const file = fotoInput.files[0];
-        if (file) {
+      const img = await fetch('template.jpg')
+        .then(r => r.blob())
+        .then(blob => new Promise((resolve) => {
           const reader = new FileReader();
-          reader.onload = function (e) {
-            const img = new Image();
-            img.onload = function () {
-              doc.setDrawColor(255);
-              doc.setLineWidth(1);
-              doc.addImage(img, 'JPEG', 66, 55, 200, 200, undefined, 'FAST');
-              doc.save("curriculo.pdf");
-            };
-            img.src = e.target.result;
-          };
-          reader.readAsDataURL(file);
-        } else {
-          doc.save("curriculo.pdf");
-        }
-      };
+          reader.onload = () => resolve(reader.result);
+          reader.readAsDataURL(blob);
+        }));
+
+      doc.addImage(img, 'JPEG', 0, 0, 210, 297); // A4 size
+
+      const fotoData = fotoPreview.src;
+      if (fotoData) {
+        doc.addImage(fotoData, 'JPEG', 20, 20, 50, 50); // Ajuste para caber no círculo
+      }
+
+      doc.setFontSize(12);
+      doc.setTextColor(0);
+      doc.text(document.getElementById('nome').value, 80, 40);
+      doc.text("Idade: " + document.getElementById('idade').value, 80, 50);
+      doc.text("Objetivo:", 20, 90);
+      doc.text(document.getElementById('objetivo').value, 20, 100);
+      doc.text("Contato:", 20, 120);
+      doc.text(document.getElementById('contato').value, 20, 130);
+      doc.text("Educação:", 20, 150);
+      doc.text(document.getElementById('educacao').value, 20, 160);
+      doc.text("Experiência:", 20, 180);
+      doc.text(document.getElementById('experiencia').value, 20, 190);
+      doc.text("Cursos:", 20, 210);
+      doc.text(document.getElementById('cursos').value, 20, 220);
+
+      doc.save("curriculo.pdf");
     }
   </script>
 </body>
