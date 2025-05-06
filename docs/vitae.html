@@ -9,13 +9,11 @@
       background: #f4f4f4;
       padding: 20px;
     }
-
     label {
       display: block;
       margin-top: 10px;
       font-weight: bold;
     }
-
     #pdf-content {
       width: 21cm;
       height: 29.7cm;
@@ -23,8 +21,9 @@
       background-image: url('template.jpg');
       background-size: cover;
       font-size: 12pt;
+      visibility: hidden;
+      z-index: -1;
     }
-
     .foto {
       position: absolute;
       top: 1.95cm;
@@ -35,131 +34,46 @@
       overflow: hidden;
       object-fit: cover;
     }
-
-    .nome {
-      position: absolute;
-      top: 3cm;
-      left: 11cm;
-      font-size: 18pt;
-      color: orange;
-      font-weight: bold;
-    }
-
-    .ano-periodo {
-      position: absolute;
-      top: 4.5cm;
-      left: 11cm;
-      font-size: 12pt;
-      color: black;
-    }
-
-    .objetivo {
-      position: absolute;
-      top: 10cm;
-      left: 2cm;
-      width: 8.5cm;
-      color: white;
-      font-size: 11pt;
-    }
-
-    .titulo-lateral {
-      position: absolute;
-      left: 2cm;
-      width: 8.5cm;
-      color: orange;
-      font-weight: bold;
-      font-size: 12pt;
-    }
-
-    .subtitulo-lateral {
-      position: absolute;
-      left: 2cm;
-      width: 8.5cm;
-      color: white;
-      font-size: 11pt;
-    }
-
-    .habilidades-titulo {
-      position: absolute;
-      top: 6.5cm;
-      left: 11cm;
-      font-size: 12pt;
-      color: orange;
-      font-weight: bold;
-    }
-
-    .habilidades {
-      position: absolute;
-      top: 7.5cm;
-      left: 11cm;
-      width: 8.5cm;
-      font-size: 11pt;
-      color: black;
-    }
-
-    .atividades-titulo {
-      position: absolute;
-      top: 13.5cm;
-      left: 11cm;
-      font-size: 12pt;
-      color: orange;
-      font-weight: bold;
-    }
-
-    .atividades {
-      position: absolute;
-      top: 14.5cm;
-      left: 11cm;
-      width: 8.5cm;
-      font-size: 11pt;
-      color: black;
-    }
-
-    .contato {
-      position: absolute;
-      top: 20cm;
-      left: 2cm;
-      width: 8.5cm;
-      color: white;
-      font-size: 11pt;
-    }
+    .nome { position: absolute; top: 3cm; left: 11cm; font-size: 18pt; color: orange; font-weight: bold; }
+    .idade { position: absolute; top: 4cm; left: 11cm; font-size: 11pt; color: black; }
+    .ano-periodo { position: absolute; top: 4.8cm; left: 11cm; font-size: 11pt; color: black; }
+    .escolaridade { position: absolute; top: 5.6cm; left: 11cm; font-size: 11pt; color: black; }
+    .objetivo { position: absolute; top: 10cm; left: 2cm; width: 8.5cm; color: white; font-size: 11pt; }
+    .habilidades-titulo { position: absolute; top: 6.8cm; left: 11cm; font-size: 12pt; color: orange; font-weight: bold; }
+    .habilidades { position: absolute; top: 7.7cm; left: 11cm; width: 8.5cm; font-size: 11pt; color: black; }
+    .atividades-titulo { position: absolute; top: 13.5cm; left: 11cm; font-size: 12pt; color: orange; font-weight: bold; }
+    .atividades { position: absolute; top: 14.5cm; left: 11cm; width: 8.5cm; font-size: 11pt; color: black; }
+    .cursos-titulo { position: absolute; top: 11.5cm; left: 11cm; font-size: 12pt; color: orange; font-weight: bold; }
+    .cursos { position: absolute; top: 12.5cm; left: 11cm; width: 8.5cm; font-size: 11pt; color: black; }
+    .contato { position: absolute; top: 20cm; left: 2cm; width: 8.5cm; color: white; font-size: 11pt; }
   </style>
 </head>
 <body>
-
   <h2>Preencha os dados para gerar o PDF</h2>
-
-  <label for="nome">Nome do Educando:</label>
-  <input type="text" id="nome" />
-
-  <label for="ano">Ano / Período:</label>
-  <input type="text" id="ano" />
-
-  <label for="objetivo">Objetivo:</label>
-  <textarea id="objetivo" rows="3" cols="40"></textarea>
-
-  <label for="habilidades">Habilidades e Competências:</label>
-  <textarea id="habilidades" rows="4" cols="40"></textarea>
-
-  <label for="endereco">Endereço:</label>
-  <input type="text" id="endereco" />
-
-  <label for="telefone">Telefone:</label>
-  <input type="text" id="telefone" />
-
-  <label for="foto">Foto (circular):</label>
-  <input type="file" id="foto" accept="image/*" />
-
+  <label for="nome">Nome do Educando:</label><input type="text" id="nome" />
+  <label for="idade">Idade:</label><input type="text" id="idade" />
+  <label for="ano">Ano / Período:</label><input type="text" id="ano" />
+  <label for="escolaridade">Escolaridade:</label><input type="text" id="escolaridade" />
+  <label for="objetivo">Objetivo:</label><textarea id="objetivo" rows="3" cols="40"></textarea>
+  <label for="habilidades">Habilidades e Competências:</label><textarea id="habilidades" rows="4" cols="40"></textarea>
+  <label for="cursos">Cursos / Atividades complementares:</label><textarea id="cursos" rows="3" cols="40"></textarea>
+  <label for="endereco">Endereço:</label><input type="text" id="endereco" />
+  <label for="telefone">Telefone:</label><input type="text" id="telefone" />
+  <label for="foto">Foto (circular):</label><input type="file" id="foto" accept="image/*" />
   <br><br>
   <button onclick="gerarPDF()">Gerar PDF</button>
 
-  <div id="pdf-content" style="display: none;">
+  <div id="pdf-content">
     <img id="foto-render" class="foto" />
     <div class="nome" id="nome-render"></div>
+    <div class="idade" id="idade-render"></div>
     <div class="ano-periodo" id="ano-render"></div>
+    <div class="escolaridade" id="escolaridade-render"></div>
     <div class="objetivo" id="objetivo-render"></div>
     <div class="habilidades-titulo">HABILIDADES E COMPETÊNCIAS</div>
     <div class="habilidades" id="habilidades-render"></div>
+    <div class="cursos-titulo">CURSOS / ATIVIDADES</div>
+    <div class="cursos" id="cursos-render"></div>
     <div class="atividades-titulo">ATIVIDADES COMPLEMENTARES</div>
     <div class="atividades">
       Serviço de Convivência e Fortalecimento de vínculos – Guarda Mirim Londrina<br>
@@ -174,35 +88,36 @@
   <script>
     function gerarPDF() {
       const nome = document.getElementById("nome").value;
+      const idade = document.getElementById("idade").value;
       const ano = document.getElementById("ano").value;
+      const escolaridade = document.getElementById("escolaridade").value;
       const objetivo = document.getElementById("objetivo").value;
       const habilidades = document.getElementById("habilidades").value;
+      const cursos = document.getElementById("cursos").value;
       const endereco = document.getElementById("endereco").value;
       const telefone = document.getElementById("telefone").value;
       const fotoInput = document.getElementById("foto");
 
       document.getElementById("nome-render").textContent = nome;
-      document.getElementById("ano-render").textContent = ano;
+      document.getElementById("idade-render").textContent = "Idade: " + idade;
+      document.getElementById("ano-render").textContent = "Ano / Período: " + ano;
+      document.getElementById("escolaridade-render").textContent = "Escolaridade: " + escolaridade;
       document.getElementById("objetivo-render").textContent = objetivo;
       document.getElementById("habilidades-render").innerHTML = habilidades.replace(/\n/g, '<br>');
+      document.getElementById("cursos-render").innerHTML = cursos.replace(/\n/g, '<br>');
       document.getElementById("contato-render").innerHTML = `Endereço: ${endereco}<br>Telefone: ${telefone}`;
 
       if (fotoInput.files && fotoInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function (e) {
           document.getElementById("foto-render").src = e.target.result;
-          document.getElementById("pdf-content").style.display = "block";
-
           html2pdf().set({
             margin: 0,
             filename: 'curriculo.pdf',
             image: { type: 'jpeg', quality: 1 },
             html2canvas: { scale: 3 },
             jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
-          }).from(document.getElementById("pdf-content")).save()
-            .then(() => {
-              document.getElementById("pdf-content").style.display = "none";
-            });
+          }).from(document.getElementById("pdf-content")).save();
         };
         reader.readAsDataURL(fotoInput.files[0]);
       } else {
