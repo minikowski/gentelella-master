@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de Currículo em PDF</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      background: white;
+      padding: 20px;
+      margin: auto;
+      border-radius: 8px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    label {
+      font-weight: bold;
+    }
+    button {
+      padding: 10px 20px;
+      background: #003366;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    canvas {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Gerador de Currículo</h1>
+  <form id="formulario">
+    <label>Foto (circular):</label>
+    <input type="file" id="foto" accept="image/*" required>
+
+    <label>Nome:</label>
+    <input type="text" id="nome" required>
+
+    <label>Idade:</label>
+    <input type="number" id="idade" required>
+
+    <label>Telefone:</label>
+    <input type="text" id="telefone" required>
+
+    <label>Endereço:</label>
+    <input type="text" id="endereco" required>
+
+    <label>Objetivo:</label>
+    <textarea id="objetivo" rows="3" required></textarea>
+
+    <label>Nome do colégio:</label>
+    <input type="text" id="educacao" required>
+
+    <label>Ano / Período:</label>
+    <input type="text" id="ano_periodo" required>
+
+    <label>Cursos complementares:</label>
+    <textarea id="cursos" rows="2"></textarea>
+
+    <label>Habilidades e competências:</label>
+    <textarea id="habilidades" rows="2"></textarea>
+
+    <label>Atividades complementares:</label>
+    <textarea id="atividades" rows="2"></textarea>
+
+    <button type="submit">Gerar PDF</button>
+  </form>
+</div>
+
+<canvas id="canvas" width="794" height="1123"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+  const { jsPDF } = window.jspdf;
+
+  document.getElementById("formulario").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    const img = new Image();
+    img.src = "template.jpg";
+
+    img.onload = async function () {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      const fotoInput = document.getElementById("foto").files[0];
+      const fotoURL = URL.createObjectURL(fotoInput);
+      const foto = new Image();
+      foto.src = fotoURL;
+
+      foto.onload = function () {
+        // Cortar em círculo
+        const size = 120;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(90 + size / 2, 100 + size / 2, size / 2, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(foto, 90, 100, size, size);
+        ctx.restore();
+
+        ctx.fillStyle = "#000";
+        ctx.font = "16px Arial";
+        const dados = {
+          nome: document.getElementById("nome").value,
+          idade: document.getElementById("idade").value,
+          telefone: document.getElementById("telefone").value,
+          endereco: document.getElementById("endereco").value,
+          objetivo: document.getElementById("objetivo").value,
+          educacao: document.getElementById("educacao").value,
+          ano_periodo: document.getElementById("ano_periodo").value,
+          cursos: document.getElementById("cursos").value,
+          habilidades: document.getElementById("habilidades").value,
+          atividades: document.getElementById("atividades").value,
+        };
+
+        ctx.fillText(`Nome: ${dados.nome}`, 250, 100);
+        ctx.fillText(`Idade: ${dados.idade}`, 250, 125);
+        ctx.fillText(`Telefone: ${dados.telefone}`, 250, 150);
+        ctx.fillText(`Endereço: ${dados.endereco}`, 250, 175);
+
+        ctx.fillText(`Objetivo:`, 60, 250);
+        ctx.fillText(dados.objetivo, 80, 270);
+
+        ctx.fillText(`Educação: ${dados.educacao} - ${dados.ano_periodo}`, 60, 330);
+        ctx.fillText(`Cursos: ${dados.cursos}`, 60, 370);
+
+        ctx.fillText(`Habilidades:`, 60, 410);
+        ctx.fillText(dados.habilidades, 80, 430);
+
+        ctx.fillText(`Atividades:`, 60, 470);
+        ctx.fillText(dados.atividades, 80, 490);
+
+        const pdf = new jsPDF({ unit: "px", format: [canvas.width, canvas.height] });
+        pdf.addImage(canvas.toDataURL("image/jpeg"), "JPEG", 0, 0, canvas.width, canvas.height);
+        pdf.save("curriculo.pdf");
+      };
+    };
+  });
+</script>
+
+</body>
+</html>
