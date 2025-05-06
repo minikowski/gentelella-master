@@ -2,155 +2,212 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulário de Currículo</title>
+  <title>Gerador de Currículo em PDF</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-image: url('template.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      width: 595px;
-      height: 842px;
-      margin: 0 auto;
-      position: relative;
-      color: black;
-    }
-
-    form {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      background: #f4f4f4;
       padding: 20px;
-      box-sizing: border-box;
-    }
-
-    .foto-preview {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      overflow: hidden;
-      position: absolute;
-      left: 66px; /* 2.32 cm em pixels */
-      top: 74px;  /* 1.95 cm em pixels */
-      object-fit: cover;
-      border: 2px solid #000;
-    }
-
-    .input-group {
-      margin-bottom: 10px;
     }
 
     label {
-      font-weight: bold;
       display: block;
+      margin-top: 10px;
+      font-weight: bold;
     }
 
-    input[type="text"], input[type="file"], textarea {
-      width: 90%;
-      padding: 5px;
-      margin-top: 5px;
-      margin-bottom: 10px;
+    #pdf-content {
+      width: 21cm;
+      height: 29.7cm;
+      position: relative;
+      background-image: url('template.jpg');
+      background-size: cover;
+      font-size: 12pt;
     }
 
-    button {
-      margin-top: 20px;
-      padding: 10px 15px;
-      font-size: 16px;
+    .foto {
+      position: absolute;
+      top: 1.95cm;
+      left: 2.31cm;
+      width: 7.02cm;
+      height: 7.02cm;
+      border-radius: 50%;
+      overflow: hidden;
+      object-fit: cover;
+    }
+
+    .nome {
+      position: absolute;
+      top: 3cm;
+      left: 11cm;
+      font-size: 18pt;
+      color: orange;
+      font-weight: bold;
+    }
+
+    .ano-periodo {
+      position: absolute;
+      top: 4.5cm;
+      left: 11cm;
+      font-size: 12pt;
+      color: black;
+    }
+
+    .objetivo {
+      position: absolute;
+      top: 10cm;
+      left: 2cm;
+      width: 8.5cm;
+      color: white;
+      font-size: 11pt;
+    }
+
+    .titulo-lateral {
+      position: absolute;
+      left: 2cm;
+      width: 8.5cm;
+      color: orange;
+      font-weight: bold;
+      font-size: 12pt;
+    }
+
+    .subtitulo-lateral {
+      position: absolute;
+      left: 2cm;
+      width: 8.5cm;
+      color: white;
+      font-size: 11pt;
+    }
+
+    .habilidades-titulo {
+      position: absolute;
+      top: 6.5cm;
+      left: 11cm;
+      font-size: 12pt;
+      color: orange;
+      font-weight: bold;
+    }
+
+    .habilidades {
+      position: absolute;
+      top: 7.5cm;
+      left: 11cm;
+      width: 8.5cm;
+      font-size: 11pt;
+      color: black;
+    }
+
+    .atividades-titulo {
+      position: absolute;
+      top: 13.5cm;
+      left: 11cm;
+      font-size: 12pt;
+      color: orange;
+      font-weight: bold;
+    }
+
+    .atividades {
+      position: absolute;
+      top: 14.5cm;
+      left: 11cm;
+      width: 8.5cm;
+      font-size: 11pt;
+      color: black;
+    }
+
+    .contato {
+      position: absolute;
+      top: 20cm;
+      left: 2cm;
+      width: 8.5cm;
+      color: white;
+      font-size: 11pt;
     }
   </style>
 </head>
 <body>
-  <form id="cv-form">
-    <div class="input-group">
-      <label for="foto">Foto:</label>
-      <input type="file" id="foto" accept="image/*">
-      <img id="foto-preview" class="foto-preview" />
-    </div>
-    <div class="input-group">
-      <label for="nome">Nome Completo:</label>
-      <input type="text" id="nome">
-    </div>
-    <div class="input-group">
-      <label for="idade">Idade:</label>
-      <input type="text" id="idade">
-    </div>
-    <div class="input-group">
-      <label for="objetivo">Objetivo:</label>
-      <textarea id="objetivo"></textarea>
-    </div>
-    <div class="input-group">
-      <label for="contato">Contato:</label>
-      <textarea id="contato"></textarea>
-    </div>
-    <div class="input-group">
-      <label for="educacao">Educação:</label>
-      <textarea id="educacao"></textarea>
-    </div>
-    <div class="input-group">
-      <label for="experiencia">Experiência Profissional:</label>
-      <textarea id="experiencia"></textarea>
-    </div>
-    <div class="input-group">
-      <label for="cursos">Cursos Complementares:</label>
-      <textarea id="cursos"></textarea>
-    </div>
-    <button type="button" onclick="gerarPDF()">Gerar PDF</button>
-  </form>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <h2>Preencha os dados para gerar o PDF</h2>
+
+  <label for="nome">Nome do Educando:</label>
+  <input type="text" id="nome" />
+
+  <label for="ano">Ano / Período:</label>
+  <input type="text" id="ano" />
+
+  <label for="objetivo">Objetivo:</label>
+  <textarea id="objetivo" rows="3" cols="40"></textarea>
+
+  <label for="habilidades">Habilidades e Competências:</label>
+  <textarea id="habilidades" rows="4" cols="40"></textarea>
+
+  <label for="endereco">Endereço:</label>
+  <input type="text" id="endereco" />
+
+  <label for="telefone">Telefone:</label>
+  <input type="text" id="telefone" />
+
+  <label for="foto">Foto (circular):</label>
+  <input type="file" id="foto" accept="image/*" />
+
+  <br><br>
+  <button onclick="gerarPDF()">Gerar PDF</button>
+
+  <div id="pdf-content" style="display: none;">
+    <img id="foto-render" class="foto" />
+    <div class="nome" id="nome-render"></div>
+    <div class="ano-periodo" id="ano-render"></div>
+    <div class="objetivo" id="objetivo-render"></div>
+    <div class="habilidades-titulo">HABILIDADES E COMPETÊNCIAS</div>
+    <div class="habilidades" id="habilidades-render"></div>
+    <div class="atividades-titulo">ATIVIDADES COMPLEMENTARES</div>
+    <div class="atividades">
+      Serviço de Convivência e Fortalecimento de vínculos – Guarda Mirim Londrina<br>
+      Vivências em diferentes temas como: juventude e trabalho, Direitos socioassistenciais, promoção à saúde, responsabilidade ambiental, entre outros;<br>
+      Trabalho em equipe e valorização do coletivo, desenvolvimento de oficinas e atividades voltadas à formação cidadã;<br>
+      Participação em atividades que visam o aperfeiçoamento para o mundo do trabalho.
+    </div>
+    <div class="contato" id="contato-render"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
-    const fotoInput = document.getElementById('foto');
-    const fotoPreview = document.getElementById('foto-preview');
+    function gerarPDF() {
+      const nome = document.getElementById("nome").value;
+      const ano = document.getElementById("ano").value;
+      const objetivo = document.getElementById("objetivo").value;
+      const habilidades = document.getElementById("habilidades").value;
+      const endereco = document.getElementById("endereco").value;
+      const telefone = document.getElementById("telefone").value;
+      const fotoInput = document.getElementById("foto");
 
-    fotoInput.addEventListener('change', () => {
-      const file = fotoInput.files[0];
-      if (file) {
+      document.getElementById("nome-render").textContent = nome;
+      document.getElementById("ano-render").textContent = ano;
+      document.getElementById("objetivo-render").textContent = objetivo;
+      document.getElementById("habilidades-render").innerHTML = habilidades.replace(/\n/g, '<br>');
+      document.getElementById("contato-render").innerHTML = `Endereço: ${endereco}<br>Telefone: ${telefone}`;
+
+      if (fotoInput.files && fotoInput.files[0]) {
         const reader = new FileReader();
-        reader.onload = () => {
-          fotoPreview.src = reader.result;
+        reader.onload = function (e) {
+          document.getElementById("foto-render").src = e.target.result;
+          document.getElementById("pdf-content").style.display = "block";
+
+          html2pdf().set({
+            margin: 0,
+            filename: 'curriculo.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 3 },
+            jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
+          }).from(document.getElementById("pdf-content")).save()
+            .then(() => {
+              document.getElementById("pdf-content").style.display = "none";
+            });
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(fotoInput.files[0]);
+      } else {
+        alert("Por favor, selecione uma imagem.");
       }
-    });
-
-    async function gerarPDF() {
-      const {{ jsPDF }} = window.jspdf;
-      const doc = new jsPDF();
-
-      const img = await fetch('template.jpg')
-        .then(r => r.blob())
-        .then(blob => new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.readAsDataURL(blob);
-        }));
-
-      doc.addImage(img, 'JPEG', 0, 0, 210, 297); // A4 size
-
-      const fotoData = fotoPreview.src;
-      if (fotoData) {
-        doc.addImage(fotoData, 'JPEG', 20, 20, 50, 50); // Ajuste para caber no círculo
-      }
-
-      doc.setFontSize(12);
-      doc.setTextColor(0);
-      doc.text(document.getElementById('nome').value, 80, 40);
-      doc.text("Idade: " + document.getElementById('idade').value, 80, 50);
-      doc.text("Objetivo:", 20, 90);
-      doc.text(document.getElementById('objetivo').value, 20, 100);
-      doc.text("Contato:", 20, 120);
-      doc.text(document.getElementById('contato').value, 20, 130);
-      doc.text("Educação:", 20, 150);
-      doc.text(document.getElementById('educacao').value, 20, 160);
-      doc.text("Experiência:", 20, 180);
-      doc.text(document.getElementById('experiencia').value, 20, 190);
-      doc.text("Cursos:", 20, 210);
-      doc.text(document.getElementById('cursos').value, 20, 220);
-
-      doc.save("curriculo.pdf");
     }
   </script>
 </body>
