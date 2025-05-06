@@ -1,188 +1,184 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulário de Currículo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerador de Currículo</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
       background: #f0f0f0;
+      margin: 0;
+      padding: 2rem;
     }
 
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      background: white;
-      padding: 20px;
+    h1 {
+      color: #003366;
+      text-align: center;
     }
 
     form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .form-group {
-      flex: 1 1 45%;
-      display: flex;
-      flex-direction: column;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     label {
-      margin-bottom: 5px;
+      display: block;
+      margin-top: 1rem;
       font-weight: bold;
     }
 
-    input, textarea, select {
-      padding: 8px;
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
 
-    .full-width {
-      flex: 1 1 100%;
-    }
-
-    .photo-preview {
-      position: absolute;
-      top: 1.95cm;
-      left: 2.32cm;
-      width: 7.05cm;
-      height: 7.05cm;
-      border-radius: 50%;
-      overflow: hidden;
-      z-index: 2;
-    }
-
-    .photo-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    #preview {
-      position: relative;
-      width: 100%;
-      max-width: 800px;
-    }
-
-    #template {
-      width: 100%;
+    input[type="file"] {
+      padding: 0.3rem;
     }
 
     button {
-      padding: 10px 20px;
-      background-color: #f57c00;
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      background-color: #003366;
       color: white;
       border: none;
       border-radius: 4px;
       cursor: pointer;
     }
+
+    button:hover {
+      background-color: #002244;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Gerador de Currículo</h1>
-    <form id="cvForm">
-      <div class="form-group">
-        <label for="nome">Nome Completo</label>
-        <input type="text" id="nome" name="nome" required>
-      </div>
-      <div class="form-group">
-        <label for="objetivo">Objetivo</label>
-        <textarea id="objetivo" name="objetivo"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="telefone">Telefone</label>
-        <input type="text" id="telefone" name="telefone">
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email">
-      </div>
-      <div class="form-group">
-        <label for="endereco">Endereço</label>
-        <textarea id="endereco" name="endereco"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="formacao">Formação Acadêmica</label>
-        <textarea id="formacao" name="formacao"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="cursos">Cursos Complementares</label>
-        <textarea id="cursos" name="cursos"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="habilidades">Habilidades e Competências</label>
-        <textarea id="habilidades" name="habilidades"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="experiencia">Experiência Profissional</label>
-        <textarea id="experiencia" name="experiencia"></textarea>
-      </div>
-      <div class="form-group full-width">
-        <label for="foto">Foto de Perfil</label>
-        <input type="file" id="foto" accept="image/*">
-      </div>
-      <div class="form-group full-width">
-        <button type="button" onclick="gerarPDF()">Gerar PDF</button>
-      </div>
-    </form>
 
-    <div id="preview">
-      <img id="template" src="template.jpg" alt="Template de fundo">
-      <div class="photo-preview" id="previewPhoto"></div>
-    </div>
-  </div>
+  <h1>Gerador de Currículo</h1>
+
+  <form id="curriculoForm">
+    <label for="nome">Nome Completo:</label>
+    <input type="text" id="nome" required />
+
+    <label for="objetivo">Objetivo:</label>
+    <textarea id="objetivo" rows="3" required></textarea>
+
+    <label for="telefone">Telefone:</label>
+    <input type="text" id="telefone" required />
+
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" required />
+
+    <label for="linkedin">LinkedIn:</label>
+    <input type="text" id="linkedin" />
+
+    <label for="formacao">Formação Acadêmica:</label>
+    <textarea id="formacao" rows="3" required></textarea>
+
+    <label for="cursos">Cursos Complementares:</label>
+    <textarea id="cursos" rows="3"></textarea>
+
+    <label for="experiencia">Experiência Profissional:</label>
+    <textarea id="experiencia" rows="4"></textarea>
+
+    <label for="foto">Foto (circular):</label>
+    <input type="file" id="foto" accept="image/*" required />
+
+    <button type="button" onclick="gerarPDF()">Gerar PDF</button>
+  </form>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    const fotoInput = document.getElementById('foto');
-    const previewPhoto = document.getElementById('previewPhoto');
-
-    fotoInput.addEventListener('change', function () {
-      const file = fotoInput.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          previewPhoto.innerHTML = `<img src="${e.target.result}" alt="Foto">`;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
     async function gerarPDF() {
-      const {{ jsPDF }} = window.jspdf;
-      const doc = new jsPDF({ orientation: 'portrait', unit: 'cm', format: 'a4' });
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'cm',
+        format: 'a4'
+      });
 
-      const template = await fetch('template.jpg').then(r => r.blob());
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const imgData = e.target.result;
+      // Fundo (template)
+      const template = await fetch('template.jpg')
+        .then(res => res.blob())
+        .then(blob => createImageBitmap(blob));
 
-        doc.addImage(imgData, 'JPEG', 0, 0, 21, 29.7);
+      const canvas = document.createElement('canvas');
+      canvas.width = 595;
+      canvas.height = 842;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(template, 0, 0, 595, 842);
+      const templateData = canvas.toDataURL('image/jpeg', 1.0);
+      doc.addImage(templateData, 'JPEG', 0, 0, 21, 29.7); // A4
 
-        // Exemplo de posicionamento
-        doc.setFontSize(20);
-        doc.setTextColor('#000000');
-        doc.text(document.getElementById('nome').value, 11, 3);
+      // Foto circular
+      const fotoFile = document.getElementById("foto").files[0];
+      if (fotoFile) {
+        const fotoData = await new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.readAsDataURL(fotoFile);
+        });
+        doc.setFillColor(255, 255, 255);
+        doc.circle(2.32 + 3.525, 1.95 + 3.525, 3.525, 'F');
+        doc.addImage(fotoData, 'JPEG', 2.32, 1.95, 7.05, 7.05, undefined, 'FAST');
+      }
 
-        doc.setFontSize(12);
-        doc.setTextColor('#f57c00');
-        doc.text('Objetivo', 11, 5);
+      // Captura os campos
+      const nome = document.getElementById("nome").value;
+      const objetivo = document.getElementById("objetivo").value;
+      const telefone = document.getElementById("telefone").value;
+      const email = document.getElementById("email").value;
+      const linkedin = document.getElementById("linkedin").value;
+      const formacao = document.getElementById("formacao").value;
+      const cursos = document.getElementById("cursos").value;
+      const experiencia = document.getElementById("experiencia").value;
 
-        doc.setTextColor('#000000');
-        doc.text(doc.splitTextToSize(document.getElementById('objetivo').value, 9), 11, 5.7);
+      // Estilos
+      doc.setFontSize(12);
+      doc.setTextColor(255, 165, 0); // Laranja
 
-        // Continue com os demais campos em posições conforme o layout
+      // Nome no topo (fora da sidebar)
+      doc.setFontSize(20);
+      doc.text(nome, 11, 3.5);
 
-        doc.save('curriculo.pdf');
-      };
-      reader.readAsDataURL(template);
+      // Menu Lateral (em branco)
+      doc.setFontSize(12);
+      doc.setTextColor(255, 165, 0); // Laranja
+      doc.text("OBJETIVO", 1.5, 10);
+      doc.setTextColor(255, 255, 255);
+      doc.text(objetivo, 1.5, 11);
+
+      doc.setTextColor(255, 165, 0);
+      doc.text("CONTATO", 1.5, 14.5);
+      doc.setTextColor(255, 255, 255);
+      doc.text(`Tel: ${telefone}`, 1.5, 15.5);
+      doc.text(`Email: ${email}`, 1.5, 16.5);
+      if (linkedin) doc.text(`LinkedIn: ${linkedin}`, 1.5, 17.5);
+
+      doc.setTextColor(255, 165, 0);
+      doc.text("EDUCAÇÃO", 1.5, 20.5);
+      doc.setTextColor(255, 255, 255);
+      doc.text(formacao, 1.5, 21.5);
+      doc.setTextColor(255, 255, 255);
+      if (cursos) doc.text(cursos, 1.5, 23.5);
+
+      // Corpo (fora do menu lateral)
+      doc.setTextColor(255, 165, 0);
+      doc.text("EXPERIÊNCIA PROFISSIONAL", 11, 6.5);
+      doc.setTextColor(0, 0, 0);
+      doc.text(experiencia, 11, 7.5, { maxWidth: 9 });
+
+      doc.save("curriculo.pdf");
     }
   </script>
+
 </body>
 </html>
