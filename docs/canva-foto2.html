@@ -84,51 +84,55 @@
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       try {
-        const cabecalho = await loadImage('./cabeçalho.jpg');
-        const rodape = await loadImage('./rodapé.jpg');
+        const rodapeTopo = await loadImage('./rodapé2.jpg');
+        const cabecalhoBase = await loadImage('./cabeçalho2.jpg');
         const descricaoDataURL = await readFileAsDataURL(imagemFile);
         const imagemDescricao = await loadImage(descricaoDataURL);
 
-        // Desenha cabeçalho
-        ctx.drawImage(cabecalho, 0, 0, canvas.width, cabecalho.height * (canvas.width / cabecalho.width));
+        // Dimensões dos rodapés
+        const rodapeTopoAltura = rodapeTopo.height * (canvas.width / rodapeTopo.width);
+        const cabecalhoBaseAltura = cabecalhoBase.height * (canvas.width / cabecalhoBase.width);
+
+        // Desenhar rodapé no topo (simula cabeçalho visualmente)
+        ctx.drawImage(rodapeTopo, 0, 0, canvas.width, rodapeTopoAltura);
 
         // Título
+        const tituloY = rodapeTopoAltura + 50;
         ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
         ctx.font = 'bold 50px Georgia';
-        ctx.fillText(titulo, canvas.width / 2, 350);
+        ctx.fillText(titulo, canvas.width / 2, tituloY);
 
-        // Imagem da descrição (com crop proporcional)
-        const targetWidth = 1069;
-        const targetHeight = 426;
-        const targetAspect = targetWidth / targetHeight;
+        // Calcular área disponível para imagem
+        const imgY = tituloY + 20;
+        const imgHeight = canvas.height - imgY - cabecalhoBaseAltura;
+        const imgWidth = 1069;
+        const imgX = (canvas.width - imgWidth) / 2;
 
+        // Crop proporcional como antes
+        const targetAspect = imgWidth / imgHeight;
         const sourceWidth = imagemDescricao.width;
         const sourceHeight = imagemDescricao.height;
         const sourceAspect = sourceWidth / sourceHeight;
 
         let sx, sy, sWidth, sHeight;
-
         if (sourceAspect > targetAspect) {
-          // Corta laterais
           sHeight = sourceHeight;
           sWidth = sHeight * targetAspect;
           sx = (sourceWidth - sWidth) / 2;
           sy = 0;
         } else {
-          // Corta topo/baixo
           sWidth = sourceWidth;
           sHeight = sWidth / targetAspect;
           sx = 0;
           sy = (sourceHeight - sHeight) / 2;
         }
 
-        const imgX = (canvas.width - targetWidth) / 2;
-        const imgY = 400;
-        ctx.drawImage(imagemDescricao, sx, sy, sWidth, sHeight, imgX, imgY, targetWidth, targetHeight);
+        // Desenha imagem cortada e redimensionada
+        ctx.drawImage(imagemDescricao, sx, sy, sWidth, sHeight, imgX, imgY, imgWidth, imgHeight);
 
-        // Rodapé
-        ctx.drawImage(rodape, 0, canvas.height - (rodape.height * (canvas.width / rodape.width)), canvas.width, rodape.height * (canvas.width / rodape.width));
+        // Desenhar cabeçalho na base (funciona como rodapé)
+        ctx.drawImage(cabecalhoBase, 0, canvas.height - cabecalhoBaseAltura, canvas.width, cabecalhoBaseAltura);
 
         // Baixar imagem
         const link = document.createElement('a');
