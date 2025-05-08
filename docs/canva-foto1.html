@@ -1,0 +1,82 @@
+<form id="formulario">
+  <input type="text" id="titulo" maxlength="80" placeholder="Título" required>
+  <input type="file" id="imagemDescricao" accept="image/*" required>
+  <button type="submit">Gerar JPG</button>
+</form>
+
+<canvas id="canvas" width="1080" height="1080" style="display:none;"></canvas>
+
+<script>
+  const form = document.getElementById('formulario');
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+
+  const loadImage = (src) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  };
+
+  const readFileAsDataURL = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const titulo = document.getElementById('titulo').value.trim();
+    const imagemInput = document.getElementById('imagemDescricao');
+    const imagemFile = imagemInput.files[0];
+
+    if (!imagemFile) {
+      alert('Envie uma imagem para a descrição.');
+      return;
+    }
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    try {
+      const cabecalho = await loadImage('./cabeçalho.jpg');
+      const rodape = await loadImage('./rodapé.jpg');
+      const descricaoDataURL = await readFileAsDataURL(imagemFile);
+      const imagemDescricao = await loadImage(descricaoDataURL);
+
+      // Desenha cabeçalho
+      ctx.drawImage(cabecalho, 0, 0, canvas.width, cabecalho.height * (canvas.width / cabecalho.width));
+
+      // Título
+      ctx.fillStyle = '#000';
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 50px Georgia';
+      ctx.fillText(titulo, canvas.width / 2, 350);
+
+      // Imagem da descrição
+      const imgX = (canvas.width - 1069) / 2; // centraliza
+      const imgY = 400; // posição vertical fixa
+      ctx.drawImage(imagemDescricao, imgX, imgY, 1069, 426);
+
+      // Rodapé
+      ctx.drawImage(rodape, 0, canvas.height - (rodape.height * (canvas.width / rodape.width)), canvas.width, rodape.height * (canvas.width / rodape.width));
+
+      // Baixar imagem
+      const link = document.createElement('a');
+      link.download = 'imagem.jpg';
+      link.href = canvas.toDataURL('image/jpeg');
+      link.click();
+
+    } catch (err) {
+      alert('Erro ao carregar imagens.');
+      console.error(err);
+    }
+  });
+</script>
