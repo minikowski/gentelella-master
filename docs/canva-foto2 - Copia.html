@@ -84,32 +84,32 @@
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       try {
-        const cabecalhoTopo = await loadImage('./cabeçalho2.jpg');
-        const rodapeBase = await loadImage('./rodapé2.jpg');
+        const rodapeTopo = await loadImage('./rodapé2.jpg');
+        const cabecalhoBase = await loadImage('./cabeçalho2.jpg');
         const descricaoDataURL = await readFileAsDataURL(imagemFile);
         const imagemDescricao = await loadImage(descricaoDataURL);
 
-        // Dimensões do cabeçalho e rodapé
-        const cabecalhoTopoAltura = cabecalhoTopo.height * (canvas.width / cabecalhoTopo.width);
-        const rodapeBaseAltura = rodapeBase.height * (canvas.width / rodapeBase.width);
+        // Dimensões dos rodapés
+        const rodapeTopoAltura = rodapeTopo.height * (canvas.width / rodapeTopo.width);
+        const cabecalhoBaseAltura = cabecalhoBase.height * (canvas.width / cabecalhoBase.width);
 
-        // Desenhar cabeçalho no topo
-        ctx.drawImage(cabecalhoTopo, 0, 0, canvas.width, cabecalhoTopoAltura);
+        // Desenhar rodapé no topo (simula cabeçalho visualmente)
+        ctx.drawImage(rodapeTopo, 0, 0, canvas.width, rodapeTopoAltura);
 
         // Título
-        const tituloY = cabecalhoTopoAltura + 50;
+        const tituloY = rodapeTopoAltura + 50;
         ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
         ctx.font = 'bold 50px Georgia';
         ctx.fillText(titulo, canvas.width / 2, tituloY);
 
-        // Área disponível entre título e rodapé
+        // Calcular área disponível para imagem
         const imgY = tituloY + 20;
-        const imgHeight = canvas.height - imgY - rodapeBaseAltura;
+        const imgHeight = canvas.height - imgY - cabecalhoBaseAltura;
         const imgWidth = 1069;
         const imgX = (canvas.width - imgWidth) / 2;
 
-        // Crop proporcional
+        // Crop proporcional como antes
         const targetAspect = imgWidth / imgHeight;
         const sourceWidth = imagemDescricao.width;
         const sourceHeight = imagemDescricao.height;
@@ -131,8 +131,8 @@
         // Desenha imagem cortada e redimensionada
         ctx.drawImage(imagemDescricao, sx, sy, sWidth, sHeight, imgX, imgY, imgWidth, imgHeight);
 
-        // Desenhar rodapé na base
-        ctx.drawImage(rodapeBase, 0, canvas.height - rodapeBaseAltura, canvas.width, rodapeBaseAltura);
+        // Desenhar cabeçalho na base (funciona como rodapé)
+        ctx.drawImage(cabecalhoBase, 0, canvas.height - cabecalhoBaseAltura, canvas.width, cabecalhoBaseAltura);
 
         // Baixar imagem
         const link = document.createElement('a');
