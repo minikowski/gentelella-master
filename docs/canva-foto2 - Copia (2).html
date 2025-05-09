@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de JPG</title>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    form {
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ccc;
+      background: white;
+      width: 300px;
+    }
+    input, button {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: Georgia, serif;
+    }
+    button {
+      background: #333;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="formulario">
+    <input type="text" id="titulo" maxlength="80" placeholder="Título" required>
+    <input type="file" id="imagemDescricao" accept="image/*" required>
+    <button type="submit">Gerar JPG</button>
+  </form>
+
+  <canvas id="canvas" width="1080" height="1080" style="display:none;"></canvas>
+
+  <script>
+    const form = document.getElementById('formulario');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const loadImage = (src) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    };
+
+    const readFileAsDataURL = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const titulo = document.getElementById('titulo').value.trim();
+      const imagemInput = document.getElementById('imagemDescricao');
+      const imagemFile = imagemInput.files[0];
+
+      if (!imagemFile) {
+        alert('Envie uma imagem para a descrição.');
+        return;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      try {
+        const cabecalhoTopo = await loadImage('./cabeçalho2.jpg');
+        const rodapeBase = await loadImage('./rodapé2.jpg');
+        const descricaoDataURL = await readFileAsDataURL(imagemFile);
+        const imagemDescricao = await loadImage(descricaoDataURL);
+
+        // Dimensões do cabeçalho e rodapé
+        const cabecalhoTopoAltura = cabecalhoTopo.height * (canvas.width / cabecalhoTopo.width);
+        const rodapeBaseAltura = rodapeBase.height * (canvas.width / rodapeBase.width);
+
+        // Desenhar cabeçalho no topo
+        ctx.drawImage(cabecalhoTopo, 0, 0, canvas.width, cabecalhoTopoAltura);
+
+        // Título
+        const tituloY = cabecalhoTopoAltura + 50;
+        ctx.fillStyle = '#000';
+        ctx.textAlign = 'center';
+        ctx.font = 'bold 50px Georgia';
+        ctx.fillText(titulo, canvas.width / 2, tituloY);
+
+        // Área disponível entre título e rodapé
+        const imgY = tituloY + 20;
+        const imgHeight = canvas.height - imgY - rodapeBaseAltura;
+        const imgWidth = 1069;
+        const imgX = (canvas.width - imgWidth) / 2;
+
+        // Crop proporcional
+        const targetAspect = imgWidth / imgHeight;
+        const sourceWidth = imagemDescricao.width;
+        const sourceHeight = imagemDescricao.height;
+        const sourceAspect = sourceWidth / sourceHeight;
+
+        let sx, sy, sWidth, sHeight;
+        if (sourceAspect > targetAspect) {
+          sHeight = sourceHeight;
+          sWidth = sHeight * targetAspect;
+          sx = (sourceWidth - sWidth) / 2;
+          sy = 0;
+        } else {
+          sWidth = sourceWidth;
+          sHeight = sWidth / targetAspect;
+          sx = 0;
+          sy = (sourceHeight - sHeight) / 2;
+        }
+
+        // Desenha imagem cortada e redimensionada
+        ctx.drawImage(imagemDescricao, sx, sy, sWidth, sHeight, imgX, imgY, imgWidth, imgHeight);
+
+        // Desenhar rodapé na base
+        ctx.drawImage(rodapeBase, 0, canvas.height - rodapeBaseAltura, canvas.width, rodapeBaseAltura);
+
+        // Baixar imagem
+        const link = document.createElement('a');
+        link.download = 'imagem.jpg';
+        link.href = canvas.toDataURL('image/jpeg');
+        link.click();
+
+      } catch (err) {
+        alert('Erro ao carregar imagens.');
+        console.error(err);
+      }
+    });
+  </script>
+
+</body>
+</html>
