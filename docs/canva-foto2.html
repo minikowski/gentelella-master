@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,192 +5,157 @@
   <title>Gerador de Imagem</title>
   <style>
     body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      background-color: #ffffff;
-      color: #333;
     }
 
     .container {
       max-width: 600px;
       margin: 60px auto;
       padding: 40px;
-      background: #fff;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       border-radius: 12px;
     }
 
     h1 {
       text-align: center;
       font-size: 24px;
+      color: #333;
       margin-bottom: 30px;
-      color: #222;
-    }
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 20px;
-      margin-bottom: 8px;
     }
 
     input[type="file"],
-    textarea {
+    textarea,
+    button {
       width: 100%;
-      padding: 12px;
+      margin-bottom: 20px;
+      padding: 12px 15px;
       font-size: 16px;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 8px;
       box-sizing: border-box;
-      resize: none;
     }
 
     textarea {
+      resize: vertical;
       height: 100px;
     }
 
     button {
-      margin-top: 30px;
-      width: 100%;
-      padding: 14px;
-      background-color: #003366;
+      background-color: #0066cc;
       color: white;
-      font-size: 16px;
       border: none;
-      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background 0.3s ease;
     }
 
     button:hover {
-      background-color: #001f4d;
+      background-color: #004d99;
     }
 
     #downloadLink {
       display: block;
-      margin-top: 20px;
+      margin-top: 10px;
       text-align: center;
-      color: #003366;
       font-weight: bold;
+      color: #0066cc;
       text-decoration: none;
-    }
-
-    #downloadLink:hover {
-      text-decoration: underline;
     }
 
     canvas {
       display: none;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Gerar Imagem para Redes</h1>
-
-    <label for="imageInput">Escolha uma imagem (JPG ou PNG):</label>
     <input type="file" id="imageInput" accept="image/jpeg, image/png" required />
-
-    <label for="caption">Digite a legenda:</label>
-    <textarea id="caption" placeholder="Digite aqui a legenda que aparecerá sobre a imagem."></textarea>
-
+    <textarea id="caption" placeholder="Digite a legenda"></textarea>
     <button onclick="generateImage()">Gerar PNG</button>
-    <a id="downloadLink" download="imagem_gerada.png"></a>
-    <canvas id="finalCanvas" width="1440" height="959"></canvas>
+    <a id="downloadLink" style="display:none;" download="imagem_gerada.png">Baixar imagem</a>
   </div>
+  <canvas id="finalCanvas" width="1440" height="959"></canvas>
 
   <script>
-    async function loadImage(src) {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = "anonymous";
-        img.onload = () => resolve(img);
-        img.onerror = reject;
-        img.src = src;
-      });
-    }
-
     async function generateImage() {
-      const fileInput = document.getElementById("imageInput");
+      const imageInput = document.getElementById("imageInput").files[0];
       const caption = document.getElementById("caption").value.trim();
       const canvas = document.getElementById("finalCanvas");
       const ctx = canvas.getContext("2d");
 
-      if (!fileInput.files.length) {
-        alert("Por favor, selecione uma imagem.");
+      if (!imageInput || !caption) {
+        alert("Selecione uma imagem e digite a legenda.");
         return;
       }
 
-      const file = fileInput.files[0];
-      const reader = new FileReader();
+      const headerImg = await loadImage("cabeçalhoredes.png");
+      const footerImg = await loadImage("rodaperedes.png");
+      const userImg = await loadImage(URL.createObjectURL(imageInput));
 
-      reader.onload = async function (event) {
-        const uploadedImage = new Image();
-        uploadedImage.onload = async function () {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const targetCanvasHeight = 959;
+      const targetCanvasWidth = 1440;
+      const originalTotalHeight = 102 + 555 + 55;
+      const scaleFactor = targetCanvasHeight / originalTotalHeight;
 
-          const header = await loadImage("cabeçalhoredes.png");
-          const footer = await loadImage("rodaperedes.png");
+      const scaledHeaderHeight = 102 * scaleFactor;
+      const scaledImageHeight = 555 * scaleFactor;
+      const scaledFooterHeight = 55 * scaleFactor;
 
-          const headerHeight = 102;
-          const footerHeight = 55;
-          const imageHeight = 555;
-          const totalHeight = headerHeight + imageHeight + footerHeight;
-          const contentWidth = 1082;
-          const horizontalMargin = (canvas.width - contentWidth) / 2;
+      ctx.clearRect(0, 0, targetCanvasWidth, targetCanvasHeight);
+      ctx.drawImage(headerImg, 0, 0, targetCanvasWidth, scaledHeaderHeight);
 
-          const headerY = 0;
-          ctx.drawImage(header, horizontalMargin, headerY, contentWidth, headerHeight);
+      const cropTargetW = 1440;
+      const cropTargetH = scaledImageHeight;
+      const imgRatio = userImg.width / userImg.height;
+      const targetRatio = cropTargetW / cropTargetH;
 
-          const imageY = headerY + headerHeight;
+      let sx, sy, sw, sh;
+      if (imgRatio > targetRatio) {
+        sh = userImg.height;
+        sw = sh * targetRatio;
+        sx = (userImg.width - sw) / 2;
+        sy = 0;
+      } else {
+        sw = userImg.width;
+        sh = sw / targetRatio;
+        sx = 0;
+        sy = (userImg.height - sh) / 2;
+      }
 
-          const inputAspect = uploadedImage.width / uploadedImage.height;
-          const targetAspect = contentWidth / imageHeight;
+      const imageY = scaledHeaderHeight;
+      ctx.drawImage(userImg, sx, sy, sw, sh, 0, imageY, cropTargetW, cropTargetH);
 
-          let sx, sy, sWidth, sHeight;
+      const captionX = 20;
+      const captionY = imageY + cropTargetH - 50;
+      ctx.font = "30px Arial";
+      ctx.fillStyle = "#003366";
+      const textWidth = ctx.measureText(caption).width + 20;
+      const textHeight = 40;
+      ctx.fillRect(captionX, captionY, textWidth, textHeight);
+      ctx.fillStyle = "yellow";
+      ctx.fillText(caption, captionX + 10, captionY + 28);
 
-          if (inputAspect > targetAspect) {
-            sHeight = uploadedImage.height;
-            sWidth = sHeight * targetAspect;
-            sx = (uploadedImage.width - sWidth) / 2;
-            sy = 0;
-          } else {
-            sWidth = uploadedImage.width;
-            sHeight = sWidth / targetAspect;
-            sx = 0;
-            sy = (uploadedImage.height - sHeight) / 2;
-          }
+      const footerY = scaledHeaderHeight + scaledImageHeight;
+      ctx.drawImage(footerImg, 0, footerY, targetCanvasWidth, scaledFooterHeight);
 
-          ctx.drawImage(uploadedImage, sx, sy, sWidth, sHeight, horizontalMargin, imageY, contentWidth, imageHeight);
+      const downloadLink = document.getElementById("downloadLink");
+      downloadLink.href = canvas.toDataURL("image/png");
+      downloadLink.style.display = "inline-block";
+      downloadLink.textContent = "Baixar imagem gerada";
+    }
 
-          const textX = canvas.width / 2;
-          const textY = imageY + imageHeight - 30;
-          const captionFontSize = 32;
-          const padding = 10;
-
-          ctx.font = captionFontSize + "px Arial";
-          ctx.textAlign = "center";
-          ctx.fillStyle = "#003366";
-
-          const textWidth = ctx.measureText(caption).width;
-          ctx.fillRect(textX - textWidth / 2 - padding, textY - captionFontSize, textWidth + 2 * padding, captionFontSize + 10);
-
-          ctx.fillStyle = "yellow";
-          ctx.fillText(caption, textX, textY);
-
-          const footerY = imageY + imageHeight;
-          ctx.drawImage(footer, horizontalMargin, footerY, contentWidth, footerHeight);
-
-          const link = document.getElementById("downloadLink");
-          link.href = canvas.toDataURL("image/png");
-          link.textContent = "Clique aqui para baixar a imagem";
-        };
-
-        uploadedImage.src = event.target.result;
-      };
-
-      reader.readAsDataURL(file);
+    function loadImage(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
     }
   </script>
 </body>
