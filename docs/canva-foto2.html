@@ -1,107 +1,197 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <title>Gerador de Imagem</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    input, textarea, button { margin-top: 10px; display: block; width: 100%; max-width: 400px; }
-    canvas { display: none; margin-top: 20px; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 40px;
+      background: #fff;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: #222;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+
+    input[type="file"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      resize: none;
+    }
+
+    textarea {
+      height: 100px;
+    }
+
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 14px;
+      background-color: #003366;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #001f4d;
+    }
+
+    #downloadLink {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      color: #003366;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    #downloadLink:hover {
+      text-decoration: underline;
+    }
+
+    canvas {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <h1>Gerar Imagem para Redes</h1>
-  <input type="file" id="imageInput" accept="image/jpeg, image/png" required />
-  <textarea id="caption" placeholder="Digite a legenda"></textarea>
-  <button onclick="generateImage()">Gerar PNG</button>
-  <a id="downloadLink" style="display:none;" download="imagem_gerada.png">Baixar imagem</a>
-  <canvas id="finalCanvas" width="1440" height="959"></canvas>
+  <div class="container">
+    <h1>Gerar Imagem para Redes</h1>
+
+    <label for="imageInput">Escolha uma imagem (JPG ou PNG):</label>
+    <input type="file" id="imageInput" accept="image/jpeg, image/png" required />
+
+    <label for="caption">Digite a legenda:</label>
+    <textarea id="caption" placeholder="Digite aqui a legenda que aparecerá sobre a imagem."></textarea>
+
+    <button onclick="generateImage()">Gerar PNG</button>
+    <a id="downloadLink" download="imagem_gerada.png"></a>
+    <canvas id="finalCanvas" width="1440" height="959"></canvas>
+  </div>
 
   <script>
-    async function generateImage() {
-      const imageInput = document.getElementById("imageInput").files[0];
-      const caption = document.getElementById("caption").value.trim();
-      const canvas = document.getElementById("finalCanvas");
-      const ctx = canvas.getContext("2d");
-
-      if (!imageInput || !caption) {
-        alert("Selecione uma imagem e digite a legenda.");
-        return;
-      }
-
-      const headerImg = await loadImage("cabeçalhoredes.png");
-      const footerImg = await loadImage("rodaperedes.png");
-      const userImg = await loadImage(URL.createObjectURL(imageInput));
-
-      // Fator de escala baseado na altura total original (102 + 555 + 55 = 712)
-      const targetCanvasHeight = 959;
-      const targetCanvasWidth = 1440;
-      const originalTotalHeight = 102 + 555 + 55;
-      const scaleFactor = targetCanvasHeight / originalTotalHeight;
-
-      const scaledHeaderHeight = 102 * scaleFactor;
-      const scaledImageHeight = 555 * scaleFactor;
-      const scaledFooterHeight = 55 * scaleFactor;
-
-      // Limpar canvas
-      ctx.clearRect(0, 0, targetCanvasWidth, targetCanvasHeight);
-
-      // Redimensionar e desenhar cabeçalho
-      ctx.drawImage(headerImg, 0, 0, targetCanvasWidth, scaledHeaderHeight);
-
-      // Crop centralizado da imagem do usuário para proporção 1440 x scaledImageHeight
-      const cropTargetW = 1440;
-      const cropTargetH = scaledImageHeight;
-      const imgRatio = userImg.width / userImg.height;
-      const targetRatio = cropTargetW / cropTargetH;
-
-      let sx, sy, sw, sh;
-      if (imgRatio > targetRatio) {
-        // imagem mais larga que o necessário
-        sh = userImg.height;
-        sw = sh * targetRatio;
-        sx = (userImg.width - sw) / 2;
-        sy = 0;
-      } else {
-        // imagem mais alta que o necessário
-        sw = userImg.width;
-        sh = sw / targetRatio;
-        sx = 0;
-        sy = (userImg.height - sh) / 2;
-      }
-
-      const imageY = scaledHeaderHeight;
-      ctx.drawImage(userImg, sx, sy, sw, sh, 0, imageY, cropTargetW, cropTargetH);
-
-      // Legenda sobre a imagem (parte inferior da imagem recortada)
-      const captionX = 20;
-      const captionY = imageY + cropTargetH - 50;
-      ctx.font = "30px Arial";
-      ctx.fillStyle = "#003366"; // azul escuro
-      const textWidth = ctx.measureText(caption).width + 20;
-      const textHeight = 40;
-      ctx.fillRect(captionX, captionY, textWidth, textHeight);
-      ctx.fillStyle = "yellow";
-      ctx.fillText(caption, captionX + 10, captionY + 28);
-
-      // Desenhar rodapé
-      const footerY = scaledHeaderHeight + scaledImageHeight;
-      ctx.drawImage(footerImg, 0, footerY, targetCanvasWidth, scaledFooterHeight);
-
-      // Mostrar botão de download
-      const downloadLink = document.getElementById("downloadLink");
-      downloadLink.href = canvas.toDataURL("image/png");
-      downloadLink.style.display = "inline-block";
-      downloadLink.textContent = "Baixar imagem gerada";
-    }
-
-    function loadImage(src) {
+    async function loadImage(src) {
       return new Promise((resolve, reject) => {
         const img = new Image();
+        img.crossOrigin = "anonymous";
         img.onload = () => resolve(img);
         img.onerror = reject;
         img.src = src;
       });
+    }
+
+    async function generateImage() {
+      const fileInput = document.getElementById("imageInput");
+      const caption = document.getElementById("caption").value.trim();
+      const canvas = document.getElementById("finalCanvas");
+      const ctx = canvas.getContext("2d");
+
+      if (!fileInput.files.length) {
+        alert("Por favor, selecione uma imagem.");
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = async function (event) {
+        const uploadedImage = new Image();
+        uploadedImage.onload = async function () {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          const header = await loadImage("cabeçalhoredes.png");
+          const footer = await loadImage("rodaperedes.png");
+
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          const headerX = (canvas.width - 1082) / 2;
+          const headerY = 0;
+          ctx.drawImage(header, headerX, headerY, 1082, 102);
+
+          const imageTargetWidth = 1082;
+          const imageTargetHeight = 555;
+          const imageX = headerX;
+          const imageY = headerY + 102;
+
+          const inputAspect = uploadedImage.width / uploadedImage.height;
+          const targetAspect = imageTargetWidth / imageTargetHeight;
+
+          let sx, sy, sWidth, sHeight;
+
+          if (inputAspect > targetAspect) {
+            sHeight = uploadedImage.height;
+            sWidth = sHeight * targetAspect;
+            sx = (uploadedImage.width - sWidth) / 2;
+            sy = 0;
+          } else {
+            sWidth = uploadedImage.width;
+            sHeight = sWidth / targetAspect;
+            sx = 0;
+            sy = (uploadedImage.height - sHeight) / 2;
+          }
+
+          ctx.drawImage(uploadedImage, sx, sy, sWidth, sHeight, imageX, imageY, imageTargetWidth, imageTargetHeight);
+
+          const captionFontSize = 32;
+          ctx.font = captionFontSize + "px Arial";
+          ctx.textAlign = "center";
+          ctx.fillStyle = "#003366";
+
+          const textX = canvas.width / 2;
+          const textY = imageY + imageTargetHeight - 30;
+          const padding = 10;
+          const textWidth = ctx.measureText(caption).width;
+
+          ctx.fillRect(textX - textWidth / 2 - padding, textY - captionFontSize, textWidth + 2 * padding, captionFontSize + 10);
+          ctx.fillStyle = "yellow";
+          ctx.fillText(caption, textX, textY);
+
+          const footerX = headerX;
+          const footerY = imageY + imageTargetHeight;
+          ctx.drawImage(footer, footerX, footerY, 1082, 55);
+
+          const link = document.getElementById("downloadLink");
+          link.href = canvas.toDataURL("image/png");
+          link.textContent = "Clique aqui para baixar a imagem";
+        };
+
+        uploadedImage.src = event.target.result;
+      };
+
+      reader.readAsDataURL(file);
     }
   </script>
 </body>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gerador de Imagem</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, textarea, button { margin-top: 10px; display: block; width: 100%; max-width: 400px; }
+    canvas { display: none; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Gerar Imagem para Redes</h1>
+  <input type="file" id="imageInput" accept="image/jpeg, image/png" required />
+  <textarea id="caption" placeholder="Digite a legenda"></textarea>
+  <button onclick="generateImage()">Gerar PNG</button>
+  <a id="downloadLink" style="display:none;" download="imagem_gerada.png">Baixar imagem</a>
+  <canvas id="finalCanvas" width="1440" height="959"></canvas>
+
+  <script>
+    async function generateImage() {
+      const imageInput = document.getElementById("imageInput").files[0];
+      const caption = document.getElementById("caption").value.trim();
+      const canvas = document.getElementById("finalCanvas");
+      const ctx = canvas.getContext("2d");
+
+      if (!imageInput || !caption) {
+        alert("Selecione uma imagem e digite a legenda.");
+        return;
+      }
+
+      const headerImg = await loadImage("cabeçalhoredes.png");
+      const footerImg = await loadImage("rodaperedes.png");
+      const userImg = await loadImage(URL.createObjectURL(imageInput));
+
+      // Fator de escala baseado na altura total original (102 + 555 + 55 = 712)
+      const targetCanvasHeight = 959;
+      const targetCanvasWidth = 1440;
+      const originalTotalHeight = 102 + 555 + 55;
+      const scaleFactor = targetCanvasHeight / originalTotalHeight;
+
+      const scaledHeaderHeight = 102 * scaleFactor;
+      const scaledImageHeight = 555 * scaleFactor;
+      const scaledFooterHeight = 55 * scaleFactor;
+
+      // Limpar canvas
+      ctx.clearRect(0, 0, targetCanvasWidth, targetCanvasHeight);
+
+      // Redimensionar e desenhar cabeçalho
+      ctx.drawImage(headerImg, 0, 0, targetCanvasWidth, scaledHeaderHeight);
+
+      // Crop centralizado da imagem do usuário para proporção 1440 x scaledImageHeight
+      const cropTargetW = 1440;
+      const cropTargetH = scaledImageHeight;
+      const imgRatio = userImg.width / userImg.height;
+      const targetRatio = cropTargetW / cropTargetH;
+
+      let sx, sy, sw, sh;
+      if (imgRatio > targetRatio) {
+        // imagem mais larga que o necessário
+        sh = userImg.height;
+        sw = sh * targetRatio;
+        sx = (userImg.width - sw) / 2;
+        sy = 0;
+      } else {
+        // imagem mais alta que o necessário
+        sw = userImg.width;
+        sh = sw / targetRatio;
+        sx = 0;
+        sy = (userImg.height - sh) / 2;
+      }
+
+      const imageY = scaledHeaderHeight;
+      ctx.drawImage(userImg, sx, sy, sw, sh, 0, imageY, cropTargetW, cropTargetH);
+
+      // Legenda sobre a imagem (parte inferior da imagem recortada)
+      const captionX = 20;
+      const captionY = imageY + cropTargetH - 50;
+      ctx.font = "30px Arial";
+      ctx.fillStyle = "#003366"; // azul escuro
+      const textWidth = ctx.measureText(caption).width + 20;
+      const textHeight = 40;
+      ctx.fillRect(captionX, captionY, textWidth, textHeight);
+      ctx.fillStyle = "yellow";
+      ctx.fillText(caption, captionX + 10, captionY + 28);
+
+      // Desenhar rodapé
+      const footerY = scaledHeaderHeight + scaledImageHeight;
+      ctx.drawImage(footerImg, 0, footerY, targetCanvasWidth, scaledFooterHeight);
+
+      // Mostrar botão de download
+      const downloadLink = document.getElementById("downloadLink");
+      downloadLink.href = canvas.toDataURL("image/png");
+      downloadLink.style.display = "inline-block";
+      downloadLink.textContent = "Baixar imagem gerada";
+    }
+
+    function loadImage(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+  </script>
+</body>
+</html>
