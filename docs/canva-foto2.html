@@ -134,20 +134,20 @@
           const header = await loadImage("cabeçalhoredes.png");
           const footer = await loadImage("rodaperedes.png");
 
-          ctx.fillStyle = "#ffffff";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          const headerHeight = 102;
+          const footerHeight = 55;
+          const imageHeight = 555;
+          const totalHeight = headerHeight + imageHeight + footerHeight;
+          const contentWidth = 1082;
+          const horizontalMargin = (canvas.width - contentWidth) / 2;
 
-          const headerX = (canvas.width - 1082) / 2;
           const headerY = 0;
-          ctx.drawImage(header, headerX, headerY, 1082, 102);
+          ctx.drawImage(header, horizontalMargin, headerY, contentWidth, headerHeight);
 
-          const imageTargetWidth = 1082;
-          const imageTargetHeight = 555;
-          const imageX = headerX;
-          const imageY = headerY + 102;
+          const imageY = headerY + headerHeight;
 
           const inputAspect = uploadedImage.width / uploadedImage.height;
-          const targetAspect = imageTargetWidth / imageTargetHeight;
+          const targetAspect = contentWidth / imageHeight;
 
           let sx, sy, sWidth, sHeight;
 
@@ -163,25 +163,25 @@
             sy = (uploadedImage.height - sHeight) / 2;
           }
 
-          ctx.drawImage(uploadedImage, sx, sy, sWidth, sHeight, imageX, imageY, imageTargetWidth, imageTargetHeight);
+          ctx.drawImage(uploadedImage, sx, sy, sWidth, sHeight, horizontalMargin, imageY, contentWidth, imageHeight);
 
+          const textX = canvas.width / 2;
+          const textY = imageY + imageHeight - 30;
           const captionFontSize = 32;
+          const padding = 10;
+
           ctx.font = captionFontSize + "px Arial";
           ctx.textAlign = "center";
           ctx.fillStyle = "#003366";
 
-          const textX = canvas.width / 2;
-          const textY = imageY + imageTargetHeight - 30;
-          const padding = 10;
           const textWidth = ctx.measureText(caption).width;
-
           ctx.fillRect(textX - textWidth / 2 - padding, textY - captionFontSize, textWidth + 2 * padding, captionFontSize + 10);
+
           ctx.fillStyle = "yellow";
           ctx.fillText(caption, textX, textY);
 
-          const footerX = headerX;
-          const footerY = imageY + imageTargetHeight;
-          ctx.drawImage(footer, footerX, footerY, 1082, 55);
+          const footerY = imageY + imageHeight;
+          ctx.drawImage(footer, horizontalMargin, footerY, contentWidth, footerHeight);
 
           const link = document.getElementById("downloadLink");
           link.href = canvas.toDataURL("image/png");
