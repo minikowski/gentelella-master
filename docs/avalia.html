@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Avaliação de Desempenho</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .pergunta { margin-bottom: 15px; }
+    label { font-weight: bold; }
+    input[type="number"] { width: 60px; }
+    button { margin-top: 20px; margin-right: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>Questionário de Avaliação de Desempenho</h2>
+  <form id="avaliacaoForm">
+    <div>
+      <label>Nome do Colaborador:</label><br />
+      <input type="text" id="nome" required />
+    </div>
+
+    <div class="pergunta">
+      <label>1. Pontualidade:</label><br />
+      <input type="number" min="0" max="10" required name="q1" />
+    </div>
+
+    <div class="pergunta">
+      <label>2. Assiduidade:</label><br />
+      <input type="number" min="0" max="10" required name="q2" />
+    </div>
+
+    <div class="pergunta">
+      <label>3. Disciplina e Organização:</label><br />
+      <input type="number" min="0" max="10" required name="q3" />
+    </div>
+
+    <div class="pergunta">
+      <label>4. Adaptação:</label><br />
+      <input type="number" min="0" max="10" required name="q4" />
+    </div>
+
+    <div class="pergunta">
+      <label>5. Relacionamento interpessoal:</label><br />
+      <input type="number" min="0" max="10" required name="q5" />
+    </div>
+
+    <div class="pergunta">
+      <label>6. Iniciativa:</label><br />
+      <input type="number" min="0" max="10" required name="q6" />
+    </div>
+
+    <div class="pergunta">
+      <label>7. Interesse:</label><br />
+      <input type="number" min="0" max="10" required name="q7" />
+    </div>
+
+    <div class="pergunta">
+      <label>8. Conhecimento:</label><br />
+      <input type="number" min="0" max="10" required name="q8" />
+    </div>
+
+    <button type="button" onclick="gerarExcel()">Exportar Excel</button>
+    <button type="button" onclick="gerarCSV()">Exportar CSV</button>
+  </form>
+
+  <script>
+    function getDadosFormulario() {
+      const nome = document.getElementById("nome").value;
+      const form = document.forms['avaliacaoForm'];
+      const respostas = Array.from(form.elements)
+        .filter(e => e.name && e.type === 'number')
+        .map(e => parseFloat(e.value));
+      return { nome, respostas };
+    }
+
+    function gerarExcel() {
+      const { nome, respostas } = getDadosFormulario();
+      const perguntas = [
+        "Pontualidade", "Assiduidade", "Disciplina", "Adaptação",
+        "Relacionamento", "Iniciativa", "Interesse", "Conhecimento"
+      ];
+      const dados = [["Colaborador", nome]];
+      perguntas.forEach((p, i) => {
+        dados.push([p, respostas[i]]);
+      });
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.aoa_to_sheet(dados);
+      XLSX.utils.book_append_sheet(wb, ws, "Avaliação");
+      XLSX.writeFile(wb, `${nome}_avaliacao.xlsx`);
+    }
+
+    function gerarCSV() {
+      const { nome, respostas } = getDadosFormulario();
+      const media = (respostas.reduce((a, b) => a + b, 0) / respostas.length).toFixed(2);
+      const csv = `Nome,Nota Final\n"${nome}",${media}`;
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `${nome}_resumo.csv`;
+      link.click();
+    }
+  </script>
+</body>
+</html>
