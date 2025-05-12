@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download de Arquivos por Filtros</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-xl">
+    <h1 class="text-2xl font-bold text-center mb-6">Download de Arquivos</h1>
+
+    <!-- COLÉGIO -->
+    <div class="mb-4">
+      <label class="block font-semibold mb-1" for="colegio">Colégio:</label>
+      <select id="colegio" class="w-full p-2 border rounded-xl">
+        <option value="">Selecione um colégio</option>
+        <option value="vista_bela">Vista Bela</option>
+        <option value="roseli_piotto">Roseli Piotto</option>
+        <option value="thiago_terra">Thiago Terra</option>
+      </select>
+    </div>
+
+    <!-- FREQUÊNCIA -->
+    <div class="mb-4">
+      <label class="block font-semibold mb-1" for="frequencia">Frequência:</label>
+      <select id="frequencia" class="w-full p-2 border rounded-xl">
+        <option value="">Selecione a frequência</option>
+        <option value="sup70">Sup. 70%</option>
+        <option value="inf70">Inf. 70%</option>
+        <option value="inf30">Inf. 30%</option>
+        <option value="inf70_just">Inf. 70% c/Just.</option>
+        <option value="inf30_just">Inf. 30% c/Just.</option>
+        <option value="sem_freq">Sem Freq.</option>
+        <option value="todos_freq">Todos Frequentes</option>
+      </select>
+    </div>
+
+    <!-- MÊS -->
+    <div class="mb-6">
+      <label class="block font-semibold mb-1" for="mes">Mês:</label>
+      <select id="mes" class="w-full p-2 border rounded-xl">
+        <option value="">Selecione o mês</option>
+        <option value="abril">Abril</option>
+        <option value="maio">Maio</option>
+        <option value="junho">Junho</option>
+        <option value="julho">Julho</option>
+      </select>
+    </div>
+
+    <!-- BOTÃO DE DOWNLOAD -->
+    <button 
+      onclick="baixarArquivo()" 
+      class="bg-blue-600 text-white font-semibold px-6 py-2 rounded-xl hover:bg-blue-700 w-full"
+    >
+      Baixar Arquivo
+    </button>
+    
+    <!-- MENSAGEM -->
+    <p id="mensagem" class="text-center text-red-600 mt-4 font-semibold hidden"></p>
+  </div>
+
+  <script>
+    function baixarArquivo() {
+      const colegio = document.getElementById("colegio").value;
+      const frequencia = document.getElementById("frequencia").value;
+      const mes = document.getElementById("mes").value;
+      const mensagem = document.getElementById("mensagem");
+
+      if (!colegio || !frequencia || !mes) {
+        mensagem.textContent = "Por favor, selecione todas as opções.";
+        mensagem.classList.remove("hidden");
+        return;
+      }
+
+      mensagem.classList.add("hidden");
+
+      const links = {
+        vista_bela: {
+          sup70: {
+            abril: "LINK_VISTA_SUP70_ABRIL", // COLE AQUI O LINK CORRESPONDENTE
+            maio: "LINK_VISTA_SUP70_MAIO", // COLE AQUI O LINK CORRESPONDENTE
+            junho: "LINK_VISTA_SUP70_JUNHO", // COLE AQUI O LINK CORRESPONDENTE
+            julho: "LINK_VISTA_SUP70_JULHO", // COLE AQUI O LINK CORRESPONDENTE
+          },
+          inf70: {
+            abril: "LINK_VISTA_INF70_ABRIL",
+            maio: "LINK_VISTA_INF70_MAIO",
+            junho: "LINK_VISTA_INF70_JUNHO",
+            julho: "LINK_VISTA_INF70_JULHO",
+          },
+          inf30: {
+            abril: "LINK_VISTA_INF30_ABRIL",
+            maio: "LINK_VISTA_INF30_MAIO",
+            junho: "LINK_VISTA_INF30_JUNHO",
+            julho: "LINK_VISTA_INF30_JULHO",
+          },
+          inf70_just: {
+            abril: "LINK_VISTA_INF70JUST_ABRIL",
+            maio: "LINK_VISTA_INF70JUST_MAIO",
+            junho: "LINK_VISTA_INF70JUST_JUNHO",
+            julho: "LINK_VISTA_INF70JUST_JULHO",
+          },
+          inf30_just: {
+            abril: "LINK_VISTA_INF30JUST_ABRIL",
+            maio: "LINK_VISTA_INF30JUST_MAIO",
+            junho: "LINK_VISTA_INF30JUST_JUNHO",
+            julho: "LINK_VISTA_INF30JUST_JULHO",
+          },
+          sem_freq: {
+            abril: "LINK_VISTA_SEMFREQ_ABRIL",
+            maio: "LINK_VISTA_SEMFREQ_MAIO",
+            junho: "LINK_VISTA_SEMFREQ_JUNHO",
+            julho: "LINK_VISTA_SEMFREQ_JULHO",
+          },
+          todos_freq: {
+            abril: "LINK_VISTA_TODOSFREQ_ABRIL",
+            maio: "LINK_VISTA_TODOSFREQ_MAIO",
+            junho: "LINK_VISTA_TODOSFREQ_JUNHO",
+            julho: "LINK_VISTA_TODOSFREQ_JULHO",
+          },
+        },
+
+        roseli_piotto: {
+          sup70: {
+            abril: "LINK_ROSELI_SUP70_ABRIL",
+            maio: "LINK_ROSELI_SUP70_MAIO",
+            junho: "LINK_ROSELI_SUP70_JUNHO",
+            julho: "LINK_ROSELI_SUP70_JULHO",
+          },
+          inf70: {
+            abril: "LINK_ROSELI_INF70_ABRIL",
+            maio: "LINK_ROSELI_INF70_MAIO",
+            junho: "LINK_ROSELI_INF70_JUNHO",
+            julho: "LINK_ROSELI_INF70_JULHO",
+          },
+          inf30: {
+            abril: "LINK_ROSELI_INF30_ABRIL",
+            maio: "LINK_ROSELI_INF30_MAIO",
+            junho: "LINK_ROSELI_INF30_JUNHO",
+            julho: "LINK_ROSELI_INF30_JULHO",
+          },
+          inf70_just: {
+            abril: "LINK_ROSELI_INF70JUST_ABRIL",
+            maio: "LINK_ROSELI_INF70JUST_MAIO",
+            junho: "LINK_ROSELI_INF70JUST_JUNHO",
+            julho: "LINK_ROSELI_INF70JUST_JULHO",
+          },
+          inf30_just: {
+            abril: "LINK_ROSELI_INF30JUST_ABRIL",
+            maio: "LINK_ROSELI_INF30JUST_MAIO",
+            junho: "LINK_ROSELI_INF30JUST_JUNHO",
+            julho: "LINK_ROSELI_INF30JUST_JULHO",
+          },
+          sem_freq: {
+            abril: "LINK_ROSELI_SEMFREQ_ABRIL",
+            maio: "LINK_ROSELI_SEMFREQ_MAIO",
+            junho: "LINK_ROSELI_SEMFREQ_JUNHO",
+            julho: "LINK_ROSELI_SEMFREQ_JULHO",
+          },
+          todos_freq: {
+            abril: "LINK_ROSELI_TODOSFREQ_ABRIL",
+            maio: "LINK_ROSELI_TODOSFREQ_MAIO",
+            junho: "LINK_ROSELI_TODOSFREQ_JUNHO",
+            julho: "LINK_ROSELI_TODOSFREQ_JULHO",
+          },
+        },
+
+        thiago_terra: {
+          sup70: {
+            abril: "LINK_THIAGO_SUP70_ABRIL",
+            maio: "LINK_THIAGO_SUP70_MAIO",
+            junho: "LINK_THIAGO_SUP70_JUNHO",
+            julho: "LINK_THIAGO_SUP70_JULHO",
+          },
+          inf70: {
+            abril: "LINK_THIAGO_INF70_ABRIL",
+            maio: "LINK_THIAGO_INF70_MAIO",
+            junho: "LINK_THIAGO_INF70_JUNHO",
+            julho: "LINK_THIAGO_INF70_JULHO",
+          },
+          inf30: {
+            abril: "LINK_THIAGO_INF30_ABRIL",
+            maio: "LINK_THIAGO_INF30_MAIO",
+            junho: "LINK_THIAGO_INF30_JUNHO",
+            julho: "LINK_THIAGO_INF30_JULHO",
+          },
+          inf70_just: {
+            abril: "LINK_THIAGO_INF70JUST_ABRIL",
+            maio: "LINK_THIAGO_INF70JUST_MAIO",
+            junho: "LINK_THIAGO_INF70JUST_JUNHO",
+            julho: "LINK_THIAGO_INF70JUST_JULHO",
+          },
+          inf30_just: {
+            abril: "LINK_THIAGO_INF30JUST_ABRIL",
+            maio: "LINK_THIAGO_INF30JUST_MAIO",
+            junho: "LINK_THIAGO_INF30JUST_JUNHO",
+            julho: "LINK_THIAGO_INF30JUST_JULHO",
+          },
+          sem_freq: {
+            abril: "LINK_THIAGO_SEMFREQ_ABRIL",
+            maio: "LINK_THIAGO_SEMFREQ_MAIO",
+            junho: "LINK_THIAGO_SEMFREQ_JUNHO",
+            julho: "LINK_THIAGO_SEMFREQ_JULHO",
+          },
+          todos_freq: {
+            abril: "LINK_THIAGO_TODOSFREQ_ABRIL",
+            maio: "LINK_THIAGO_TODOSFREQ_MAIO",
+            junho: "LINK_THIAGO_TODOSFREQ_JUNHO",
+            julho: "LINK_THIAGO_TODOSFREQ_JULHO",
+          },
+        },
+      };
+
+      const link = links[colegio]?.[frequencia]?.[mes];
+
+      if (link) {
+        window.location.href = link;
+      } else {
+        mensagem.textContent = "Arquivo não encontrado para essa combinação.";
+        mensagem.classList.remove("hidden");
+      }
+    }
+  </script>
+</body>
+</html>
