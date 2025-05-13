@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gerador de Imagem</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 40px;
+      background: #ffffff;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    input[type="file"],
+    textarea,
+    button {
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 100px;
+    }
+
+    button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #004d99;
+    }
+
+    #downloadLink {
+      display: block;
+      margin-top: 10px;
+      text-align: center;
+      font-weight: bold;
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    canvas {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Gerar Imagem para Redes</h1>
+    <input type="file" id="imageInput" accept="image/jpeg, image/png" required />
+    <textarea id="caption" placeholder="Digite a legenda"></textarea>
+    <button onclick="generateImage()">Gerar PNG</button>
+    <button onclick="generateSquareImage()">Gerar imagem quadrada</button>
+    <a id="downloadLink" style="display:none;" download="imagem_gerada.png">Baixar imagem</a>
+  </div>
+  <canvas id="finalCanvas" width="1440" height="959"></canvas>
+
+  <script>
+    async function generateImage() {
+      const imageInput = document.getElementById("imageInput").files[0];
+      const caption = document.getElementById("caption").value.trim();
+      const canvas = document.getElementById("finalCanvas");
+      const ctx = canvas.getContext("2d");
+
+      if (!imageInput || !caption) {
+        alert("Selecione uma imagem e digite a legenda.");
+        return;
+      }
+
+      const headerImg = await loadImage("cabeçalhoredes.png");
+      const footerImg = await loadImage("rodaperedes.png");
+      const userImg = await loadImage(URL.createObjectURL(imageInput));
+
+      const targetCanvasHeight = 959;
+      const targetCanvasWidth = 1440;
+      const originalTotalHeight = 102 + 555 + 55;
+      const scaleFactor = targetCanvasHeight / originalTotalHeight;
+
+      const scaledHeaderHeight = 102 * scaleFactor;
+      const scaledImageHeight = 555 * scaleFactor;
+      const scaledFooterHeight = 55 * scaleFactor;
+
+      ctx.clearRect(0, 0, targetCanvasWidth, targetCanvasHeight);
+      ctx.drawImage(headerImg, 0, 0, targetCanvasWidth, scaledHeaderHeight);
+
+      const cropTargetW = 1440;
+      const cropTargetH = scaledImageHeight;
+      const imgRatio = userImg.width / userImg.height;
+      const targetRatio = cropTargetW / cropTargetH;
+
+      let sx, sy, sw, sh;
+      if (imgRatio > targetRatio) {
+        sh = userImg.height;
+        sw = sh * targetRatio;
+        sx = (userImg.width - sw) / 2;
+        sy = 0;
+      } else {
+        sw = userImg.width;
+        sh = sw / targetRatio;
+        sx = 0;
+        sy = (userImg.height - sh) / 2;
+      }
+
+      const imageY = scaledHeaderHeight;
+      ctx.drawImage(userImg, sx, sy, sw, sh, 0, imageY, cropTargetW, cropTargetH);
+
+      const captionX = 20;
+      const captionY = imageY + cropTargetH - 50;
+      ctx.font = "30px Arial";
+      ctx.fillStyle = "#003366";
+      const textWidth = ctx.measureText(caption).width + 20;
+      const textHeight = 40;
+      ctx.fillRect(captionX, captionY, textWidth, textHeight);
+      ctx.fillStyle = "yellow";
+      ctx.fillText(caption, captionX + 10, captionY + 28);
+
+      const footerY = scaledHeaderHeight + scaledImageHeight;
+      ctx.drawImage(footerImg, 0, footerY, targetCanvasWidth, scaledFooterHeight);
+
+      const downloadLink = document.getElementById("downloadLink");
+      downloadLink.href = canvas.toDataURL("image/png");
+      downloadLink.style.display = "inline-block";
+      downloadLink.textContent = "Baixar imagem gerada";
+    }
+
+    function loadImage(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+  
+async function generateSquareImage() {
+  const imageInput = document.getElementById("imageInput").files[0];
+  const caption = document.getElementById("caption").value.trim();
+  const canvas = document.getElementById("finalCanvas");
+  const ctx = canvas.getContext("2d");
+
+  if (!imageInput || !caption) {
+    alert("Selecione uma imagem e digite a legenda.");
+    return;
+  }
+
+  const headerImg = await loadImage("cabeçalhoredes.png");
+  const footerImg = await loadImage("rodaperedes.png");
+  const userImg = await loadImage(URL.createObjectURL(imageInput));
+
+  const targetCanvasWidth = 1440;
+  const targetCanvasHeight = 1440;
+  canvas.width = targetCanvasWidth;
+  canvas.height = targetCanvasHeight;
+
+  const originalHeader = 102;
+  const originalContent = 555;
+  const originalFooter = 55;
+  const totalOriginal = originalHeader + originalContent + originalFooter;
+
+  const scaleFactor = targetCanvasHeight / totalOriginal;
+
+  const scaledHeaderHeight = originalHeader * scaleFactor;
+  const scaledImageHeight = originalContent * scaleFactor;
+  const scaledFooterHeight = originalFooter * scaleFactor;
+
+  ctx.clearRect(0, 0, targetCanvasWidth, targetCanvasHeight);
+  ctx.drawImage(headerImg, 0, 0, targetCanvasWidth, scaledHeaderHeight);
+
+  const cropTargetW = targetCanvasWidth;
+  const cropTargetH = scaledImageHeight;
+  const imgRatio = userImg.width / userImg.height;
+  const targetRatio = cropTargetW / cropTargetH;
+
+  let sx, sy, sw, sh;
+  if (imgRatio > targetRatio) {
+    sh = userImg.height;
+    sw = sh * targetRatio;
+    sx = (userImg.width - sw) / 2;
+    sy = 0;
+  } else {
+    sw = userImg.width;
+    sh = sw / targetRatio;
+    sx = 0;
+    sy = (userImg.height - sh) / 2;
+  }
+
+  const imageY = scaledHeaderHeight;
+  ctx.drawImage(userImg, sx, sy, sw, sh, 0, imageY, cropTargetW, cropTargetH);
+
+  const captionX = 20;
+  const captionY = imageY + cropTargetH - 50;
+  ctx.font = "30px Arial";
+  ctx.fillStyle = "#003366";
+  const textWidth = ctx.measureText(caption).width + 20;
+  const textHeight = 40;
+  ctx.fillRect(captionX, captionY, textWidth, textHeight);
+  ctx.fillStyle = "yellow";
+  ctx.fillText(caption, captionX + 10, captionY + 28);
+
+  const footerY = scaledHeaderHeight + scaledImageHeight;
+  ctx.drawImage(footerImg, 0, footerY, targetCanvasWidth, scaledFooterHeight);
+
+  const downloadLink = document.getElementById("downloadLink");
+  downloadLink.href = canvas.toDataURL("image/png");
+  downloadLink.style.display = "inline-block";
+  downloadLink.textContent = "Baixar imagem quadrada";
+}
+
+</script>
+</body>
+</html>
