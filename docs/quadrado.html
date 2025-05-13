@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gerador de Imagem 1440x1440</title>
+  <style>
+    body {
+      background: #ffffff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 2em;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 2em;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 1em;
+      color: #333;
+    }
+
+    input[type="file"],
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5em;
+      margin-top: 0.5em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 1.5em;
+      width: 100%;
+      padding: 0.75em;
+      background-color: #0055aa;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004080;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Gerador de Imagem</h1>
+    <form id="formulario">
+      <label for="imagem">Selecione uma imagem (JPG ou PNG):</label>
+      <input type="file" id="imagem" accept="image/png, image/jpeg" required />
+
+      <label for="titulo">Legenda da imagem:</label>
+      <input type="text" id="titulo" placeholder="Digite a legenda" required />
+
+      <button type="submit">Gerar Imagem PNG (1440x1440)</button>
+    </form>
+  </div>
+
+  <canvas id="canvas" width="1440" height="1440" style="display: none;"></canvas>
+
+  <script>
+    const form = document.getElementById("formulario");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    const WIDTH = 1440;
+    const HEIGHT = 1440;
+    const IMG_WIDTH = 1082;
+    const HEADER_HEIGHT = 102;
+    const FOOTER_HEIGHT = 55;
+    const IMG_HEIGHT = HEIGHT - HEADER_HEIGHT - FOOTER_HEIGHT;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const fileInput = document.getElementById("imagem");
+      const titulo = document.getElementById("titulo").value;
+
+      if (!fileInput.files.length) return;
+
+      const imgFile = fileInput.files[0];
+      const imgURL = URL.createObjectURL(imgFile);
+      const userImg = await loadImage(imgURL);
+      const header = await loadImage("cabeçalhoredes.png");
+      const footer = await loadImage("rodaperedes.png");
+
+      // Limpar canvas
+      ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+      // Desenhar fundo branco
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+      // Desenhar cabeçalho centralizado
+      const headerX = (WIDTH - header.width) / 2;
+      ctx.drawImage(header, headerX, 0);
+
+      // Crop da imagem do usuário para 1082xIMG_HEIGHT
+      const cropAspect = IMG_WIDTH / IMG_HEIGHT;
+      const userAspect = userImg.width / userImg.height;
+
+      let sx, sy, sWidth, sHeight;
+      if (userAspect > cropAspect) {
+        sHeight = userImg.height;
+        sWidth = sHeight * cropAspect;
+        sx = (userImg.width - sWidth) / 2;
+        sy = 0;
+      } else {
+        sWidth = userImg.width;
+        sHeight = sWidth / cropAspect;
+        sx = 0;
+        sy = (userImg.height - sHeight) / 2;
+      }
+
+      const imgX = (WIDTH - IMG_WIDTH) / 2;
+      const imgY = HEADER_HEIGHT;
+      ctx.drawImage(userImg, sx, sy, sWidth, sHeight, imgX, imgY, IMG_WIDTH, IMG_HEIGHT);
+
+      // Caixa azul escuro e texto amarelo
+      ctx.fillStyle = "#002266";
+      ctx.fillRect(imgX + 20, imgY + IMG_HEIGHT - 80, IMG_WIDTH - 40, 60);
+
+      ctx.font = "bold 32px Arial";
+      ctx.fillStyle = "yellow";
+      ctx.textAlign = "center";
+      ctx.fillText(titulo, WIDTH / 2, imgY + IMG_HEIGHT - 40);
+
+      // Desenhar rodapé centralizado
+      const footerX = (WIDTH - footer.width) / 2;
+      ctx.drawImage(footer, footerX, HEIGHT - FOOTER_HEIGHT);
+
+      // Salvar imagem
+      const link = document.createElement("a");
+      link.download = "imagem_final.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+
+    function loadImage(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+  </script>
+</body>
+</html>
