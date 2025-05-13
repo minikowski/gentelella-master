@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerador de Imagem Redes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #f4f4f4;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input[type="file"],
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #002266;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #001a4d;
+    }
+
+    canvas {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Gerador de Imagem 1440x1440</h2>
+    <form id="formulario">
+      <label for="imagem">Escolha uma imagem (JPG ou PNG):</label>
+      <input type="file" id="imagem" accept="image/png, image/jpeg" required />
+      
+      <label for="titulo">Legenda/Título:</label>
+      <input type="text" id="titulo" placeholder="Digite o título da imagem" required />
+      
+      <button type="submit">Gerar Imagem PNG</button>
+    </form>
+  </div>
+
+  <canvas id="canvas" width="1440" height="1440"></canvas>
+
+  <script>
+    const form = document.getElementById("formulario");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    const WIDTH = 1440;
+    const HEIGHT = 1440;
+    const HEADER_HEIGHT = 102;
+    const FOOTER_HEIGHT = 55;
+    const IMG_HEIGHT = HEIGHT - HEADER_HEIGHT - FOOTER_HEIGHT;
+
+    function loadImage(src) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.src = src;
+      });
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const fileInput = document.getElementById("imagem");
+      const titulo = document.getElementById("titulo").value;
+
+      if (!fileInput.files.length) return;
+
+      const imgFile = fileInput.files[0];
+      const imgURL = URL.createObjectURL(imgFile);
+      const userImg = await loadImage(imgURL);
+      const header = await loadImage("cabeçalhoredes.png");
+      const footer = await loadImage("rodaperedes.png");
+
+      ctx.clearRect(0, 0, WIDTH, HEIGHT);
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+      // Cabeçalho centralizado (sem esticar)
+      const headerX = (WIDTH - header.width) / 2;
+      ctx.drawImage(header, headerX, 0);
+
+      // Crop da imagem enviada, centralizado e proporcional para ocupar 1440x1283
+      const cropAspect = WIDTH / IMG_HEIGHT;
+      const userAspect = userImg.width / userImg.height;
+
+      let sx, sy, sWidth, sHeight;
+      if (userAspect > cropAspect) {
+        sHeight = userImg.height;
+        sWidth = sHeight * cropAspect;
+        sx = (userImg.width - sWidth) / 2;
+        sy = 0;
+      } else {
+        sWidth = userImg.width;
+        sHeight = sWidth / cropAspect;
+        sx = 0;
+        sy = (userImg.height - sHeight) / 2;
+      }
+
+      ctx.drawImage(userImg, sx, sy, sWidth, sHeight, 0, HEADER_HEIGHT, WIDTH, IMG_HEIGHT);
+
+      // Título com fundo azul escuro
+      const tituloAltura = 60;
+      const tituloY = HEADER_HEIGHT + IMG_HEIGHT - tituloAltura - 10;
+      ctx.fillStyle = "#002266";
+      ctx.fillRect(20, tituloY, WIDTH - 40, tituloAltura);
+
+      ctx.font = "bold 32px Arial";
+      ctx.fillStyle = "yellow";
+      ctx.textAlign = "center";
+      ctx.fillText(titulo, WIDTH / 2, tituloY + 40);
+
+      // Rodapé centralizado (sem esticar)
+      const footerX = (WIDTH - footer.width) / 2;
+      ctx.drawImage(footer, footerX, HEIGHT - FOOTER_HEIGHT);
+
+      const link = document.createElement("a");
+      link.download = "imagem_final.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+  </script>
+</body>
+</html>
