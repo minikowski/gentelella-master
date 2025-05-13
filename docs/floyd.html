@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avaliação de Desempenho</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .container { max-width: 1200px; margin: auto; padding: 20px; }
+    .header { display: flex; align-items: center; gap: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
+    .header img { height: 80px; }
+    .section-title { margin-top: 40px; background: #004080; color: #fff; padding: 10px; }
+    .table input[type=number] { width: 70px; }
+    .total-cell { background: #f0f0f0; font-weight: bold; }
+    .info-table th { background-color: #28a745; color: #fff; text-align: center; }
+    .avaliacao-table th, .avaliacao-table td { text-align: center; vertical-align: middle; }
+    .assinaturas { margin-top: 60px; }
+    .assinatura { display: inline-block; width: 30%; text-align: center; margin-right: 3%; }
+    .assinatura hr { margin-top: 40px; margin-bottom: 5px; border: none; border-top: 1px solid #000; }
+    .btns { margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; }
+    textarea { resize: none; }
+    table { margin-bottom: 30px; }
+  </style>
+</head>
+<body>
+  <div class="container" id="formulario">
+    <div class="header">
+      <img src="guarda.jpg" alt="Logo Guarda Mirim" />
+      <h1>Questionário de Avaliação de Desempenho</h1>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6"><label>Nome do Colaborador:</label><input type="text" class="form-control" name="nome" /></div>
+      <div class="col-md-6"><label>Cargo:</label><input type="text" class="form-control" name="cargo" /></div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6"><label>Data de Admissão:</label><input type="date" class="form-control" name="admissao" /></div>
+      <div class="col-md-6"><label>Período Avaliado:</label><input type="text" class="form-control" name="periodo" /></div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6"><label>Supervisão:</label><input type="text" class="form-control" name="supervisao" /></div>
+      <div class="col-md-6"><label>Coordenação:</label><input type="text" class="form-control" name="coordenacao" /></div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6"><label>Gerência Geral:</label><input type="text" class="form-control" value="CLÁUDIO MELO" disabled /></div>
+      <div class="col-md-6"><label>Gestão de Pessoas/DPTO Pessoal:</label><input type="text" class="form-control" value="JULIANA" disabled /></div>
+    </div>
+
+    <div class="section-title">Fatores Gerais (1 a 12)</div>
+    <div id="fatores-gerais"></div>
+
+    <div class="section-title">Fatores Específicos (13 a 20)</div>
+    <div id="fatores-especificos"></div>
+
+    <div class="mb-3">
+      <label>Comentários:</label>
+      <textarea class="form-control" name="comentarios" rows="3"></textarea>
+    </div>
+
+    <p><strong>Média Fatores Gerais:</strong> <span id="mediaGerais">0.0</span></p>
+    <p><strong>Média Fatores Específicos:</strong> <span id="mediaEspecificos">0.0</span></p>
+    <p><strong>Média Total:</strong> <span id="mediaTotal">0.0</span></p>
+
+    <div class="btns">
+      <button class="btn btn-primary" onclick="gerarPDF()">Gerar PDF</button>
+      <button class="btn btn-success" onclick="exportarXLS()">Exportar XLS</button>
+    </div>
+
+    <div class="assinaturas">
+      <div class="assinatura"><hr /><strong>Gestor Responsável</strong></div>
+      <div class="assinatura"><hr /><strong>Coordenação Pedagógica</strong></div>
+      <div class="assinatura"><hr /><strong>Gerência Geral</strong></div>
+      <div class="assinatura"><hr /><strong>Departamento Pessoal</strong></div>
+    </div>
+
+    <p class="mt-4"><strong>Data:</strong> <span id="dataAtual"></span></p>
+  </div>
+
+  <script>
+    document.getElementById('dataAtual').textContent = new Date().toLocaleDateString('pt-BR');
+
+    const fatoresGerais = [
+      "Relacionamento Interpessoal", "Disciplina", "Assiduidade", "Pontualidade",
+      "Responsabilidade", "Organização", "Comprometimento", "Produtividade",
+      "Proatividade", "Ética Profissional", "Iniciativa", "Trabalho em Equipe"
+    ];
+
+    const fatoresEspecificos = [
+      { nome: "Conhecimento Técnico", subitens: ["Conhecimento da função", "Capacidade técnica", "Aptidão para tarefas", "Autonomia"] },
+      { nome: "Cumprimento de Metas", subitens: ["Entrega de resultados", "Compromisso com prazos", "Qualidade da entrega", "Agilidade"] },
+      { nome: "Comunicação", subitens: ["Clareza na fala", "Escrita objetiva", "Capacidade de escuta", "Feedback assertivo"] },
+      { nome: "Relacionamento com o Público", subitens: ["Cordialidade", "Empatia", "Resolução de conflitos", "Postura profissional"] },
+      { nome: "Uso de Recursos", subitens: ["Zelo com materiais", "Uso consciente", "Eficiência de tempo", "Economia"] },
+      { nome: "Aptidão Física e Mental", subitens: ["Energia e disposição", "Equilíbrio emocional", "Resiliência", "Foco"] },
+      { nome: "Acompanhamento de Regras", subitens: ["Conhecimento de normas", "Respeito às regras", "Segurança no trabalho", "Cumprimento de conduta"] },
+      { nome: "Participação em Atividades", subitens: ["Envolvimento em eventos", "Iniciativa", "Trabalho voluntário", "Contribuição coletiva"] }
+    ];
+
+    function criarTabelaFatoresGerais() {
+      const container = document.getElementById('fatores-gerais');
+      fatoresGerais.forEach((nome, i) => {
+        const row = document.createElement('div');
+        row.className = 'mb-3';
+        row.innerHTML = `
+          <label><strong>${i + 1}. ${nome}</strong></label>
+          <input type="number" class="form-control" name="fator${i + 1}" min="0" max="10" onchange="calcularMedias()">
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function criarTabelaFatoresEspecificos() {
+      const container = document.getElementById('fatores-especificos');
+      fatoresEspecificos.forEach((item, idx) => {
+        const table = document.createElement('table');
+        table.className = 'table table-bordered avaliacao-table';
+        let html = `<thead><tr><th colspan="6">${idx + 13}. ${item.nome}</th></tr>`;
+        html += `<tr><th>Item</th><th>Subitem 1</th><th>Subitem 2</th><th>Subitem 3</th><th>Subitem 4</th><th>Média</th></tr></thead><tbody><tr>`;
+        html += `<td></td>`;
+        item.subitens.forEach((s, i) => {
+          html += `<td><input type="number" name="esp${idx}_${i}" min="0" max="10" onchange="calcularMedias()"></td>`;
+        });
+        html += `<td><span id="mediaEsp${idx}">0.0</span></td>`;
+        html += `</tr></tbody>`;
+        table.innerHTML = html;
+        container.appendChild(table);
+      });
+    }
+
+    function calcularMedias() {
+      let somaGerais = 0, somaEspecificos = 0;
+      fatoresGerais.forEach((_, i) => {
+        const val = parseFloat(document.querySelector(`[name='fator${i + 1}']`).value) || 0;
+        somaGerais += val;
+      });
+      const mediaGerais = (somaGerais / fatoresGerais.length).toFixed(1);
+      document.getElementById('mediaGerais').textContent = mediaGerais;
+
+      fatoresEspecificos.forEach((_, idx) => {
+        let soma = 0;
+        for (let i = 0; i < 4; i++) {
+          soma += parseFloat(document.querySelector(`[name='esp${idx}_${i}']`).value) || 0;
+        }
+        const media = (soma / 4).toFixed(1);
+        document.getElementById(`mediaEsp${idx}`).textContent = media;
+        somaEspecificos += parseFloat(media);
+      });
+      const mediaEspecificos = (somaEspecificos / fatoresEspecificos.length).toFixed(1);
+      document.getElementById('mediaEspecificos').textContent = mediaEspecificos;
+
+      const mediaTotal = ((parseFloat(mediaGerais) + parseFloat(mediaEspecificos)) / 2).toFixed(1);
+      document.getElementById('mediaTotal').textContent = mediaTotal;
+    }
+
+    function gerarPDF() {
+      const { jsPDF } = window.jspdf;
+      html2canvas(document.getElementById('formulario')).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = 210;
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        let heightLeft = pdfHeight;
+        let position = 0;
+        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+        heightLeft -= 297;
+        while (heightLeft >= 0) {
+          position = heightLeft - pdfHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+          heightLeft -= 297;
+        }
+        pdf.save('avaliacao.pdf');
+      });
+    }
+
+    function exportarXLS() {
+      const wb = XLSX.utils.book_new();
+      const ws_data = [["Nome", "Cargo", "Média Gerais", "Média Específicos", "Média Total"]];
+      const nome = document.querySelector("[name='nome']").value;
+      const cargo = document.querySelector("[name='cargo']").value;
+      const mediaGerais = document.getElementById("mediaGerais").textContent;
+      const mediaEspecificos = document.getElementById("mediaEspecificos").textContent;
+      const mediaTotal = document.getElementById("mediaTotal").textContent;
+      ws_data.push([nome, cargo, mediaGerais, mediaEspecificos, mediaTotal]);
+      const ws = XLSX.utils.aoa_to_sheet(ws_data);
+      XLSX.utils.book_append_sheet(wb, ws, "Avaliação");
+      XLSX.writeFile(wb, "avaliacao.xlsx");
+    }
+
+    criarTabelaFatoresGerais();
+    criarTabelaFatoresEspecificos();
+  </script>
+</body>
+</html>
