@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Avaliação de Desempenho - Guarda Mirim</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body { padding: 30px; font-family: Arial, sans-serif; }
+    .section-title { margin-top: 40px; font-weight: bold; font-size: 1.4rem; text-decoration: underline; }
+    th, td { text-align: center; vertical-align: middle; }
+    .total-cell { background-color: #f0f0f0; font-weight: bold; }
+    input[type="number"] { width: 80px; margin: auto; }
+  </style>
+</head>
+<body>
+
+  <div class="d-flex align-items-center mb-4">
+    <img src="guarda.jpg" alt="Logo" style="height: 60px; margin-right: 15px;">
+    <h2>Avaliação de Desempenho - Guarda Mirim</h2>
+  </div>
+
+  <form id="avaliacao-form">
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome do(a) Educador(a):</label>
+      <input type="text" class="form-control" id="nome" name="nome" required>
+    </div>
+
+    <!-- FATORES GERAIS -->
+    <div class="section-title">FATORES GERAIS</div>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Descrição</th>
+          <th>Nota (0 a 10)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Pontualidade</td><td><input type="number" class="form-control" name="fg1" min="0" max="10"></td></tr>
+        <tr><td>2</td><td>Assiduidade</td><td><input type="number" class="form-control" name="fg2" min="0" max="10"></td></tr>
+        <tr><td>3</td><td>Disciplina e Organização</td><td><input type="number" class="form-control" name="fg3" min="0" max="10"></td></tr>
+        <tr><td>4</td><td>Adaptação</td><td><input type="number" class="form-control" name="fg4" min="0" max="10"></td></tr>
+        <tr><td>5</td><td>Relacionamento Interpessoal</td><td><input type="number" class="form-control" name="fg5" min="0" max="10"></td></tr>
+        <tr><td>6</td><td>Iniciativa</td><td><input type="number" class="form-control" name="fg6" min="0" max="10"></td></tr>
+        <tr><td>7</td><td>Interesse</td><td><input type="number" class="form-control" name="fg7" min="0" max="10"></td></tr>
+        <tr><td>8</td><td>Conhecimento</td><td><input type="number" class="form-control" name="fg8" min="0" max="10"></td></tr>
+        <tr><td>9</td><td>Qualidade Técnica</td><td><input type="number" class="form-control" name="fg9" min="0" max="10"></td></tr>
+        <tr><td>10</td><td>Postura Ética</td><td><input type="number" class="form-control" name="fg10" min="0" max="10"></td></tr>
+        <tr><td>11</td><td>Saúde e Segurança</td><td><input type="number" class="form-control" name="fg11" min="0" max="10"></td></tr>
+        <tr><td>12</td><td>Consumo Consciente</td><td><input type="number" class="form-control" name="fg12" min="0" max="10"></td></tr>
+      </tbody>
+    </table>
+
+    <!-- FATORES ESPECÍFICOS -->
+    <div class="section-title">FATORES ESPECÍFICOS</div>
+
+    <!-- REUTILIZAR ESTA TABELA PARA CADA ITEM 13 A 20 -->
+    <!-- Fator 13 - Planejamento -->
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>13. Planejamento</th>
+          <th>Pontualidade</th>
+          <th>Preenchimento Adequado</th>
+          <th>Solicitação de Materiais</th>
+          <th>Execução</th>
+          <th>Média</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td><input type="number" class="form-control fs13" name="fs13_1" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs13" name="fs13_2" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs13" name="fs13_3" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs13" name="fs13_4" min="0" max="10"></td>
+          <td class="total-cell"><span id="media-fs13">0.0</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Fator 14 - Atendimento -->
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>14. Atendimento</th>
+          <th>Ao Jovem</th>
+          <th>À Família</th>
+          <th>À Equipe</th>
+          <th>À Comunidade</th>
+          <th>Média</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td><input type="number" class="form-control fs14" name="fs14_1" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs14" name="fs14_2" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs14" name="fs14_3" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs14" name="fs14_4" min="0" max="10"></td>
+          <td class="total-cell"><span id="media-fs14">0.0</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Fator 15 - Conduta -->
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>15. Conduta</th>
+          <th>Ética</th>
+          <th>Responsabilidade</th>
+          <th>Profissionalismo</th>
+          <th>Postura</th>
+          <th>Média</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td><input type="number" class="form-control fs15" name="fs15_1" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs15" name="fs15_2" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs15" name="fs15_3" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs15" name="fs15_4" min="0" max="10"></td>
+          <td class="total-cell"><span id="media-fs15">0.0</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Você deseja que eu continue com os fatores 16 a 20 agora? -->
+    <!-- Fator 16 - Atividades -->
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>16. Atividades</th>
+          <th>Planejamento Adequado</th>
+          <th>Execução de Atividades</th>
+          <th>Envolvimento dos Jovens</th>
+          <th>Avaliação de Resultados</th>
+          <th>Média</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td><input type="number" class="form-control fs16" name="fs16_1" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs16" name="fs16_2" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs16" name="fs16_3" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs16" name="fs16_4" min="0" max="10"></td>
+          <td class="total-cell"><span id="media-fs16">0.0</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Fator 17 - Responsabilidades -->
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>17. Responsabilidades</th>
+          <th>Entrega de Relatórios</th>
+          <th>Cumprimento de Metas</th>
+          <th>Participação em Reuniões</th>
+          <th>Proatividade</th>
+          <th>Média</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td><input type="number" class="form-control fs17" name="fs17_1" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs17" name="fs17_2" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs17" name="fs17_3" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs17" name="fs17_4" min="0" max="10"></td>
+          <td class="total-cell"><span id="media-fs17">0.0</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Fator 18 - Comunicação -->
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>18. Comunicação</th>
+          <th>Clareza</th>
+          <th>Objetividade</th>
+          <th>Empatia</th>
+          <th>Feedback</th>
+          <th>Média</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td><input type="number" class="form-control fs18" name="fs18_1" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs18" name="fs18_2" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs18" name="fs18_3" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs18" name="fs18_4" min="0" max="10"></td>
+          <td class="total-cell"><span id="media-fs18">0.0</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Fator 19 - Relacionamento -->
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>19. Relacionamento</th>
+          <th>Com Jovens</th>
+          <th>Com Colegas</th>
+          <th>Com Coordenação</th>
+          <th>Com Pais</th>
+          <th>Média</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td><input type="number" class="form-control fs19" name="fs19_1" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs19" name="fs19_2" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs19" name="fs19_3" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs19" name="fs19_4" min="0" max="10"></td>
+          <td class="total-cell"><span id="media-fs19">0.0</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Fator 20 - Desenvolvimento Profissional -->
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>20. Desenvolvimento Profissional</th>
+          <th>Capacitação</th>
+          <th>Aprendizagem Contínua</th>
+          <th>Aplicação do Conhecimento</th>
+          <th>Participação em Eventos</th>
+          <th>Média</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td><input type="number" class="form-control fs20" name="fs20_1" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs20" name="fs20_2" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs20" name="fs20_3" min="0" max="10"></td>
+          <td><input type="number" class="form-control fs20" name="fs20_4" min="0" max="10"></td>
+          <td class="total-cell"><span id="media-fs20">0.0</span></td>
+        </tr>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  for (let i = 1; i <= 20; i++) {
+    const className = `fs${i}`;
+    const inputs = document.querySelectorAll(`.${className}`);
+    const span = document.getElementById(`media-fs${i}`);
+
+    inputs.forEach(input => {
+      input.addEventListener("input", () => {
+        let sum = 0;
+        let count = 0;
+
+        inputs.forEach(field => {
+          const val = parseFloat(field.value);
+          if (!isNaN(val)) {
+            sum += val;
+            count++;
+          }
+        });
+
+        const average = count > 0 ? (sum / count).toFixed(1) : "0.0";
+        if (span) span.textContent = average;
+      });
+    });
+  }
+});
+</script>
+
+      </tbody>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Cálculo automático para todos os fs1 até fs20
+  for (let i = 1; i <= 20; i++) {
+    const className = `fs${i}`;
+    const inputs = document.querySelectorAll(`.${className}`);
+    const span = document.getElementById(`media-fs${i}`);
+
+    inputs.forEach(input => {
+      input.addEventListener("input", () => calcularMediaIndividual(className, span));
+    });
+  }
+
+  // Cálculo automático para fatores gerais
+  document.querySelectorAll(".fg").forEach(input => {
+    input.addEventListener("input", calcularTodasMedias);
+  });
+
+  function calcularMediaIndividual(className, span) {
+    const inputs = document.querySelectorAll(`.${className}`);
+    let soma = 0;
+    let qtd = 0;
+
+    inputs.forEach(input => {
+      const val = parseFloat(input.value);
+      if (!isNaN(val)) {
+        soma += val;
+        qtd++;
+      }
+    });
+
+    const media = qtd ? (soma / qtd).toFixed(1) : "0.0";
+    if (span) span.innerText = media;
+
+    calcularTodasMedias(); // Atualiza as médias totais também
+  }
+
+  function calcularTodasMedias() {
+    const media = arr => arr.length ? (arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(1) : "0.0";
+
+    // Fatores Gerais
+    let fg = [...document.querySelectorAll(".fg")].map(i => parseFloat(i.value) || 0);
+    document.getElementById("media-gerais").innerText = media(fg);
+
+    // Fatores Específicos (fs1 até fs20)
+    let mediasEspecificos = [];
+    for (let i = 1; i <= 20; i++) {
+      const span = document.getElementById(`media-fs${i}`);
+      if (span) mediasEspecificos.push(parseFloat(span.innerText) || 0);
+    }
+
+    const mediaEspecificos = media(mediasEspecificos);
+    document.getElementById("media-especificos").innerText = mediaEspecificos;
+
+    // Média Geral
+    const mGeral = ((parseFloat(document.getElementById("media-gerais").innerText) || 0) + parseFloat(mediaEspecificos)) / 2;
+    document.getElementById("media-geral").innerText = mGeral.toFixed(1);
+  }
+});
+
+// Geração de PDF
+function gerarPDF() {
+  window.jsPDF = window.jspdf.jsPDF;
+  const doc = new jsPDF();
+
+  const nome = document.querySelector("[name='nome']").value;
+  const cargo = document.querySelector("[name='cargo']").value;
+  const admissao = document.querySelector("[name='admissao']").value;
+  const periodo = document.querySelector("[name='periodo']").value;
+  const mediaGeral = document.getElementById("media-geral").innerText;
+
+  doc.setFontSize(14);
+  doc.text("Avaliação de Desempenho - Guarda Mirim", 10, 10);
+  doc.setFontSize(12);
+  doc.text(`Nome: ${nome}`, 10, 20);
+  doc.text(`Cargo: ${cargo}`, 10, 28);
+  doc.text(`Admissão: ${admissao}`, 10, 36);
+  doc.text(`Período Avaliado: ${periodo}`, 10, 44);
+  doc.text(`Média Geral: ${mediaGeral}`, 10, 52);
+
+  // Você pode adicionar mais campos aqui, se quiser
+
+  doc.save("avaliacao.pdf");
+}
+
+// Exportação para XLS
+function exportarXLS() {
+  const nome = document.querySelector("[name='nome']").value;
+  const cargo = document.querySelector("[name='cargo']").value;
+  const admissao = document.querySelector("[name='admissao']").value;
+  const periodo = document.querySelector("[name='periodo']").value;
+
+  const dados = [
+    "Nome", "Cargo", "Admissão", "Período", 
+    ...[...document.querySelectorAll(".fg")].map((_, i) => `FG${i + 1}`),
+    ...Array.from({ length: 20 }, (_, i) => `FS${i + 1}`),
+    "Média Fatores Gerais", "Média Fatores Específicos", "Média Geral"
+  ];
+  const valores = [
+    nome, cargo, admissao, periodo,
+    ...[...document.querySelectorAll(".fg")].map(i => i.value),
+    ...Array.from({ length: 20 }, (_, i) => document.getElementById(`media-fs${i + 1}`)?.innerText || "0.0"),
+    document.getElementById("media-gerais").innerText,
+    document.getElementById("media-especificos").innerText,
+    document.getElementById("media-geral").innerText
+  ];
+
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet([dados, valores]);
+  XLSX.utils.book_append_sheet(wb, ws, "Avaliacao");
+  XLSX.writeFile(wb, "avaliacao.xlsx");
+}
+</script>
+
+    </table>
+
