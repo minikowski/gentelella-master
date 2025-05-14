@@ -159,44 +159,112 @@
       document.getElementById('mediaTotal').textContent = mediaTotal;
     }
 
-    function gerarPDF() {
-      const { jsPDF } = window.jspdf;
-      html2canvas(document.getElementById('formulario')).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = 210;
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        let heightLeft = pdfHeight;
-        let position = 0;
-        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
-        heightLeft -= 297;
-        while (heightLeft >= 0) {
-          position = heightLeft - pdfHeight;
-          pdf.addPage();
-          pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
-          heightLeft -= 297;
-        }
-        pdf.save('avaliacao.pdf');
-      });
-    }
+<script>
+function gerarPDF() {
+  const { jsPDF } = window.jspdf;
+  const pdfContainer = document.createElement('div');
+  pdfContainer.style.padding = '20px';
+  pdfContainer.style.fontFamily = 'Arial, sans-serif';
+  pdfContainer.innerHTML = `
+    <h1 style="text-align:center">Questionário de Avaliação de Desempenho</h1>
+    <p><strong>Nome:</strong> ${document.querySelector('[name="nome"]').value}</p>
+    <p><strong>Cargo:</strong> ${document.querySelector('[name="cargo"]').value}</p>
+    <p><strong>Data de Admissão:</strong> ${document.querySelector('[name="admissao"]').value}</p>
+    <p><strong>Período Avaliado:</strong> ${document.querySelector('[name="periodo"]').value}</p>
+    <p><strong>Supervisão:</strong> ${document.querySelector('[name="supervisao"]').value}</p>
+    <p><strong>Coordenação:</strong> ${document.querySelector('[name="coordenacao"]').value}</p>
+    <p><strong>Gerência Geral:</strong> CLÁUDIO MELO</p>
+    <p><strong>Gestão de Pessoas/DPTO Pessoal:</strong> JULIANA</p>
 
-    function exportarXLS() {
-      const wb = XLSX.utils.book_new();
-      const ws_data = [["Nome", "Cargo", "Média Gerais", "Média Específicos", "Média Total"]];
-      const nome = document.querySelector("[name='nome']").value;
-      const cargo = document.querySelector("[name='cargo']").value;
-      const mediaGerais = document.getElementById("mediaGerais").textContent;
-      const mediaEspecificos = document.getElementById("mediaEspecificos").textContent;
-      const mediaTotal = document.getElementById("mediaTotal").textContent;
-      ws_data.push([nome, cargo, mediaGerais, mediaEspecificos, mediaTotal]);
-      const ws = XLSX.utils.aoa_to_sheet(ws_data);
-      XLSX.utils.book_append_sheet(wb, ws, "Avaliação");
-      XLSX.writeFile(wb, "avaliacao.xlsx");
-    }
+    <h2>Fatores Gerais</h2>
+    <ul>
+      ${fatoresGerais.map((f, i) => `<li><strong>${i + 1}. ${f}:</strong> ${document.querySelector(`[name='fator${i + 1}']`).value || 0}</li>`).join('')}
+    </ul>
 
-    criarTabelaFatoresGerais();
-    criarTabelaFatoresEspecificos();
-  </script>
+    <h2>Fatores Específicos</h2>
+    ${fatoresEspecificos.map((f, i) => `
+      <h3>${i + 13}. ${f.nome}</h3>
+      <ul>
+        ${f.subitens.map((sub, j) => `<li><strong>${sub}:</strong> ${document.querySelector(`[name='esp${i}_${j}']`).value || 0}</li>`).join('')}
+        <li><strong>Média:</strong> ${document.getElementById(`mediaEsp${i}`).textContent}</li>
+      </ul>
+    `).join('')}
+
+    <p><strong>Média Fatores Gerais:</strong> ${document.getElementById('mediaGerais').textContent}</p>
+    <p><strong>Média Fatores Específicos:</strong> ${document.getElementById('mediaEspecificos').textContent}</p>
+    <p><strong>Média Total:</strong> ${document.getElementById('mediaTotal').textContent}</p>
+
+    <h3>Comentários:</h3>
+    <p>${document.querySelector('[name="comentarios"]').value}</p>
+
+    <h3>Assinaturas</h3>
+    <p>_____________________________________<br>Gestor Responsável</p>
+    <p>_____________________________________<br>Coordenação Pedagógica</p>
+    <p>_____________________________________<br>Gerência Geral</p>
+    <p>_____________________________________<br>Departamento Pessoal</p>
+
+    <p><strong>Data:</strong> ${new Date().toLocaleDateString('pt-BR')}</p>
+  `;
+
+  document.body.appendChild(pdfContainer);
+  pdfContainer.style.position = 'absolute';
+  pdfContainer.style.left = '-9999px';
+
+  html2canvas(pdfContainer).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = 210;
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    let heightLeft = pdfHeight;
+    let position = 0;
+    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+    heightLeft -= 297;
+    while (heightLeft >= 0) {
+      position = heightLeft - pdfHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+      heightLeft -= 297;
+    }
+    pdf.save('avaliacao.pdf');
+    document.body.removeChild(pdfContainer);
+  });
+}
+
+function exportarXLS() {
+  const wb = XLSX.utils.book_new();
+  const headers = ["Nome", "Cargo"];
+  const data = [
+    document.querySelector("[name='nome']").value,
+    document.querySelector("[name='cargo']").value
+  ];
+
+  fatoresGerais.forEach((f, i) => {
+    headers.push(`${i + 1}. ${f}`);
+    data.push(document.querySelector(`[name='fator${i + 1}']`).value || 0);
+  });
+
+  fatoresEspecificos.forEach((f, i) => {
+    f.subitens.forEach((sub, j) => {
+      headers.push(`${i + 13}.${j + 1} ${sub}`);
+      data.push(document.querySelector(`[name='esp${i}_${j}']`).value || 0);
+    });
+    headers.push(`Média ${i + 13}`);
+    data.push(document.getElementById(`mediaEsp${i}`).textContent);
+  });
+
+  headers.push("Média Fatores Gerais", "Média Fatores Específicos", "Média Total", "Comentários");
+  data.push(
+    document.getElementById("mediaGerais").textContent,
+    document.getElementById("mediaEspecificos").textContent,
+    document.getElementById("mediaTotal").textContent,
+    document.querySelector("[name='comentarios']").value
+  );
+
+  const ws = XLSX.utils.aoa_to_sheet([headers, data]);
+  XLSX.utils.book_append_sheet(wb, ws, "Avaliação");
+  XLSX.writeFile(wb, "avaliacao.xlsx");
+}
+</script>
 </body>
 </html>
