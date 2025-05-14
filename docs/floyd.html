@@ -187,7 +187,7 @@
     doc.text("Questionário de Avaliação de Desempenho", 45, y + 10);
     y += 25;
 
-    // CABEÇALHO TABULAR
+    // Cabeçalho tabular
     doc.setFontSize(11);
     doc.setFont(undefined, 'bold');
     doc.text('COLABORADORES:', 10, y);
@@ -216,7 +216,7 @@
     doc.text('Fatores Gerais (1 a 12)', 10, y);
     y += 6;
 
-    // FATORES GERAIS EM DUAS COLUNAS
+    // Fatores Gerais em 2 colunas
     doc.setFont(undefined, 'normal');
     let colY1 = y;
     let colY2 = y;
@@ -231,15 +231,15 @@
       else colY2 += 6;
     }
 
-    y = Math.max(colY1, colY2) + 8;
+    y = Math.max(colY1, colY2) + 10;
 
+    // Fatores Específicos em 2 colunas
     doc.setFont(undefined, 'bold');
     doc.setFontSize(12);
     doc.text('Fatores Específicos (13 a 20)', 10, y);
     y += 6;
     doc.setFont(undefined, 'normal');
 
-    // FATORES ESPECÍFICOS EM DUAS COLUNAS
     let colYEsq = y;
     let colYDir = y;
     for (let idx = 0; idx < fatoresEspecificos.length; idx++) {
@@ -248,10 +248,11 @@
       let yAtual = idx < 4 ? colYEsq : colYDir;
 
       doc.setFont(undefined, 'bold');
-      doc.text(`${idx + 13}. ${fator.nome}`, x, yAtual);
-      yAtual += 5;
-      doc.setFont(undefined, 'normal');
+      const titulo = doc.splitTextToSize(`${idx + 13}. ${fator.nome}`, 80);
+      doc.text(titulo, x, yAtual);
+      yAtual += titulo.length * 5;
 
+      doc.setFont(undefined, 'normal');
       fator.subitens.forEach((sub, i) => {
         const val = document.querySelector(`[name='esp${idx}_${i}']`).value || '0';
         const linha = `${sub}: ${val}`;
@@ -269,18 +270,24 @@
       else colYDir = yAtual;
     }
 
-    y = Math.max(colYEsq, colYDir) + 6;
+    y = Math.max(colYEsq, colYDir) + 10;
 
-    // MÉDIAS GERAIS
+    // Quebra forçada para garantir que as médias e comentários aparecem
+    if (y + 40 > 270) {
+      doc.addPage();
+      y = 20;
+    }
+
+    // Médias
     doc.setFont(undefined, 'bold');
     doc.text(`Média Fatores Gerais: ${mediaGerais}`, 10, y);
     y += 6;
     doc.text(`Média Fatores Específicos: ${mediaEspecificos}`, 10, y);
     y += 6;
     doc.text(`Média Total: ${mediaTotal}`, 10, y);
-    y += 8;
+    y += 10;
 
-    // COMENTÁRIOS
+    // Comentários do formulário
     if (comentarios.trim()) {
       doc.setFont(undefined, 'bold');
       doc.text('Comentários:', 10, y);
@@ -291,7 +298,7 @@
       y += comentarioLinhas.length * 5;
     }
 
-    // ASSINATURAS SIMÉTRICAS
+    // Assinaturas
     if (y + 50 > 280) { doc.addPage(); y = 20; }
     y += 10;
     const col1 = 10;
