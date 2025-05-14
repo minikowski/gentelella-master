@@ -167,80 +167,105 @@
     const doc = new jsPDF('p', 'mm', 'a4');
     let y = 20;
 
-    const nome = document.querySelector("[name='nome']").value;
-    const cargo = document.querySelector("[name='cargo']").value;
-    const admissao = document.querySelector("[name='admissao']").value;
-    const periodo = document.querySelector("[name='periodo']").value;
-    const supervisao = document.querySelector("[name='supervisao']").value;
-    const coordenacao = document.querySelector("[name='coordenacao']").value;
+    // Dados do formulário
+    const nome = document.querySelector("[name='nome']").value || '';
+    const cargo = document.querySelector("[name='cargo']").value || '';
+    const admissao = document.querySelector("[name='admissao']").value || '';
+    const periodo = document.querySelector("[name='periodo']").value || '';
+    const supervisao = document.querySelector("[name='supervisao']").value || '';
+    const coordenacao = document.querySelector("[name='coordenacao']").value || '';
     const mediaGerais = document.getElementById("mediaGerais").textContent;
     const mediaEspecificos = document.getElementById("mediaEspecificos").textContent;
     const mediaTotal = document.getElementById("mediaTotal").textContent;
-    const comentarios = document.querySelector("[name='comentarios']").value;
+    const comentarios = document.querySelector("[name='comentarios']").value || '';
     const dataAtual = document.getElementById("dataAtual").textContent;
 
+    // Logo
     const img = new Image();
     img.src = 'guarda.jpg';
     await new Promise(resolve => img.onload = resolve);
-    doc.addImage(img, 'JPEG', 10, y, 30, 15);
+    doc.addImage(img, 'JPEG', 10, y, 30, 0); // Altura automática
     doc.setFontSize(16);
     doc.text("Questionário de Avaliação de Desempenho", 45, y + 10);
     y += 25;
 
+    // Informações principais
     doc.setFontSize(11);
     const infos = [
-      `Nome: ${nome}`, `Cargo: ${cargo}`,
+      `Nome do Colaborador: ${nome}`, `Cargo: ${cargo}`,
       `Admissão: ${admissao}`, `Período Avaliado: ${periodo}`,
       `Supervisão: ${supervisao}`, `Coordenação: ${coordenacao}`,
       `Gerência Geral: CLÁUDIO MELO`, `Gestão de Pessoas: JULIANA`
     ];
 
-    infos.forEach((linha, i) => {
+    infos.forEach(info => {
       if (y > 270) { doc.addPage(); y = 20; }
-      doc.text(linha, 10, y);
+      doc.text(info, 10, y);
       y += 6;
     });
 
+    // Fatores Gerais
     doc.setFontSize(12);
+    doc.setFont(undefined, 'bold');
     doc.text('Fatores Gerais (1 a 12)', 10, y);
     y += 6;
+    doc.setFont(undefined, 'normal');
     fatoresGerais.forEach((nome, i) => {
       const val = document.querySelector(`[name='fator${i + 1}']`).value || '0';
       const linha = `${i + 1}. ${nome}: ${val}`;
-      if (y > 280) { doc.addPage(); y = 20; }
-      doc.text(linha, 10, y);
+      if (y > 270) { doc.addPage(); y = 20; }
+      doc.text(linha, 14, y);
       y += 6;
     });
 
+    // Fatores Específicos
+    doc.setFontSize(12);
+    doc.setFont(undefined, 'bold');
     doc.text('Fatores Específicos (13 a 20)', 10, y);
-    y += 6;
+    y += 8;
+
     fatoresEspecificos.forEach((item, idx) => {
-      const subitens = item.subitens.map((sub, i) => {
+      if (y > 260) { doc.addPage(); y = 20; }
+      doc.setFont(undefined, 'bold');
+      doc.text(`${idx + 13}. ${item.nome}`, 10, y);
+      y += 6;
+
+      doc.setFont(undefined, 'normal');
+      item.subitens.forEach((sub, i) => {
         const val = document.querySelector(`[name='esp${idx}_${i}']`).value || '0';
-        return `${sub}: ${val}`;
-      }).join(' | ');
+        const texto = `${sub}: ${val}`;
+        const linhas = doc.splitTextToSize(texto, 180);
+        if (y + linhas.length * 6 > 280) { doc.addPage(); y = 20; }
+        doc.text(linhas, 14, y);
+        y += linhas.length * 6;
+      });
+
       const media = document.getElementById(`mediaEsp${idx}`).textContent;
-      const linha = `${idx + 13}. ${item.nome} → ${subitens} | Média: ${media}`;
-      const linhas = doc.splitTextToSize(linha, 180);
-      if (y + linhas.length * 6 > 280) { doc.addPage(); y = 20; }
-      doc.text(linhas, 10, y);
-      y += linhas.length * 6;
+      doc.setFont(undefined, 'italic');
+      doc.text(`Média: ${media}`, 14, y);
+      y += 8;
+      doc.setFont(undefined, 'normal');
     });
 
+    // Médias finais
     const resumo = [
       `Média Fatores Gerais: ${mediaGerais}`,
       `Média Fatores Específicos: ${mediaEspecificos}`,
       `Média Total: ${mediaTotal}`
     ];
     resumo.forEach(linha => {
-      if (y > 280) { doc.addPage(); y = 20; }
+      if (y > 270) { doc.addPage(); y = 20; }
+      doc.setFont(undefined, 'bold');
       doc.text(linha, 10, y);
       y += 6;
     });
 
+    // Comentários
     if (comentarios.trim()) {
+      doc.setFont(undefined, 'bold');
       doc.text('Comentários:', 10, y);
       y += 6;
+      doc.setFont(undefined, 'normal');
       const comentarioLinhas = doc.splitTextToSize(comentarios, 180);
       if (y + comentarioLinhas.length * 6 > 280) { doc.addPage(); y = 20; }
       doc.text(comentarioLinhas, 10, y);
@@ -248,20 +273,20 @@
     }
 
     // Assinaturas
-    if (y + 50 > 280) { doc.addPage(); y = 20; }
+    if (y + 40 > 280) { doc.addPage(); y = 20; }
     y += 10;
-    const assY = y;
-    doc.line(10, assY, 70, assY);
-    doc.line(75, assY, 135, assY);
-    doc.line(140, assY, 200, assY);
-    doc.text('Gestor Responsável', 20, assY + 5);
-    doc.text('Coordenação Pedagógica', 80, assY + 5);
-    doc.text('Gerência Geral', 150, assY + 5);
+    doc.line(10, y, 80, y);
+    doc.line(90, y, 160, y);
+    doc.line(170, y, 200, y);
+    doc.text('Gestor Responsável', 20, y + 6);
+    doc.text('Coordenação Pedagógica', 100, y + 6);
+    doc.text('Gerência Geral', 175, y + 6);
     y += 20;
-    doc.line(10, y, 70, y);
-    doc.text('Departamento Pessoal', 20, y + 5);
-    y += 10;
-    doc.text(`Data: ${dataAtual}`, 10, y + 10);
+    doc.line(10, y, 80, y);
+    doc.text('Departamento Pessoal', 20, y + 6);
+    y += 14;
+    doc.setFont(undefined, 'normal');
+    doc.text(`Data: ${dataAtual}`, 10, y + 4);
 
     doc.save(`avaliacao_${nome.replace(/\\s/g, '_')}.pdf`);
   }
