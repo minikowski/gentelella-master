@@ -167,7 +167,6 @@
     const doc = new jsPDF('p', 'mm', 'a4');
     let y = 20;
 
-    // Dados do formulário
     const nome = document.querySelector("[name='nome']").value || '';
     const cargo = document.querySelector("[name='cargo']").value || '';
     const admissao = document.querySelector("[name='admissao']").value || '';
@@ -180,31 +179,41 @@
     const comentarios = document.querySelector("[name='comentarios']").value || '';
     const dataAtual = document.getElementById("dataAtual").textContent;
 
-    // Logo
     const img = new Image();
     img.src = 'guarda.jpg';
     await new Promise(resolve => img.onload = resolve);
-    doc.addImage(img, 'JPEG', 10, y, 30, 0); // Altura automática
+    doc.addImage(img, 'JPEG', 10, y, 30, 0);
     doc.setFontSize(16);
     doc.text("Questionário de Avaliação de Desempenho", 45, y + 10);
     y += 25;
 
-    // Informações principais
+    // CABEÇALHO EM DUAS COLUNAS
     doc.setFontSize(11);
-    const infos = [
-      `Nome do Colaborador: ${nome}`, `Cargo: ${cargo}`,
-      `Admissão: ${admissao}`, `Período Avaliado: ${periodo}`,
-      `Supervisão: ${supervisao}`, `Coordenação: ${coordenacao}`,
-      `Gerência Geral: CLÁUDIO MELO`, `Gestão de Pessoas: JULIANA`
+    doc.setFont(undefined, 'bold');
+    doc.text('COLABORADORES:', 10, y);
+    doc.text('GESTORES:', 110, y);
+    y += 6;
+    doc.setFont(undefined, 'normal');
+
+    const linhaEsq = [
+      `Nome: ${nome}`,
+      `Cargo: ${cargo}`,
+      `Data Admissão: ${admissao}`,
+      `Período Avaliado: ${periodo}`
     ];
-
-    infos.forEach(info => {
-      if (y > 270) { doc.addPage(); y = 20; }
-      doc.text(info, 10, y);
+    const linhaDir = [
+      `Supervisão: ${supervisao}`,
+      `Coordenação: ${coordenacao}`,
+      `Gerência Geral: CLÁUDIO MELO`,
+      `Gestão de Pessoas: JULIANA`
+    ];
+    for (let i = 0; i < linhaEsq.length; i++) {
+      doc.text(linhaEsq[i], 10, y);
+      doc.text(linhaDir[i], 110, y);
       y += 6;
-    });
+    }
 
-    // Fatores Gerais
+    // FATORES GERAIS
     doc.setFontSize(12);
     doc.setFont(undefined, 'bold');
     doc.text('Fatores Gerais (1 a 12)', 10, y);
@@ -218,7 +227,7 @@
       y += 6;
     });
 
-    // Fatores Específicos
+    // FATORES ESPECÍFICOS
     doc.setFontSize(12);
     doc.setFont(undefined, 'bold');
     doc.text('Fatores Específicos (13 a 20)', 10, y);
@@ -247,7 +256,7 @@
       doc.setFont(undefined, 'normal');
     });
 
-    // Médias finais
+    // MÉDIAS FINAIS
     const resumo = [
       `Média Fatores Gerais: ${mediaGerais}`,
       `Média Fatores Específicos: ${mediaEspecificos}`,
@@ -260,7 +269,7 @@
       y += 6;
     });
 
-    // Comentários
+    // COMENTÁRIOS
     if (comentarios.trim()) {
       doc.setFont(undefined, 'bold');
       doc.text('Comentários:', 10, y);
@@ -272,23 +281,35 @@
       y += comentarioLinhas.length * 6;
     }
 
-    // Assinaturas
-    if (y + 40 > 280) { doc.addPage(); y = 20; }
+    // ASSINATURAS – SIMÉTRICAS
+    if (y + 50 > 280) { doc.addPage(); y = 20; }
     y += 10;
-    doc.line(10, y, 80, y);
-    doc.line(90, y, 160, y);
-    doc.line(170, y, 200, y);
-    doc.text('Gestor Responsável', 20, y + 6);
-    doc.text('Coordenação Pedagógica', 100, y + 6);
-    doc.text('Gerência Geral', 175, y + 6);
-    y += 20;
-    doc.line(10, y, 80, y);
-    doc.text('Departamento Pessoal', 20, y + 6);
-    y += 14;
     doc.setFont(undefined, 'normal');
-    doc.text(`Data: ${dataAtual}`, 10, y + 4);
+    const col1 = 10;
+    const col2 = 110;
+
+    doc.line(col1, y, col1 + 80, y);
+    doc.line(col2, y, col2 + 80, y);
+    doc.text('ASSINATURA SUPERVISÃO:', col1, y + 5);
+    doc.text('ASSINATURA COLABORADOR:', col2, y + 5);
+    y += 20;
+
+    doc.line(col1, y, col1 + 80, y);
+    doc.text('ASSINATURA COORDENAÇÃO:', col1, y + 5);
+    y += 20;
+
+    doc.line(col1, y, col1 + 80, y);
+    doc.text('ASSINATURA GERÊNCIA GERAL:', col1, y + 5);
+    y += 20;
+
+    doc.line(col1, y, col1 + 80, y);
+    doc.text('ASSINATURA RH/DP:', col1, y + 5);
+    y += 14;
+
+    doc.text(`Data: ${dataAtual}`, col1, y + 4);
 
     doc.save(`avaliacao_${nome.replace(/\\s/g, '_')}.pdf`);
   }
 </script>
+
 </html>
