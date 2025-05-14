@@ -287,11 +287,13 @@
     y = Math.max(colYEsq, colYDir) + 10;
 
     // Quebra forçada se necessário
-    if (y + 40 > 270) {
-      doc.addPage();
-      aplicarFundo(doc);
-      y = 20;
-    }
+if (y + 40 > 270) {
+  doc.addPage();
+  aplicarFundo(doc);
+  y = 20;
+  y += 18; // 3 linhas em branco (3 x 6)
+}
+
 
     doc.setFont(undefined, 'bold');
     doc.text(`Média Fatores Gerais: ${mediaGerais}`, 10, y);
