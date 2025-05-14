@@ -91,53 +91,18 @@
       { nome: "Mediação de Conflitos", subitens: ["Prevenção", "Mediação", "Resolução"] }
     ];
 
-function criarTabelaFatoresGerais() {
-  const container = document.getElementById('fatores-gerais');
-
-  const nomes = [
-    "Pontualidade",
-    "Assiduidade",
-    "Disciplina e Organização",
-    "Adaptação",
-    "Relacionamento interpessoal",
-    "Iniciativa",
-    "Interesse",
-    "Conhecimento",
-    "Qualidade técnica",
-    "Postura ética",
-    "Saúde e segurança",
-    "Consumo consciente"
-  ];
-
-  const descricoes = [
-    "o colaborador cumpre o horário de entrada e saída da entidade",
-    "o colaborador cumpre a carga horária definida justificando, quando necessária, a ausência/falta",
-    "o colaborador cumpre o regimento interno, pacto de convivência e orientações voltadas para a efetividade do trabalho",
-    "o colaborador identifica-se com as atividades de seu cargo e com as características da entidade, reagindo positivamente às mudanças necessárias",
-    "o colaborador comunica-se de forma positiva e tem bom relacionamento/fácil convivência com superiores, colegas, educandos e seus familiares.",
-    "o colaborador demonstra atitude proativa e apresenta alternativas e sugestões para providências voltadas para a resolução de questões cotidianas e melhorias das atividades que desenvolve.",
-    "o colaborador demonstra dedicação e esforço pessoal em aperfeiçoar-se cada vez mais para assumir novas responsabilidades.",
-    "o colaborador tem conhecimento teórico e prático para a execução das atividades.",
-    "o colaborador tem domínio dos processos, ferramentas e habilidades necessárias ao desempenho das atividades.",
-    "o colaborador tem atitudes de idoneidade, cidadania e integridade com relação à entidade, colegas e educandos, respeitando o sigilo.",
-    "tem conhecimento sobre as orientações acerca da segurança no trabalho e age de maneira preventiva a evitar danos à saúde, fazendo uso adequado de equipamentos de proteção, quando necessário.",
-    "compreende sobre a relevância de projetos de desenvolvimento sustentável e de consumo consciente, evitando consumo excessivo de recursos materiais e alimentícios."
-  ];
-
-  nomes.forEach((nome, i) => {
-    const row = document.createElement('div');
-    row.className = 'mb-3';
-    row.innerHTML = `
-      <label><strong>${i + 1}. ${nome}</strong></label>
-      <div class="text-muted" style="font-size: 0.85em; margin-bottom: 4px;">
-        ${descricoes[i]}
-      </div>
-      <input type="number" class="form-control" name="fator${i + 1}" min="0" max="10" onchange="calcularMedias()">
-    `;
-    container.appendChild(row);
-  });
-}
-
+    function criarTabelaFatoresGerais() {
+      const container = document.getElementById('fatores-gerais');
+      fatoresGerais.forEach((nome, i) => {
+        const row = document.createElement('div');
+        row.className = 'mb-3';
+        row.innerHTML = `
+          <label><strong>${i + 1}. ${nome}</strong></label>
+          <input type="number" class="form-control" name="fator${i + 1}" min="0" max="10" onchange="calcularMedias()">
+        `;
+        container.appendChild(row);
+      });
+    }
 
     function criarTabelaFatoresEspecificos() {
       const container = document.getElementById('fatores-especificos');
