@@ -164,24 +164,7 @@
 <script>
   async function gerarPDF() {
     const { jsPDF } = window.jspdf;
-
-    // Carrega fundo e logo
-    const fundoImg = new Image();
-    fundoImg.src = 'fundo.jpg';
-    await new Promise(resolve => fundoImg.onload = resolve);
-
-    const logoImg = new Image();
-    logoImg.src = 'guarda.jpg';
-    await new Promise(resolve => logoImg.onload = resolve);
-
-    // Função para aplicar fundo em cada página
-    function aplicarFundo(doc) {
-      doc.addImage(fundoImg, 'JPEG', 0, 0, 210, 297);
-    }
-
     const doc = new jsPDF('p', 'mm', 'a4');
-    aplicarFundo(doc); // fundo na primeira página
-
     let y = 20;
 
     const nome = document.querySelector("[name='nome']").value || '';
@@ -196,7 +179,10 @@
     const comentarios = document.querySelector("[name='comentarios']").value || '';
     const dataAtual = document.getElementById("dataAtual").textContent;
 
-    doc.addImage(logoImg, 'JPEG', 10, y, 30, 0);
+    const img = new Image();
+    img.src = 'guarda.jpg';
+    await new Promise(resolve => img.onload = resolve);
+    doc.addImage(img, 'JPEG', 10, y, 30, 0);
     doc.setFontSize(16);
     doc.text("Questionário de Avaliação de Desempenho", 45, y + 10);
     y += 25;
@@ -286,13 +272,13 @@
 
     y = Math.max(colYEsq, colYDir) + 10;
 
-    // Quebra forçada se necessário
+    // Quebra forçada para garantir que as médias e comentários aparecem
     if (y + 40 > 270) {
       doc.addPage();
-      aplicarFundo(doc);
       y = 20;
     }
 
+    // Médias
     doc.setFont(undefined, 'bold');
     doc.text(`Média Fatores Gerais: ${mediaGerais}`, 10, y);
     y += 6;
@@ -301,7 +287,7 @@
     doc.text(`Média Total: ${mediaTotal}`, 10, y);
     y += 10;
 
-    // Comentários
+    // Comentários do formulário
     if (comentarios.trim()) {
       doc.setFont(undefined, 'bold');
       doc.text('Comentários:', 10, y);
@@ -313,12 +299,7 @@
     }
 
     // Assinaturas
-    if (y + 50 > 280) {
-      doc.addPage();
-      aplicarFundo(doc);
-      y = 20;
-    }
-
+    if (y + 50 > 280) { doc.addPage(); y = 20; }
     y += 10;
     const col1 = 10;
     const col2 = 110;
