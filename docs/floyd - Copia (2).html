@@ -349,43 +349,5 @@ if (y + 40 > 270) {
   }
 </script>
 
-<script>
-  function exportarXLS() {
-    const nome = document.querySelector("[name='nome']").value || '';
-    const cargo = document.querySelector("[name='cargo']").value || '';
-    const admissao = document.querySelector("[name='admissao']").value || '';
-    const periodo = document.querySelector("[name='periodo']").value || '';
-
-    const linha = [nome, cargo, admissao, periodo];
-
-    // Fatores Gerais (1 a 12)
-    fatoresGerais.forEach((_, i) => {
-      const val = document.querySelector(`[name='fator${i + 1}']`).value || '0';
-      linha.push(val);
-    });
-
-    // Fatores Específicos (13 a 20): subitens + média
-    fatoresEspecificos.forEach((item, idx) => {
-      item.subitens.forEach((_, i) => {
-        const val = document.querySelector(`[name='esp${idx}_${i}']`).value || '0';
-        linha.push(val);
-      });
-      const media = document.getElementById(`mediaEsp${idx}`).textContent;
-      linha.push(media);
-    });
-
-    // Médias finais
-    linha.push(document.getElementById('mediaGerais').textContent);
-    linha.push(document.getElementById('mediaEspecificos').textContent);
-    linha.push(document.getElementById('mediaTotal').textContent);
-
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.aoa_to_sheet([linha]);
-    XLSX.utils.book_append_sheet(wb, ws, "Avaliacao");
-    XLSX.writeFile(wb, `avaliacao_${nome.replace(/\s/g, '_')}.xlsx`);
-  }
-</script>
-
-
 
 </html>
