@@ -161,4 +161,121 @@
     criarTabelaFatoresEspecificos();
   </script>
 </body>
+<script>
+  async function gerarPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'mm', 'a4');
+
+    const nome = document.querySelector("[name='nome']").value;
+    const cargo = document.querySelector("[name='cargo']").value;
+    const admissao = document.querySelector("[name='admissao']").value;
+    const periodo = document.querySelector("[name='periodo']").value;
+    const supervisao = document.querySelector("[name='supervisao']").value;
+    const coordenacao = document.querySelector("[name='coordenacao']").value;
+    const mediaGerais = document.getElementById("mediaGerais").textContent;
+    const mediaEspecificos = document.getElementById("mediaEspecificos").textContent;
+    const mediaTotal = document.getElementById("mediaTotal").textContent;
+    const comentarios = document.querySelector("[name='comentarios']").value;
+    const dataAtual = document.getElementById("dataAtual").textContent;
+
+    const img = new Image();
+    img.src = 'guarda.jpg';
+    await new Promise(resolve => img.onload = resolve);
+    doc.addImage(img, 'JPEG', 10, 10, 30, 30);
+    doc.setFontSize(16);
+    doc.text("Questionário de Avaliação de Desempenho", 45, 20);
+
+    doc.setFontSize(11);
+    doc.text(`Nome do Colaborador: ${nome}`, 10, 50);
+    doc.text(`Cargo: ${cargo}`, 110, 50);
+    doc.text(`Admissão: ${admissao}`, 10, 60);
+    doc.text(`Período Avaliado: ${periodo}`, 110, 60);
+    doc.text(`Supervisão: ${supervisao}`, 10, 70);
+    doc.text(`Coordenação: ${coordenacao}`, 110, 70);
+    doc.text(`Gerência Geral: CLÁUDIO MELO`, 10, 80);
+    doc.text(`Gestão de Pessoas: JULIANA`, 110, 80);
+
+    let y = 90;
+    doc.setFontSize(12);
+    doc.text('Notas - Fatores Gerais (1 a 12)', 10, y);
+    y += 6;
+    fatoresGerais.forEach((nome, i) => {
+      const val = document.querySelector(`[name='fator${i + 1}']`).value || '0';
+      doc.text(`${i + 1}. ${nome}: ${val}`, 10, y);
+      y += 6;
+    });
+
+    doc.text('Notas - Fatores Específicos (13 a 20)', 10, y);
+    y += 6;
+    fatoresEspecificos.forEach((item, idx) => {
+      const subnotas = item.subitens.map((_, i) => document.querySelector(`[name='esp${idx}_${i}']`).value || '0');
+      const media = document.getElementById(`mediaEsp${idx}`).textContent;
+      doc.text(`${idx + 13}. ${item.nome}: ${subnotas.join(', ')} | Média: ${media}`, 10, y);
+      y += 6;
+    });
+
+    y += 4;
+    doc.text(`Média Fatores Gerais: ${mediaGerais}`, 10, y);
+    y += 6;
+    doc.text(`Média Fatores Específicos: ${mediaEspecificos}`, 10, y);
+    y += 6;
+    doc.text(`Média Total: ${mediaTotal}`, 10, y);
+    y += 10;
+
+    doc.text('Comentários:', 10, y);
+    y += 6;
+    doc.setFontSize(10);
+    const comentarioLinhas = doc.splitTextToSize(comentarios, 180);
+    doc.text(comentarioLinhas, 10, y);
+    y += comentarioLinhas.length * 5;
+
+    y += 20;
+    doc.setFontSize(11);
+    doc.text('Assinaturas:', 10, y);
+    y += 10;
+    const x1 = 10, x2 = 70, x3 = 130;
+    doc.line(x1, y, x1 + 50, y);
+    doc.line(x2, y, x2 + 50, y);
+    doc.line(x3, y, x3 + 50, y);
+    doc.text('Gestor Responsável', x1, y + 6);
+    doc.text('Coordenação Pedagógica', x2, y + 6);
+    doc.text('Gerência Geral', x3, y + 6);
+    y += 20;
+    doc.line(x1, y, x1 + 50, y);
+    doc.text('Departamento Pessoal', x1, y + 6);
+
+    y += 16;
+    doc.text(`Data: ${dataAtual}`, 10, y);
+
+    doc.save(`avaliacao_${nome.replace(/\\s/g, '_')}.pdf`);
+  }
+
+  function exportarXLS() {
+    const nome = document.querySelector("[name='nome']").value;
+    const cargo = document.querySelector("[name='cargo']").value;
+    const linha = [nome, cargo];
+
+    fatoresGerais.forEach((_, i) => {
+      const val = document.querySelector(`[name='fator${i + 1}']`).value || '0';
+      linha.push(val);
+    });
+    fatoresEspecificos.forEach((item, idx) => {
+      item.subitens.forEach((_, i) => {
+        const val = document.querySelector(`[name='esp${idx}_${i}']`).value || '0';
+        linha.push(val);
+      });
+      const media = document.getElementById(`mediaEsp${idx}`).textContent;
+      linha.push(media);
+    });
+    linha.push(document.getElementById('mediaGerais').textContent);
+    linha.push(document.getElementById('mediaEspecificos').textContent);
+    linha.push(document.getElementById('mediaTotal').textContent);
+
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet([linha]);
+    XLSX.utils.book_append_sheet(wb, ws, "Avaliacao");
+    XLSX.writeFile(wb, `avaliacao_${nome.replace(/\\s/g, '_')}.xlsx`);
+  }
+</script>
+
 </html>
