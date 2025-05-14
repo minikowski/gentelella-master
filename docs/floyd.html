@@ -165,6 +165,7 @@
   async function gerarPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4');
+    let y = 20;
 
     const nome = document.querySelector("[name='nome']").value;
     const cargo = document.querySelector("[name='cargo']").value;
@@ -181,101 +182,88 @@
     const img = new Image();
     img.src = 'guarda.jpg';
     await new Promise(resolve => img.onload = resolve);
-    doc.addImage(img, 'JPEG', 10, 10, 30, 30);
+    doc.addImage(img, 'JPEG', 10, y, 30, 15);
     doc.setFontSize(16);
-    doc.text("Questionário de Avaliação de Desempenho", 45, 20);
+    doc.text("Questionário de Avaliação de Desempenho", 45, y + 10);
+    y += 25;
 
     doc.setFontSize(11);
-    doc.text(`Nome do Colaborador: ${nome}`, 10, 50);
-    doc.text(`Cargo: ${cargo}`, 110, 50);
-    doc.text(`Admissão: ${admissao}`, 10, 60);
-    doc.text(`Período Avaliado: ${periodo}`, 110, 60);
-    doc.text(`Supervisão: ${supervisao}`, 10, 70);
-    doc.text(`Coordenação: ${coordenacao}`, 110, 70);
-    doc.text(`Gerência Geral: CLÁUDIO MELO`, 10, 80);
-    doc.text(`Gestão de Pessoas: JULIANA`, 110, 80);
+    const infos = [
+      `Nome: ${nome}`, `Cargo: ${cargo}`,
+      `Admissão: ${admissao}`, `Período Avaliado: ${periodo}`,
+      `Supervisão: ${supervisao}`, `Coordenação: ${coordenacao}`,
+      `Gerência Geral: CLÁUDIO MELO`, `Gestão de Pessoas: JULIANA`
+    ];
 
-    let y = 90;
+    infos.forEach((linha, i) => {
+      if (y > 270) { doc.addPage(); y = 20; }
+      doc.text(linha, 10, y);
+      y += 6;
+    });
+
     doc.setFontSize(12);
-    doc.text('Notas - Fatores Gerais (1 a 12)', 10, y);
+    doc.text('Fatores Gerais (1 a 12)', 10, y);
     y += 6;
     fatoresGerais.forEach((nome, i) => {
       const val = document.querySelector(`[name='fator${i + 1}']`).value || '0';
-      doc.text(`${i + 1}. ${nome}: ${val}`, 10, y);
+      const linha = `${i + 1}. ${nome}: ${val}`;
+      if (y > 280) { doc.addPage(); y = 20; }
+      doc.text(linha, 10, y);
       y += 6;
     });
 
-    doc.text('Notas - Fatores Específicos (13 a 20)', 10, y);
+    doc.text('Fatores Específicos (13 a 20)', 10, y);
     y += 6;
     fatoresEspecificos.forEach((item, idx) => {
-      const subnotas = item.subitens.map((_, i) => document.querySelector(`[name='esp${idx}_${i}']`).value || '0');
+      const subitens = item.subitens.map((sub, i) => {
+        const val = document.querySelector(`[name='esp${idx}_${i}']`).value || '0';
+        return `${sub}: ${val}`;
+      }).join(' | ');
       const media = document.getElementById(`mediaEsp${idx}`).textContent;
-      doc.text(`${idx + 13}. ${item.nome}: ${subnotas.join(', ')} | Média: ${media}`, 10, y);
+      const linha = `${idx + 13}. ${item.nome} → ${subitens} | Média: ${media}`;
+      const linhas = doc.splitTextToSize(linha, 180);
+      if (y + linhas.length * 6 > 280) { doc.addPage(); y = 20; }
+      doc.text(linhas, 10, y);
+      y += linhas.length * 6;
+    });
+
+    const resumo = [
+      `Média Fatores Gerais: ${mediaGerais}`,
+      `Média Fatores Específicos: ${mediaEspecificos}`,
+      `Média Total: ${mediaTotal}`
+    ];
+    resumo.forEach(linha => {
+      if (y > 280) { doc.addPage(); y = 20; }
+      doc.text(linha, 10, y);
       y += 6;
     });
 
-    y += 4;
-    doc.text(`Média Fatores Gerais: ${mediaGerais}`, 10, y);
-    y += 6;
-    doc.text(`Média Fatores Específicos: ${mediaEspecificos}`, 10, y);
-    y += 6;
-    doc.text(`Média Total: ${mediaTotal}`, 10, y);
+    if (comentarios.trim()) {
+      doc.text('Comentários:', 10, y);
+      y += 6;
+      const comentarioLinhas = doc.splitTextToSize(comentarios, 180);
+      if (y + comentarioLinhas.length * 6 > 280) { doc.addPage(); y = 20; }
+      doc.text(comentarioLinhas, 10, y);
+      y += comentarioLinhas.length * 6;
+    }
+
+    // Assinaturas
+    if (y + 50 > 280) { doc.addPage(); y = 20; }
     y += 10;
-
-    doc.text('Comentários:', 10, y);
-    y += 6;
-    doc.setFontSize(10);
-    const comentarioLinhas = doc.splitTextToSize(comentarios, 180);
-    doc.text(comentarioLinhas, 10, y);
-    y += comentarioLinhas.length * 5;
-
+    const assY = y;
+    doc.line(10, assY, 70, assY);
+    doc.line(75, assY, 135, assY);
+    doc.line(140, assY, 200, assY);
+    doc.text('Gestor Responsável', 20, assY + 5);
+    doc.text('Coordenação Pedagógica', 80, assY + 5);
+    doc.text('Gerência Geral', 150, assY + 5);
     y += 20;
-    doc.setFontSize(11);
-    doc.text('Assinaturas:', 10, y);
+    doc.line(10, y, 70, y);
+    doc.text('Departamento Pessoal', 20, y + 5);
     y += 10;
-    const x1 = 10, x2 = 70, x3 = 130;
-    doc.line(x1, y, x1 + 50, y);
-    doc.line(x2, y, x2 + 50, y);
-    doc.line(x3, y, x3 + 50, y);
-    doc.text('Gestor Responsável', x1, y + 6);
-    doc.text('Coordenação Pedagógica', x2, y + 6);
-    doc.text('Gerência Geral', x3, y + 6);
-    y += 20;
-    doc.line(x1, y, x1 + 50, y);
-    doc.text('Departamento Pessoal', x1, y + 6);
-
-    y += 16;
-    doc.text(`Data: ${dataAtual}`, 10, y);
+    doc.text(`Data: ${dataAtual}`, 10, y + 10);
 
     doc.save(`avaliacao_${nome.replace(/\\s/g, '_')}.pdf`);
   }
-
-  function exportarXLS() {
-    const nome = document.querySelector("[name='nome']").value;
-    const cargo = document.querySelector("[name='cargo']").value;
-    const linha = [nome, cargo];
-
-    fatoresGerais.forEach((_, i) => {
-      const val = document.querySelector(`[name='fator${i + 1}']`).value || '0';
-      linha.push(val);
-    });
-    fatoresEspecificos.forEach((item, idx) => {
-      item.subitens.forEach((_, i) => {
-        const val = document.querySelector(`[name='esp${idx}_${i}']`).value || '0';
-        linha.push(val);
-      });
-      const media = document.getElementById(`mediaEsp${idx}`).textContent;
-      linha.push(media);
-    });
-    linha.push(document.getElementById('mediaGerais').textContent);
-    linha.push(document.getElementById('mediaEspecificos').textContent);
-    linha.push(document.getElementById('mediaTotal').textContent);
-
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.aoa_to_sheet([linha]);
-    XLSX.utils.book_append_sheet(wb, ws, "Avaliacao");
-    XLSX.writeFile(wb, `avaliacao_${nome.replace(/\\s/g, '_')}.xlsx`);
-  }
 </script>
-
 </html>
