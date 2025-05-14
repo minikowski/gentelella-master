@@ -32,6 +32,7 @@
       <img src="guarda.jpg" alt="Logo Guarda Mirim" />
       <h1>Questionário de Avaliação de Desempenho</h1>
     </div>
+
     <div class="row mb-3">
       <div class="col-md-6"><label>Nome do Colaborador:</label><input type="text" class="form-control" name="nome" /></div>
       <div class="col-md-6"><label>Cargo:</label><input type="text" class="form-control" name="cargo" /></div>
@@ -89,14 +90,14 @@
     ];
 
     const fatoresEspecificos = [
-      { nome: "Conhecimento Técnico", subitens: ["Conhecimento da função", "Capacidade técnica", "Aptidão para tarefas", "Autonomia"] },
-      { nome: "Cumprimento de Metas", subitens: ["Entrega de resultados", "Compromisso com prazos", "Qualidade da entrega", "Agilidade"] },
-      { nome: "Comunicação", subitens: ["Clareza na fala", "Escrita objetiva", "Capacidade de escuta", "Feedback assertivo"] },
-      { nome: "Relacionamento com o Público", subitens: ["Cordialidade", "Empatia", "Resolução de conflitos", "Postura profissional"] },
-      { nome: "Uso de Recursos", subitens: ["Zelo com materiais", "Uso consciente", "Eficiência de tempo", "Economia"] },
-      { nome: "Aptidão Física e Mental", subitens: ["Energia e disposição", "Equilíbrio emocional", "Resiliência", "Foco"] },
-      { nome: "Acompanhamento de Regras", subitens: ["Conhecimento de normas", "Respeito às regras", "Segurança no trabalho", "Cumprimento de conduta"] },
-      { nome: "Participação em Atividades", subitens: ["Envolvimento em eventos", "Iniciativa", "Trabalho voluntário", "Contribuição coletiva"] }
+      { nome: "Rotina de sala de atividade", subitens: ["Autogestão", "Acolhida", "Desenv. Ativ.", "Finaliz. Ativ.", "Avaliação", "Intervalo/Almoço", "Trânsito pela Entidade"] },
+      { nome: "Escalas de acompanhamento aos educandos", subitens: ["Pontualidade", "Atenção", "Orientação", "Comunicação"] },
+      { nome: "Planejamento", subitens: ["Pontualidade", "Preenchimento Adequado", "Solicit. Materiais", "Execução"] },
+      { nome: "Percurso", subitens: ["Adequação", "Aplicabilidade", "Cronologia", "Efetividade"] },
+      { nome: "Pacto de Convivência e Orientações Comportamentais", subitens: ["Apropriação", "Respeito", "Orientação", "Preenchimento Adequado", "Encaminhamento"] },
+      { nome: "Atendimento com educando e família", subitens: ["Postura", "Posição", "Ética", "Integração"] },
+      { nome: "Informação e pertencimento SCFV/GML", subitens: ["Alinhamento Valores", "Alinhamento Missão", "Noções Direitos Humanos", "SUAS", "ECA", "Desenv. Pertencimento"] },
+      { nome: "Mediação de Conflitos", subitens: ["Prevenção", "Mediação", "Resolução"] }
     ];
 
     function criarTabelaFatoresGerais() {
@@ -117,10 +118,13 @@
       fatoresEspecificos.forEach((item, idx) => {
         const table = document.createElement('table');
         table.className = 'table table-bordered avaliacao-table';
-        let html = `<thead><tr><th colspan="6">${idx + 13}. ${item.nome}</th></tr>`;
-        html += `<tr><th>Item</th><th>Subitem 1</th><th>Subitem 2</th><th>Subitem 3</th><th>Subitem 4</th><th>Média</th></tr></thead><tbody><tr>`;
-        html += `<td></td>`;
-        item.subitens.forEach((s, i) => {
+        let html = `<thead><tr><th colspan="${item.subitens.length + 2}">${idx + 13}. ${item.nome}</th></tr>`;
+        html += `<tr><th>Item</th>`;
+        item.subitens.forEach(sub => {
+          html += `<th>${sub}</th>`;
+        });
+        html += `<th>Média</th></tr></thead><tbody><tr><td></td>`;
+        item.subitens.forEach((_, i) => {
           html += `<td><input type="number" name="esp${idx}_${i}" min="0" max="10" onchange="calcularMedias()"></td>`;
         });
         html += `<td><span id="mediaEsp${idx}">0.0</span></td>`;
@@ -139,12 +143,12 @@
       const mediaGerais = (somaGerais / fatoresGerais.length).toFixed(1);
       document.getElementById('mediaGerais').textContent = mediaGerais;
 
-      fatoresEspecificos.forEach((_, idx) => {
+      fatoresEspecificos.forEach((item, idx) => {
         let soma = 0;
-        for (let i = 0; i < 4; i++) {
+        item.subitens.forEach((_, i) => {
           soma += parseFloat(document.querySelector(`[name='esp${idx}_${i}']`).value) || 0;
-        }
-        const media = (soma / 4).toFixed(1);
+        });
+        const media = (soma / item.subitens.length).toFixed(1);
         document.getElementById(`mediaEsp${idx}`).textContent = media;
         somaEspecificos += parseFloat(media);
       });
