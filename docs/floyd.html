@@ -187,7 +187,7 @@
     doc.text("Questionário de Avaliação de Desempenho", 45, y + 10);
     y += 25;
 
-    // CABEÇALHO EM DUAS COLUNAS
+    // CABEÇALHO TABULAR
     doc.setFontSize(11);
     doc.setFont(undefined, 'bold');
     doc.text('COLABORADORES:', 10, y);
@@ -196,78 +196,89 @@
     doc.setFont(undefined, 'normal');
 
     const linhaEsq = [
-      `Nome: ${nome}`,
-      `Cargo: ${cargo}`,
-      `Data Admissão: ${admissao}`,
-      `Período Avaliado: ${periodo}`
+      `Nome: ${nome}`, `Cargo: ${cargo}`,
+      `Data Admissão: ${admissao}`, `Período Avaliado: ${periodo}`
     ];
     const linhaDir = [
-      `Supervisão: ${supervisao}`,
-      `Coordenação: ${coordenacao}`,
-      `Gerência Geral: CLÁUDIO MELO`,
-      `Gestão de Pessoas: JULIANA`
+      `Supervisão: ${supervisao}`, `Coordenação: ${coordenacao}`,
+      `Gerência Geral: CLÁUDIO MELO`, `Gestão de Pessoas: JULIANA`
     ];
+
     for (let i = 0; i < linhaEsq.length; i++) {
       doc.text(linhaEsq[i], 10, y);
       doc.text(linhaDir[i], 110, y);
       y += 6;
     }
 
-    // FATORES GERAIS
-    doc.setFontSize(12);
+    y += 4;
     doc.setFont(undefined, 'bold');
+    doc.setFontSize(12);
     doc.text('Fatores Gerais (1 a 12)', 10, y);
     y += 6;
+
+    // FATORES GERAIS EM DUAS COLUNAS
     doc.setFont(undefined, 'normal');
-    fatoresGerais.forEach((nome, i) => {
+    let colY1 = y;
+    let colY2 = y;
+    for (let i = 0; i < fatoresGerais.length; i++) {
+      const nomeFator = `${i + 1}. ${fatoresGerais[i]}`;
       const val = document.querySelector(`[name='fator${i + 1}']`).value || '0';
-      const linha = `${i + 1}. ${nome}: ${val}`;
-      if (y > 270) { doc.addPage(); y = 20; }
-      doc.text(linha, 14, y);
-      y += 6;
-    });
+      const texto = `${nomeFator}: ${val}`;
+      const x = i < 6 ? 10 : 110;
+      const yPos = i < 6 ? colY1 : colY2;
+      doc.text(texto, x, yPos);
+      if (i < 6) colY1 += 6;
+      else colY2 += 6;
+    }
 
-    // FATORES ESPECÍFICOS
-    doc.setFontSize(12);
+    y = Math.max(colY1, colY2) + 8;
+
     doc.setFont(undefined, 'bold');
+    doc.setFontSize(12);
     doc.text('Fatores Específicos (13 a 20)', 10, y);
-    y += 8;
+    y += 6;
+    doc.setFont(undefined, 'normal');
 
-    fatoresEspecificos.forEach((item, idx) => {
-      if (y > 260) { doc.addPage(); y = 20; }
+    // FATORES ESPECÍFICOS EM DUAS COLUNAS
+    let colYEsq = y;
+    let colYDir = y;
+    for (let idx = 0; idx < fatoresEspecificos.length; idx++) {
+      const fator = fatoresEspecificos[idx];
+      const x = idx < 4 ? 10 : 110;
+      let yAtual = idx < 4 ? colYEsq : colYDir;
+
       doc.setFont(undefined, 'bold');
-      doc.text(`${idx + 13}. ${item.nome}`, 10, y);
-      y += 6;
-
+      doc.text(`${idx + 13}. ${fator.nome}`, x, yAtual);
+      yAtual += 5;
       doc.setFont(undefined, 'normal');
-      item.subitens.forEach((sub, i) => {
+
+      fator.subitens.forEach((sub, i) => {
         const val = document.querySelector(`[name='esp${idx}_${i}']`).value || '0';
-        const texto = `${sub}: ${val}`;
-        const linhas = doc.splitTextToSize(texto, 180);
-        if (y + linhas.length * 6 > 280) { doc.addPage(); y = 20; }
-        doc.text(linhas, 14, y);
-        y += linhas.length * 6;
+        const linha = `${sub}: ${val}`;
+        const linhas = doc.splitTextToSize(linha, 80);
+        doc.text(linhas, x + 4, yAtual);
+        yAtual += linhas.length * 5;
       });
 
       const media = document.getElementById(`mediaEsp${idx}`).textContent;
       doc.setFont(undefined, 'italic');
-      doc.text(`Média: ${media}`, 14, y);
-      y += 8;
-      doc.setFont(undefined, 'normal');
-    });
+      doc.text(`Média: ${media}`, x + 4, yAtual);
+      yAtual += 10;
 
-    // MÉDIAS FINAIS
-    const resumo = [
-      `Média Fatores Gerais: ${mediaGerais}`,
-      `Média Fatores Específicos: ${mediaEspecificos}`,
-      `Média Total: ${mediaTotal}`
-    ];
-    resumo.forEach(linha => {
-      if (y > 270) { doc.addPage(); y = 20; }
-      doc.setFont(undefined, 'bold');
-      doc.text(linha, 10, y);
-      y += 6;
-    });
+      if (idx < 4) colYEsq = yAtual;
+      else colYDir = yAtual;
+    }
+
+    y = Math.max(colYEsq, colYDir) + 6;
+
+    // MÉDIAS GERAIS
+    doc.setFont(undefined, 'bold');
+    doc.text(`Média Fatores Gerais: ${mediaGerais}`, 10, y);
+    y += 6;
+    doc.text(`Média Fatores Específicos: ${mediaEspecificos}`, 10, y);
+    y += 6;
+    doc.text(`Média Total: ${mediaTotal}`, 10, y);
+    y += 8;
 
     // COMENTÁRIOS
     if (comentarios.trim()) {
@@ -276,15 +287,13 @@
       y += 6;
       doc.setFont(undefined, 'normal');
       const comentarioLinhas = doc.splitTextToSize(comentarios, 180);
-      if (y + comentarioLinhas.length * 6 > 280) { doc.addPage(); y = 20; }
       doc.text(comentarioLinhas, 10, y);
-      y += comentarioLinhas.length * 6;
+      y += comentarioLinhas.length * 5;
     }
 
-    // ASSINATURAS – SIMÉTRICAS
+    // ASSINATURAS SIMÉTRICAS
     if (y + 50 > 280) { doc.addPage(); y = 20; }
     y += 10;
-    doc.setFont(undefined, 'normal');
     const col1 = 10;
     const col2 = 110;
 
@@ -311,5 +320,6 @@
     doc.save(`avaliacao_${nome.replace(/\\s/g, '_')}.pdf`);
   }
 </script>
+
 
 </html>
