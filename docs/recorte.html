@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crop Interativo 3x4</title>
+  <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #imageContainer img {
+      max-height: 400px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+  <div class="bg-white shadow-2xl rounded-2xl p-6 w-full max-w-2xl space-y-4">
+
+    <!-- Logo -->
+    <div class="flex justify-center mb-2">
+      <img src="unificado2.jpg" alt="Logo" class="h-20 object-contain" />
+    </div>
+
+    <h1 class="text-2xl font-bold text-center text-gray-700">Crop Interativo - Formato 3x4</h1>
+
+    <input type="file" accept="image/*" id="imageInput"
+      class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full
+      file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700
+      hover:file:bg-blue-200 cursor-pointer" />
+
+    <div id="imageContainer" class="mt-4">
+      <img id="image" class="rounded-md border max-w-full" style="display:none;" />
+    </div>
+
+    <div class="flex justify-center space-x-4 mt-4 hidden" id="actionButtons">
+      <button id="cropBtn"
+        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow">
+        Cortar Imagem
+      </button>
+      <a id="downloadLink" download="imagem-3x4.jpg"
+        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow hidden">
+        Baixar
+      </a>
+    </div>
+
+    <div class="text-center hidden" id="previewContainer">
+      <h2 class="text-lg font-semibold mt-6 mb-2 text-gray-600">Prévia Final</h2>
+      <img id="preview" class="inline-block rounded-md border shadow" />
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
+  <script>
+    const input = document.getElementById('imageInput');
+    const image = document.getElementById('image');
+    const cropBtn = document.getElementById('cropBtn');
+    const preview = document.getElementById('preview');
+    const previewContainer = document.getElementById('previewContainer');
+    const downloadLink = document.getElementById('downloadLink');
+    const actionButtons = document.getElementById('actionButtons');
+
+    let cropper;
+
+    input.addEventListener('change', function () {
+      const file = input.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        image.src = event.target.result;
+        image.style.display = 'block';
+
+        if (cropper) cropper.destroy();
+
+        cropper = new Cropper(image, {
+          aspectRatio: 3 / 4,
+          viewMode: 1,
+          autoCropArea: 1,
+          movable: true,
+          zoomable: true,
+          scalable: false,
+          rotatable: false,
+        });
+
+        actionButtons.classList.remove('hidden');
+        previewContainer.classList.add('hidden');
+        downloadLink.classList.add('hidden');
+      };
+      reader.readAsDataURL(file);
+    });
+
+    cropBtn.addEventListener('click', function () {
+      const canvas = cropper.getCroppedCanvas({
+        imageSmoothingEnabled: true,
+        imageSmoothingQuality: 'high'
+      });
+
+      const dataUrl = canvas.toDataURL('image/jpeg');
+      preview.src = dataUrl;
+      downloadLink.href = dataUrl;
+
+      previewContainer.classList.remove('hidden');
+      downloadLink.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
