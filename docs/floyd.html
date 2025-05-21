@@ -219,8 +219,6 @@ function criarTabelaFatoresGerais() {
     const mediaTotal = document.getElementById("mediaTotal").textContent;
     const comentarios = document.querySelector("[name='comentarios']").value || '';
     const dataAtual = document.getElementById("dataAtual").textContent;
-
-    doc.addImage(logoImg, 'JPEG', 10, y, 30, 0);
     doc.setFontSize(16);
     doc.text("Questionário de Avaliação de Desempenho", 45, y + 10);
     y += 25;
