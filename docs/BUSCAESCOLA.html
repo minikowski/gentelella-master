@@ -2266,8 +2266,20 @@
 													<div class="form-group">
 														<label class="control-label col-md-1">Escola:</label>
 														<div class="col-md-5 col-sm-12 col-xs-12 form-group">
-															<input list="escolas" name="fic_escola" id="fic_escola_5" class="form-control" placeholder="Digite a escola">
+															<!-- Campo de texto com autocompletar -->
+<input list="escolas" name="fic_escola" id="fic_escola_5" class="form-control" placeholder="Digite a escola">
+
+<!-- Lista de opções (agora o nome da escola aparece como value) -->
 <datalist id="escolas">
+  <option value="2 CPM DE LONDRINA" data-id="241"></option>
+  <option value="ADVENTISTA, C-EI EF M" data-id="197"></option>
+  <option value="AMÉRICA SABINO COIMBRA, E. M." data-id="40"></option>
+  <option value="ANCHIETA, E. M. PADRE" data-id="41"></option>
+</datalist>
+
+<!-- Campo oculto que vai guardar o código -->
+<input type="hidden" name="codigo_escola" id="codigo_escola">
+
 																									<option value="241">2 CPM DE LONDRINA</option>
 																																	<option value="197">ADVENTISTA, C-EI EF M</option>
 																																	<option value="40">AMÉRICA SABINO COIMBRA, E. M.</option>
