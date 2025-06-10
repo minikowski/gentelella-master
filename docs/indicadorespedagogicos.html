@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Acompanhamento</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #6366f1;
+      --secondary: #f9fafb;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #111827;
+    }
+    
+    .dashboard-card {
+      transition: all 0.3s ease;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .dashboard-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    
+    .active .accordion-content {
+      max-height: 1000px;
+    }
+    
+    .active .accordion-icon {
+      transform: rotate(180deg);
+    }
+    
+    .link-item {
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+    
+    .link-item:hover {
+      background-color: #f1f5f9;
+      border-left-color: var(--primary);
+    }
+  </style>
+</head>
+<body class="min-h-screen p-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+      <div class="flex items-center gap-4">
+        <img src="img2.jpg" alt="Logo" class="w-16 h-16 object-contain rounded-lg shadow-md">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-800">Sistema de Acompanhamento</h1>
+          <p class="text-gray-500">Monitoramento e relatórios integrados</p>
+        </div>
+      </div>
+      <div class="bg-white px-4 py-2 rounded-lg shadow-sm">
+        <p id="currentDate" class="text-gray-700 font-medium"></p>
+      </div>
+    </header>
+
+    <main class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Formulário -->
+      <div class="dashboard-card bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="bg-blue-100 p-2 rounded-full">
+            <i class="fas fa-file-alt text-blue-600"></i>
+          </div>
+          <h2 class="text-xl font-semibold text-gray-800">Formulário de Registro</h2>
+        </div>
+        <p class="text-gray-600 mb-4">Acesse o formulário para inserir novos dados no sistema.</p>
+        <a href="https://forms.gle/soaL6vQzQ9L1Dsjw9" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+          <i class="fas fa-external-link-alt mr-2"></i> Acessar Formulário
+        </a>
+      </div>
+
+      <!-- Histórico -->
+      <div class="dashboard-card bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="bg-purple-100 p-2 rounded-full">
+            <i class="fas fa-history text-purple-600"></i>
+          </div>
+          <h2 class="text-xl font-semibold text-gray-800">Histórico Completo</h2>
+        </div>
+        <p class="text-gray-600 mb-4">Visualize todos os dados históricos registrados no sistema.</p>
+        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?output=xlsx" target="_blank" class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition">
+          <i class="fas fa-download mr-2"></i> Baixar Histórico
+        </a>
+      </div>
+
+      <!-- Accordion Mês Atual -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="accordion-header cursor-pointer p-6 flex justify-between items-center bg-gray-50">
+          <div class="flex items-center gap-3">
+            <div class="bg-green-100 p-2 rounded-full">
+              <i class="fas fa-calendar-check text-green-600"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">Mês Atual</h2>
+          </div>
+          <i class="accordion-icon fas fa-chevron-down text-gray-500 transition-transform"></i>
+        </div>
+        <div class="accordion-content">
+          <div class="p-4">
+            <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pubhtml?gid=1982430314&single=true" target="_blank" class="link-item block px-4 py-3 text-gray-700 hover:text-blue-600">
+              <i class="fas fa-chart-line mr-2"></i> Acompanhar Mês Atual
+            </a>
+            
+            <div class="ml-8 my-2 border-l-2 border-gray-200 pl-4">
+              <h3 class="font-medium text-gray-700 mb-2 flex items-center">
+                <i class="fas fa-folder-open mr-2 text-blue-500"></i> Relatório Mensal Atual
+              </h3>
+              <div class="space-y-1">
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=187713624&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-building mr-2"></i> Central
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=527633512&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-building mr-2"></i> Centro B
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=820531814&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-building mr-2"></i> CSU
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=1631083715&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-building mr-2"></i> Guaravera
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=1263524841&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-building mr-2"></i> Lerroville
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=1554805481&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-building mr-2"></i> Elivive
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=114728961&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-school mr-2"></i> Convivência nas Escolas
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accordion Mês Anterior -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="accordion-header cursor-pointer p-6 flex justify-between items-center bg-gray-50">
+          <div class="flex items-center gap-3">
+            <div class="bg-orange-100 p-2 rounded-full">
+              <i class="fas fa-calendar-minus text-orange-600"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">Mês Anterior</h2>
+          </div>
+          <i class="accordion-icon fas fa-chevron-down text-gray-500 transition-transform"></i>
+        </div>
+        <div class="accordion-content">
+          <div class="p-4">
+            <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pubhtml?gid=402173186&single=true" target="_blank" class="link-item block px-4 py-3 text-gray-700 hover:text-blue-600">
+              <i class="fas fa-chart-line mr-2"></i> Acompanhar Mês Anterior
+            </a>
+            
+            <div class="ml-8 my-2 border-l-2 border-gray-200 pl-4">
+              <h3 class="font-medium text-gray-700 mb-2 flex items-center">
+                <i class="fas fa-folder-open mr-2 text-blue-500"></i> Relatório Mensal Anterior
+              </h3>
+              <div class="space-y-1">
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=524166890&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-building mr-2"></i> Central
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=637378295&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-building mr-2"></i> Centro B
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=1992376110&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-building mr-2"></i> CSU
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=1089283169&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-building mr-2"></i> Guaravera
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=1465021821&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-building mr-2"></i> Lerroville
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=1996518415&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-building mr-2"></i> Elivive
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRBxIqd6K_uovXkACmphlQfOxjKIeSxjHfbS_9X4hpKHB02VYTRWWri_b-6zhcC7KfD2STvO8JO9nlL/pub?gid=1694965944&single=true&output=xls" target="_blank" class="link-item block px-4 py-2 text-sm text-gray-600 hover:text-blue-600">
+                  <i class="fas fa-school mr-2"></i> Convivência nas Escolas
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Data atual
+    const formatDate = (date) => {
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString('pt-BR', options);
+    };
+    document.getElementById('currentDate').textContent = formatDate(new Date());
+
+    // Accordion functionality
+    document.querySelectorAll('.accordion-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const accordion = header.parentElement;
+        accordion.classList.toggle('active');
+      });
+    });
+
+    // Open first accordion by default
+    document.querySelector('.accordion').classList.add('active');
+  </script>
+</body>
+</html>
