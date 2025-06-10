@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendas de Matrícula</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #6366f1;
+      --secondary: #f9fafb;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #111827;
+    }
+    
+    .location-card {
+      transition: all 0.3s ease;
+      border-top: 4px solid transparent;
+    }
+    
+    .location-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .location-card.sede { border-top-color: #4f46e5; }
+    .location-card.csu { border-top-color: #10b981; }
+    .location-card.lerroville { border-top-color: #f59e0b; }
+    .location-card.guaravera { border-top-color: #ef4444; }
+    .location-card.elivive { border-top-color: #8b5cf6; }
+    
+    .btn-access {
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    }
+    
+    .btn-access:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+    }
+    
+    .header-gradient {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <header class="header-gradient rounded-xl shadow-sm p-6 mb-8 border border-gray-200">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+          <img src="img2.jpg" alt="Logo" class="w-16 h-16 object-contain rounded-lg shadow-md">
+          <div>
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Agendas de Matrícula</h1>
+            <p class="text-gray-500 mt-1">Acompanhamento das matrículas por unidade</p>
+          </div>
+        </div>
+        <div class="bg-white px-4 py-2 rounded-lg shadow-sm">
+          <p id="currentDate" class="text-gray-700 font-medium"></p>
+        </div>
+      </div>
+    </header>
+
+    <main class="space-y-6">
+      <!-- Cards de Localidades -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- SEDE / CENTRO B -->
+        <div class="location-card sede bg-white rounded-xl shadow-md p-6">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="bg-blue-100 p-3 rounded-lg">
+              <i class="fas fa-building text-blue-600 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">SEDE / CENTRO B</h2>
+          </div>
+          <p class="text-gray-600 mb-6">Acesse a agenda de matrículas da Sede/Centro B</p>
+          <a href="https://docs.google.com/spreadsheets/d/15KlpTf0wkP-O8id9PA-VysfHS9CRUKPeF7XfxzxHUAY/edit?usp=sharing" target="_blank" class="btn-access inline-flex items-center justify-center px-4 py-3 text-white rounded-lg font-medium w-full">
+            <i class="fas fa-external-link-alt mr-2"></i> Acessar Agenda
+          </a>
+        </div>
+
+        <!-- CSU -->
+        <div class="location-card csu bg-white rounded-xl shadow-md p-6">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="bg-green-100 p-3 rounded-lg">
+              <i class="fas fa-home text-green-600 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">CSU</h2>
+          </div>
+          <p class="text-gray-600 mb-6">Acesse a agenda de matrículas do CSU</p>
+          <a href="https://docs.google.com/spreadsheets/d/1h3g8ej48NlMm9yc5kjR8OLsshaOfVy9tH38PNmsNxuc/edit?usp=sharing" target="_blank" class="btn-access inline-flex items-center justify-center px-4 py-3 text-white rounded-lg font-medium w-full">
+            <i class="fas fa-external-link-alt mr-2"></i> Acessar Agenda
+          </a>
+        </div>
+
+        <!-- LERROVILLE -->
+        <div class="location-card lerroville bg-white rounded-xl shadow-md p-6">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="bg-yellow-100 p-3 rounded-lg">
+              <i class="fas fa-school text-yellow-600 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">LERROVILLE</h2>
+          </div>
+          <p class="text-gray-600 mb-6">Acesse a agenda de matrículas de Lerroville</p>
+          <a href="https://docs.google.com/spreadsheets/d/16Ve8elZtoj4RG5aiw4KVJJk2RZGGH62dzr0eMq2q2JQ/edit?usp=sharing" target="_blank" class="btn-access inline-flex items-center justify-center px-4 py-3 text-white rounded-lg font-medium w-full">
+            <i class="fas fa-external-link-alt mr-2"></i> Acessar Agenda
+          </a>
+        </div>
+
+        <!-- GUARAVERA -->
+        <div class="location-card guaravera bg-white rounded-xl shadow-md p-6">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="bg-red-100 p-3 rounded-lg">
+              <i class="fas fa-warehouse text-red-600 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">GUARAVERA</h2>
+          </div>
+          <p class="text-gray-600 mb-6">Acesse a agenda de matrículas de Guaravera</p>
+          <a href="https://docs.google.com/spreadsheets/d/1B-VBybkste9AJ2cbL_M97oRd3NX8IDWDWQx9MgnvtBM/edit?usp=sharing" target="_blank" class="btn-access inline-flex items-center justify-center px-4 py-3 text-white rounded-lg font-medium w-full">
+            <i class="fas fa-external-link-alt mr-2"></i> Acessar Agenda
+          </a>
+        </div>
+
+        <!-- ELIVIVE -->
+        <div class="location-card elivive bg-white rounded-xl shadow-md p-6">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="bg-purple-100 p-3 rounded-lg">
+              <i class="fas fa-building text-purple-600 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">ELIVIVE</h2>
+          </div>
+          <p class="text-gray-600 mb-6">Acesse a agenda de matrículas de Elivive</p>
+          <a href="https://docs.google.com/spreadsheets/d/1BunMBU0Mm2_82e6f7Kt732kn1g9ZAHaA80Ouf48lYAk/edit?usp=sharing" target="_blank" class="btn-access inline-flex items-center justify-center px-4 py-3 text-white rounded-lg font-medium w-full">
+            <i class="fas fa-external-link-alt mr-2"></i> Acessar Agenda
+          </a>
+        </div>
+      </div>
+
+      <!-- Acesso Rápido -->
+      <div class="bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
+          <i class="fas fa-bolt text-yellow-500"></i> Acesso Rápido às Agendas
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <a href="https://docs.google.com/spreadsheets/d/15KlpTf0wkP-O8id9PA-VysfHS9CRUKPeF7XfxzxHUAY/edit?usp=sharing" target="_blank" class="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+            <div class="bg-blue-100 p-2 rounded-full">
+              <i class="fas fa-building text-blue-600"></i>
+            </div>
+            <span class="font-medium text-gray-700">SEDE / CENTRO B</span>
+          </a>
+          <a href="https://docs.google.com/spreadsheets/d/1h3g8ej48NlMm9yc5kjR8OLsshaOfVy9tH38PNmsNxuc/edit?usp=sharing" target="_blank" class="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+            <div class="bg-green-100 p-2 rounded-full">
+              <i class="fas fa-home text-green-600"></i>
+            </div>
+            <span class="font-medium text-gray-700">CSU</span>
+          </a>
+          <a href="https://docs.google.com/spreadsheets/d/16Ve8elZtoj4RG5aiw4KVJJk2RZGGH62dzr0eMq2q2JQ/edit?usp=sharing" target="_blank" class="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+            <div class="bg-yellow-100 p-2 rounded-full">
+              <i class="fas fa-school text-yellow-600"></i>
+            </div>
+            <span class="font-medium text-gray-700">LERROVILLE</span>
+          </a>
+          <a href="https://docs.google.com/spreadsheets/d/1B-VBybkste9AJ2cbL_M97oRd3NX8IDWDWQx9MgnvtBM/edit?usp=sharing" target="_blank" class="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+            <div class="bg-red-100 p-2 rounded-full">
+              <i class="fas fa-warehouse text-red-600"></i>
+            </div>
+            <span class="font-medium text-gray-700">GUARAVERA</span>
+          </a>
+          <a href="https://docs.google.com/spreadsheets/d/1BunMBU0Mm2_82e6f7Kt732kn1g9ZAHaA80Ouf48lYAk/edit?usp=sharing" target="_blank" class="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+            <div class="bg-purple-100 p-2 rounded-full">
+              <i class="fas fa-building text-purple-600"></i>
+            </div>
+            <span class="font-medium text-gray-700">ELIVIVE</span>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="mt-12 text-center text-sm text-gray-500">
+      <p>© <span id="currentYear"></span> Agendas de Matrícula. Todos os direitos reservados.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Data atual formatada
+    const formatDate = (date) => {
+      const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        timeZone: 'America/Sao_Paulo'
+      };
+      return date.toLocaleDateString('pt-BR', options);
+    };
+    
+    document.getElementById('currentDate').textContent = formatDate(new Date());
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
