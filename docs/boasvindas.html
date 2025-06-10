@@ -5,44 +5,128 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sistema Unificado - Boas-vindas</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #6366f1;
+      --primary-dark: #4338ca;
+      --secondary: #f9fafb;
+      --accent: #10b981;
+    }
+    
     body {
-      background: linear-gradient(to right, #f8fafc, #e2e8f0);
-      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #111827;
+    }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    }
+    
+    .logo-shadow {
+      filter: drop-shadow(0 4px 6px rgba(79, 70, 229, 0.2));
+    }
+    
+    .text-gradient {
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .hover-scale {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .hover-scale:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(79, 70, 229, 0) 0%, rgba(79, 70, 229, 0.3) 50%, rgba(79, 70, 229, 0) 100%);
     }
   </style>
 </head>
-<body class="ml-[250px] p-8 min-h-screen">
-  <header class="flex items-center gap-4 mb-10">
-    <img src="img2.jpg" alt="Logo" class="w-20 h-20 object-contain rounded-md shadow-md"/>
-    <h1 class="text-4xl font-bold text-gray-800 tracking-tight">Sistema Unificado</h1>
-  </header>
+<body class="p-8 min-h-screen flex flex-col items-center">
+  <div class="max-w-6xl w-full">
+    <!-- Header Section -->
+    <header class="flex items-center gap-6 mb-12 justify-center">
+      <div class="logo-shadow">
+        <img src="img2.jpg" alt="Logo Sistema Unificado" class="w-24 h-24 object-contain rounded-xl"/>
+      </div>
+      <div class="text-center md:text-left">
+        <h1 class="text-4xl font-bold text-gray-900 tracking-tight">
+          <span class="text-gradient">Sistema Unificado</span>
+        </h1>
+        <p class="text-gray-500 mt-1">Plataforma integrada de soluções</p>
+      </div>
+    </header>
 
-  <main class="space-y-6 max-w-3xl">
-    <!-- Caixinha 1 - Boas-vindas -->
-    <section class="bg-white/80 backdrop-blur-sm p-10 rounded-2xl shadow-xl">
-      <h2 class="text-2xl md:text-3xl font-semibold mb-6 text-gray-700">
-        Olá! Seja bem-vindo(a) ao <span class="text-indigo-600 font-bold">Sistema Unificado</span>.
-      </h2>
-      <p id="dataAtual" class="text-lg text-gray-600 leading-relaxed"></p>
-    </section>
+    <main class="space-y-8 max-w-3xl mx-auto">
+      <!-- Welcome Card -->
+      <section class="glass-card p-10 rounded-3xl shadow-lg hover-scale transition-all duration-300">
+        <div class="flex flex-col md:flex-row md:items-center gap-8">
+          <div class="flex-1">
+            <h2 class="text-2xl md:text-3xl font-semibold mb-6 text-gray-800 leading-tight">
+              Olá! Seja bem-vindo(a) ao <br>
+              <span class="text-3xl md:text-4xl font-bold text-indigo-600">Sistema Unificado</span>.
+            </h2>
+            <p id="dataAtual" class="text-lg text-gray-600 leading-relaxed"></p>
+          </div>
+          <div class="hidden md:block">
+            <div class="w-32 h-32 bg-indigo-100 rounded-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <!-- Caixinha 2 - Instrução Inicial -->
-    <section class="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-xl">
-      <p class="text-lg text-gray-700">
-        📌 Para começar, escolha a opção desejada no menu à esquerda.
-      </p>
-    </section>
+      <!-- Instruction Card -->
+      <section class="glass-card p-8 rounded-3xl shadow-lg hover-scale transition-all duration-300">
+        <div class="flex items-start gap-4">
+          <div class="bg-indigo-100 p-3 rounded-lg flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-lg text-gray-700 font-medium">
+              Para começar, escolha a opção desejada no menu à esquerda.
+            </p>
+            <div class="divider my-4"></div>
+            <p class="text-sm text-gray-500">
+              Navegue pelas funcionalidades do sistema utilizando o painel lateral.
+            </p>
+          </div>
+        </div>
+      </section>
 
-    <!-- Caixinha 3 - Créditos -->
-    <section class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-md">
-      <p class="text-sm text-gray-500 italic text-center">
-        Desenvolvido por Victor Luis Minikowski.
-      </p>
-    </section>
-  </main>
+      <!-- Footer/Credits -->
+      <section class="glass-card p-6 rounded-2xl shadow-md">
+        <div class="flex flex-col items-center">
+          <p class="text-sm text-gray-500 italic">
+            Desenvolvido por <span class="font-medium text-indigo-600">Victor Luis Minikowski</span>.
+          </p>
+          <p class="text-xs text-gray-400 mt-1">
+            © 2024-<span id="currentYear"></span> Sistema Unificado. Todos os direitos reservados.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <script>
+    // Data atual formatada
     const diasSemana = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
     const meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
 
@@ -52,9 +136,12 @@
     const mes = meses[hoje.getMonth()];
     const ano = hoje.getFullYear();
 
-    const dataFormatada = `Hoje é <strong>${diaSemana}</strong>, dia <strong>${dia}</strong> de <strong>${mes}</strong> de <strong>${ano}</strong>.`;
+    const dataFormatada = `Hoje é <span class="font-semibold text-indigo-600">${diaSemana}</span>, dia <span class="font-semibold text-indigo-600">${dia}</span> de <span class="font-semibold text-indigo-600">${mes}</span> de <span class="font-semibold text-indigo-600">${ano}</span>.`;
 
     document.getElementById("dataAtual").innerHTML = dataFormatada;
+    
+    // Ano atual para o copyright
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
