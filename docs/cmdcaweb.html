@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oficinas CMDCA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #6366f1;
+      --secondary: #f9fafb;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #111827;
+    }
+    
+    .dashboard-card {
+      transition: all 0.3s ease;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .dashboard-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+    }
+    
+    .btn-tertiary {
+      background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-tertiary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3);
+    }
+    
+    .header-gradient {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+    
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    
+    .active .accordion-content {
+      max-height: 1000px;
+    }
+    
+    .active .accordion-icon {
+      transform: rotate(180deg);
+    }
+    
+    .workshop-item {
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+    
+    .workshop-item:hover {
+      background-color: #f1f5f9;
+      border-left-color: var(--primary);
+    }
+    
+    .workshop-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+    }
+    
+    .futsal { background-color: #dbeafe; color: #1d4ed8; }
+    .teatro { background-color: #fce7f3; color: #be185d; }
+    .taekwondo { background-color: #dcfce7; color: #047857; }
+    .danca { background-color: #fae8ff; color: #7e22ce; }
+    .grafite { background-color: #e9d5ff; color: #6b21a8; }
+    .musicalizacao { background-color: #cffafe; color: #0e7490; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <header class="header-gradient rounded-xl shadow-sm p-6 mb-8 border border-gray-200">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+          <img src="img2.jpg" alt="Logo" class="w-16 h-16 object-contain rounded-lg shadow-md">
+          <div>
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Oficinas CMDCA</h1>
+            <p class="text-gray-500 mt-1">Sistema de acompanhamento de atividades</p>
+          </div>
+        </div>
+        <div class="bg-white px-4 py-2 rounded-lg shadow-sm">
+          <p id="currentDate" class="text-gray-700 font-medium"></p>
+        </div>
+      </div>
+    </header>
+
+    <main class="space-y-8">
+      <!-- Seção de Relatórios -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Relatório Consolidado -->
+        <div class="dashboard-card bg-white rounded-xl shadow-md p-6">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="bg-blue-100 p-3 rounded-lg">
+              <i class="fas fa-file-pdf text-blue-600 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">Relatório Consolidado</h2>
+          </div>
+          <p class="text-gray-600 mb-6">Acesse o relatório completo de frequência das oficinas</p>
+          <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?output=pdf" target="_blank" class="btn-primary inline-flex items-center justify-center px-4 py-3 text-white rounded-lg font-medium w-full">
+            <i class="fas fa-download mr-2"></i> Baixar Relatório
+          </a>
+        </div>
+
+        <!-- Edição de Dados -->
+        <div class="dashboard-card bg-white rounded-xl shadow-md p-6">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="bg-green-100 p-3 rounded-lg">
+              <i class="fas fa-edit text-green-600 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">Edição de Dados</h2>
+          </div>
+          <p class="text-gray-600 mb-6">Acesse a planilha para realizar alterações</p>
+          <a href="https://docs.google.com/spreadsheets/d/1eHgMk2CG44eooS4MBjzHAzm-pXUUGRmif0ev-H0Xkyg/edit?usp=sharing" target="_blank" class="btn-secondary inline-flex items-center justify-center px-4 py-3 text-white rounded-lg font-medium w-full">
+            <i class="fas fa-external-link-alt mr-2"></i> Acessar Planilha
+          </a>
+        </div>
+
+        <!-- Fichas de Inscrição -->
+        <div class="dashboard-card bg-white rounded-xl shadow-md p-6">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="bg-yellow-100 p-3 rounded-lg">
+              <i class="fas fa-clipboard-list text-yellow-600 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">Fichas de Inscrição</h2>
+          </div>
+          <p class="text-gray-600 mb-6">Visualize todas as fichas de inscrição</p>
+          <a href="https://guardamirim.my.canva.site/cmdca/#page-1" target="_blank" class="btn-tertiary inline-flex items-center justify-center px-4 py-3 text-white rounded-lg font-medium w-full">
+            <i class="fas fa-external-link-alt mr-2"></i> Acessar Fichas
+          </a>
+        </div>
+      </div>
+
+      <!-- Accordion de Oficinas por Unidade -->
+      <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="accordion-header cursor-pointer p-6 flex justify-between items-center bg-gray-50 border-b border-gray-200">
+          <div class="flex items-center gap-3">
+            <div class="bg-purple-100 p-2 rounded-full">
+              <i class="fas fa-map-marker-alt text-purple-600"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">Fichas de Inscrição por Oficina e Unidade</h2>
+          </div>
+          <i class="accordion-icon fas fa-chevron-down text-gray-500 transition-transform"></i>
+        </div>
+        <div class="accordion-content">
+          <div class="p-4 space-y-4">
+            <!-- Central -->
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <div class="bg-blue-50 px-4 py-3 border-b border-gray-200">
+                <h3 class="font-semibold text-blue-800">CENTRAL</h3>
+              </div>
+              <div class="divide-y divide-gray-200">
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=1691872219&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon futsal">
+                    <i class="fas fa-futbol"></i>
+                  </div>
+                  <span>Futsal</span>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=1981983383&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon teatro">
+                    <i class="fas fa-theater-masks"></i>
+                  </div>
+                  <span>Teatro</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Centro B -->
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <div class="bg-green-50 px-4 py-3 border-b border-gray-200">
+                <h3 class="font-semibold text-green-800">CENTRO B</h3>
+              </div>
+              <div class="divide-y divide-gray-200">
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=72350274&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon futsal">
+                    <i class="fas fa-futbol"></i>
+                  </div>
+                  <span>Futsal</span>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=1121432516&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon teatro">
+                    <i class="fas fa-theater-masks"></i>
+                  </div>
+                  <span>Teatro</span>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=2022943952&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon taekwondo">
+                    <i class="fas fa-user-ninja"></i>
+                  </div>
+                  <span>Taekwondo</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- CSU -->
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <div class="bg-purple-50 px-4 py-3 border-b border-gray-200">
+                <h3 class="font-semibold text-purple-800">CSU</h3>
+              </div>
+              <div class="divide-y divide-gray-200">
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=2071750448&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon futsal">
+                    <i class="fas fa-futbol"></i>
+                  </div>
+                  <span>Futsal</span>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=1885482570&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon taekwondo">
+                    <i class="fas fa-user-ninja"></i>
+                  </div>
+                  <span>Taekwondo</span>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=66623604&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon danca">
+                    <i class="fas fa-music"></i>
+                  </div>
+                  <span>Dança</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Guaravera -->
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <div class="bg-red-50 px-4 py-3 border-b border-gray-200">
+                <h3 class="font-semibold text-red-800">GUARAVERA</h3>
+              </div>
+              <div class="divide-y divide-gray-200">
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=1021423303&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon futsal">
+                    <i class="fas fa-futbol"></i>
+                  </div>
+                  <span>Futsal</span>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=73331673&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon taekwondo">
+                    <i class="fas fa-user-ninja"></i>
+                  </div>
+                  <span>Taekwondo</span>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=933812314&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon grafite">
+                    <i class="fas fa-paint-brush"></i>
+                  </div>
+                  <span>Grafite</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Lerroville -->
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <div class="bg-yellow-50 px-4 py-3 border-b border-gray-200">
+                <h3 class="font-semibold text-yellow-800">LERROVILLE</h3>
+              </div>
+              <div class="divide-y divide-gray-200">
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=1698463047&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon taekwondo">
+                    <i class="fas fa-user-ninja"></i>
+                  </div>
+                  <span>Taekwondo</span>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=1455835988&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon danca">
+                    <i class="fas fa-music"></i>
+                  </div>
+                  <span>Dança</span>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGMsRfjbRH1nHIQuLFOz1fzq3rqddEQcUYrY7hsO3_DhRhi8fPzL1sVrj8_gWwhdR9OT8SYamKmVWV/pub?gid=1019774399&single=true&output=pdf" target="_blank" class="workshop-item block px-4 py-3 text-gray-700 hover:text-blue-600 flex items-center gap-3">
+                  <div class="workshop-icon musicalizacao">
+                    <i class="fas fa-guitar"></i>
+                  </div>
+                  <span>Musicalização</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="mt-12 text-center text-sm text-gray-500">
+      <p>© <span id="currentYear"></span> Oficinas CMDCA. Todos os direitos reservados.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Data atual formatada
+    const formatDate = (date) => {
+      const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        timeZone: 'America/Sao_Paulo'
+      };
+      return date.toLocaleDateString('pt-BR', options);
+    };
+    
+    document.getElementById('currentDate').textContent = formatDate(new Date());
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Accordion functionality
+    document.querySelector('.accordion-header').addEventListener('click', function() {
+      const accordion = this.parentElement;
+      accordion.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
