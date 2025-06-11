@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Login PCE</title>
+    <title>Login Unificado</title>
 
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -30,7 +30,7 @@
         <div class="animate form login_form">
           <section class="login_content">
             <form id="loginForm">
-              <h1>Entrar no PCE</h1>
+              <h1>Sistema Unificado</h1>
               <div>
                 <input type="text" id="username" class="form-control" placeholder="Username" required="" />
               </div>
@@ -53,18 +53,11 @@
                 <br />
 
                 <div>
-                  <h1></i> Sistema PCE </h1>
-<a href="https://guardamirim.my.canva.site/" target="_blank">
-<img src="images/unificado.jpg" title="Sistema PCE">
-</a>
-
-
-
-
-
-
-
-                  <p>Sistema PCE. Desenvolvido por Victor Luis Minikowski. Template: Gentelella Alela.</p>
+                  <h1></i> Sistema Unificado </h1>
+                  <a href="https://www.guardamirimlondrina.org.br/" target="_blank">
+                    <img src="images/unificado5.jpg" title="Sistema Unificado">
+                  </a>
+                  <p>Sistema Unificado. Desenvolvido por Victor Luis Minikowski. Template: Gentelella Alela.</p>
                 </div>
               </div>
             </form>
@@ -76,16 +69,65 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       const users = [
-        { username: "victor", password: "190824" },
-        { username: "neverton", password: "854528" },
-        { username: "viviane", password: "452087" },
-        { username: "talita", password: "587814" },
-        { username: "claudio", password: "158745" },
-        { username: "juliana", password: "745147" },
-        { username: "leonardo", password: "874524" },
-        { username: "daniela", password: "854178" },
-        { username: "ranulfo", password: "senha9" },
-        { username: "user10", password: "senha10" }
+        // Nível 1 - UNIFICADO.html
+        { username: "victor", password: "190824", level: 1 },
+        { username: "neverton", password: "854528", level: 1 },
+        { username: "viviane", password: "452087", level: 1 },
+        { username: "talita", password: "587814", level: 1 },
+        { username: "claudio", password: "158745", level: 1 },
+        { username: "juliana", password: "745147", level: 1 },
+        { username: "leonardo", password: "874524", level: 1 },
+        { username: "daniela", password: "854178", level: 1 },
+        { username: "ranulfo", password: "senha9", level: 1 },
+        { username: "user10", password: "senha10", level: 1 },
+        
+        // Nível 2 - UNIFICADO2.html
+        { username: "user11", password: "senha11", level: 2 },
+        { username: "user12", password: "senha12", level: 2 },
+        { username: "user13", password: "senha13", level: 2 },
+        { username: "user14", password: "senha14", level: 2 },
+        { username: "user15", password: "senha15", level: 2 },
+        { username: "user16", password: "senha16", level: 2 },
+        { username: "user17", password: "senha17", level: 2 },
+        { username: "user18", password: "senha18", level: 2 },
+        { username: "user19", password: "senha19", level: 2 },
+        { username: "user20", password: "senha20", level: 2 },
+        
+        // Nível 3 - UNIFICADO3.html
+        { username: "user21", password: "senha21", level: 3 },
+        { username: "user22", password: "senha22", level: 3 },
+        { username: "user23", password: "senha23", level: 3 },
+        { username: "user24", password: "senha24", level: 3 },
+        { username: "user25", password: "senha25", level: 3 },
+        { username: "user26", password: "senha26", level: 3 },
+        { username: "user27", password: "senha27", level: 3 },
+        { username: "user28", password: "senha28", level: 3 },
+        { username: "user29", password: "senha29", level: 3 },
+        { username: "user30", password: "senha30", level: 3 },
+        
+        // Nível 4 - UNIFICADO4.html
+        { username: "user31", password: "senha31", level: 4 },
+        { username: "user32", password: "senha32", level: 4 },
+        { username: "user33", password: "senha33", level: 4 },
+        { username: "user34", password: "senha34", level: 4 },
+        { username: "user35", password: "senha35", level: 4 },
+        { username: "user36", password: "senha36", level: 4 },
+        { username: "user37", password: "senha37", level: 4 },
+        { username: "user38", password: "senha38", level: 4 },
+        { username: "user39", password: "senha39", level: 4 },
+        { username: "user40", password: "senha40", level: 4 },
+        
+        // Nível 5 - UNIFICADO5.html
+        { username: "user41", password: "senha41", level: 5 },
+        { username: "user42", password: "senha42", level: 5 },
+        { username: "user43", password: "senha43", level: 5 },
+        { username: "user44", password: "senha44", level: 5 },
+        { username: "user45", password: "senha45", level: 5 },
+        { username: "user46", password: "senha46", level: 5 },
+        { username: "user47", password: "senha47", level: 5 },
+        { username: "user48", password: "senha48", level: 5 },
+        { username: "user49", password: "senha49", level: 5 },
+        { username: "user50", password: "senha50", level: 5 }
       ];
 
       document.addEventListener('DOMContentLoaded', function () {
@@ -97,8 +139,26 @@
 
           const user = users.find(u => u.username === username && u.password === password);
           if (user) {
-            // Se a senha estiver correta, redireciona para a segunda página
-            window.location.href = "index.html"; // Substitua com o arquivo que deseja abrir após login
+            // Redireciona para a página correspondente ao nível do usuário
+            switch(user.level) {
+              case 1:
+                window.location.href = "UNIFICADO.html";
+                break;
+              case 2:
+                window.location.href = "UNIFICADO2.html";
+                break;
+              case 3:
+                window.location.href = "UNIFICADO3.html";
+                break;
+              case 4:
+                window.location.href = "UNIFICADO4.html";
+                break;
+              case 5:
+                window.location.href = "UNIFICADO5.html";
+                break;
+              default:
+                window.location.href = "UNIFICADO.html";
+            }
           } else {
             alert("Usuário ou senha inválidos.");
           }
