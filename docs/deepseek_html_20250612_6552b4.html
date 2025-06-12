@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avaliação de Desempenho</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f8f9fa; }
+    .container { max-width: 1200px; margin: auto; padding: 20px; background-color: white; box-shadow: 0 0 15px rgba(0,0,0,0.1); border-radius: 8px; }
+    .header { display: flex; align-items: center; gap: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .header img { height: 80px; }
+    .card { margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .card-header { font-weight: bold; background-color: #f8f9fa; }
+    .section-title {
+      margin-top: 30px;
+      background: #0d6efd;
+      color: white;
+      padding: 12px 20px;
+      font-weight: bold;
+      font-size: 1.2em;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 6px;
+    }
+    .table input[type=number] { width: 70px; }
+    .avaliacao-table th, .avaliacao-table td { text-align: center; vertical-align: middle; }
+    .assinaturas { margin-top: 60px; }
+    .assinatura { display: inline-block; width: 30%; text-align: center; margin-right: 3%; }
+    .assinatura hr { margin-top: 40px; margin-bottom: 5px; border: none; border-top: 1px solid #000; }
+    .btns { margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; }
+    textarea { resize: none; }
+    table { margin-bottom: 30px; }
+    .required-field::after { content: " *"; color: red; }
+    .factor-description { font-size: 0.85em; color: #6c757d; margin-bottom: 8px; }
+    .media-display { 
+      background-color: #f8f9fa; 
+      padding: 10px 15px; 
+      border-radius: 5px; 
+      font-weight: bold; 
+      margin-right: 15px;
+      display: inline-block;
+    }
+    .media-container { margin: 20px 0; }
+    @media (max-width: 768px) {
+      .header { flex-direction: column; text-align: center; }
+      .header img { margin-bottom: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="formulario">
+    <div class="header">
+      <img src="guarda.jpg" alt="Logo da guarda" style="max-height: 100px;">
+      <h1>Avaliação de Desempenho - Educadores Sociais</h1>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Dados do Colaborador</div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="required-field">Nome do Colaborador:</label>
+            <input type="text" class="form-control" name="nome" required />
+          </div>
+          <div class="col-md-6">
+            <label class="required-field">Cargo:</label>
+            <input type="text" class="form-control" name="cargo" required />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="required-field">Data de Admissão:</label>
+            <input type="date" class="form-control" name="admissao" required />
+          </div>
+          <div class="col-md-6">
+            <label class="required-field">Período Avaliado:</label>
+            <input type="text" class="form-control" name="periodo" placeholder="Ex: 01/2023 a 06/2023" required />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Gestores Responsáveis</div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="required-field">Supervisão:</label>
+            <input type="text" class="form-control" name="supervisao" required />
+          </div>
+          <div class="col-md-6">
+            <label class="required-field">Coordenação:</label>
+            <input type="text" class="form-control" name="coordenacao" required />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label>Gerência Geral:</label>
+            <input type="text" class="form-control" value="CLÁUDIO MELO" disabled />
+          </div>
+          <div class="col-md-6">
+            <label>Gestão de Pessoas/DPTO Pessoal:</label>
+            <input type="text" class="form-control" value="JULIANA DE MEIRA" disabled />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <i class="bi bi-list-check"></i> Fatores Gerais (1 a 12)
+    </div>
+    <div id="fatores-gerais" class="row"></div>
+
+    <div class="section-title">
+      <i class="bi bi-list-task"></i> Fatores Específicos (13 a 20)
+    </div>
+    <div id="fatores-especificos"></div>
+
+    <div class="card">
+      <div class="card-header">Observações e Médias</div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label>Comentários:</label>
+          <textarea class="form-control" name="comentarios" rows="3" placeholder="Digite aqui observações relevantes..."></textarea>
+        </div>
+
+        <div class="media-container">
+          <span class="media-display"><i class="bi bi-calculator"></i> Média Fatores Gerais: <span id="mediaGerais">0.0</span></span>
+          <span class="media-display"><i class="bi bi-calculator"></i> Média Fatores Específicos: <span id="mediaEspecificos">0.0</span></span>
+          <span class="media-display"><i class="bi bi-graph-up"></i> Média Total: <span id="mediaTotal">0.0</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="btns">
+      <button class="btn btn-primary" onclick="validateAndExport('pdf')">
+        <i class="bi bi-file-earmark-pdf"></i> Gerar PDF
+      </button>
+      <button class="btn btn-success" onclick="validateAndExport('xls')">
+        <i class="bi bi-file-earmark-excel"></i> Exportar XLS
+      </button>
+      <button class="btn btn-secondary" onclick="validateAndExport('sheets')">
+        <i class="bi bi-archive"></i> Salvar na Planilha
+      </button>
+      <button class="btn btn-outline-primary" onclick="window.open('https://forms.gle/eA32geGeuyEw4s6a7', '_blank')">
+        <i class="bi bi-box-arrow-up-right"></i> Arquivar
+      </button>
+    </div>
+
+    <p class="mt-4"><strong><i class="bi bi-calendar"></i> Data:</strong> <span id="dataAtual"></span></p>
+  </div>
+
+  <script>
+    document.getElementById('dataAtual').textContent = new Date().toLocaleDateString('pt-BR');
+
+    const fatoresGerais = [
+      "Relacionamento Interpessoal", "Disciplina", "Assiduidade", "Pontualidade",
+      "Responsabilidade", "Organização", "Comprometimento", "Produtividade",
+      "Proatividade", "Ética Profissional", "Iniciativa", "Trabalho em Equipe"
+    ];
+
+    const fatoresEspecificos = [
+      { nome: "Rotina de sala de atividade", subitens: ["Autogestão", "Acolhida", "Desenv. Ativ.", "Finaliz. Ativ.", "Avaliação", "Intervalo/Almoço", "Trânsito pela Entidade"] },
+      { nome: "Escalas de acompanhamento aos educandos", subitens: ["Pontualidade", "Atenção", "Orientação", "Comunicação"] },
+      { nome: "Planejamento", subitens: ["Pontualidade", "Preenchimento Adequado", "Solicit. Materiais", "Execução"] },
+      { nome: "Percurso", subitens: ["Adequação", "Aplicabilidade", "Cronologia", "Efetividade"] },
+      { nome: "Pacto de Convivência e Orientações Comportamentais", subitens: ["Apropriação", "Respeito", "Orientação", "Preenchimento Adequado", "Encaminhamento"] },
+      { nome: "Atendimento com educando e família", subitens: ["Postura", "Posição", "Ética", "Integração"] },
+      { nome: "Informação e pertencimento SCFV/GML", subitens: ["Alinhamento Valores", "Alinhamento Missão", "Noções Direitos Humanos", "SUAS", "ECA", "Desenv. Pertencimento"] },
+      { nome: "Mediação de Conflitos", subitens: ["Prevenção", "Mediação", "Resolução"] }
+    ];
+
+    function criarTabelaFatoresGerais() {
+      const container = document.getElementById('fatores-gerais');
+
+      const nomes = [
+        "Pontualidade",
+        "Assiduidade",
+        "Disciplina e Organização",
+        "Adaptação",
+        "Relacionamento interpessoal",
+        "Iniciativa",
+        "Interesse",
+        "Conhecimento",
+        "Qualidade técnica",
+        "Postura ética",
+        "Saúde e segurança",
+        "Consumo consciente"
+      ];
+
+      const descricoes = [
+        "o colaborador cumpre o horário de entrada e saída da entidade",
+        "o colaborador cumpre a carga horária definida justificando, quando necessária, a ausência/falta",
+        "o colaborador cumpre o regimento interno, pacto de convivência e orientações voltadas para a efetividade do trabalho",
+        "o colaborador identifica-se com as atividades de seu cargo e com as características da entidade, reagindo positivamente às mudanças necessárias",
+        "o colaborador comunica-se de forma positiva e tem bom relacionamento/fácil convivência com superiores, colegas, educandos e seus familiares.",
+        "o colaborador demonstra atitude proativa e apresenta alternativas e sugestões para providências voltadas para a resolução de questões cotidianas e melhorias das atividades que desenvolve.",
+        "o colaborador demonstra dedicação e esforço pessoal em aperfeiçoar-se cada vez mais para assumir novas responsabilidades.",
+        "o colaborador tem conhecimento teórico e prático para a execução das atividades.",
+        "o colaborador tem domínio dos processos, ferramentas e habilidades necessárias ao desempenho das atividades.",
+        "o colaborador tem atitudes de idoneidade, cidadania e integridade com relação à entidade, colegas e educandos, respeitando o sigilo.",
+        "tem conhecimento sobre as orientações acerca da segurança no trabalho e age de maneira preventiva a evitar danos à saúde, fazendo uso adequado de equipamentos de proteção, quando necessário.",
+        "compreende sobre a relevância de projetos de desenvolvimento sustentável e de consumo consciente, evitando consumo excessivo de recursos materiais e alimentícios."
+      ];
+
+      nomes.forEach((nome, i) => {
+        const col = document.createElement('div');
+        col.className = 'col-md-6 mb-3';
+        col.innerHTML = `
+          <label><strong>${i + 1}. ${nome}</strong></label>
+          <div class="factor-description">${descricoes[i]}</div>
+          <div class="input-group">
+            <input type="number" class="form-control" name="fator${i + 1}" min="0" max="10" step="0.1" onchange="calcularMedias()" required>
+            <span class="input-group-text">/ 10</span>
+          </div>
+        `;
+        container.appendChild(col);
+      });
+    }
+
+    function criarTabelaFatoresEspecificos() {
+      const container = document.getElementById('fatores-especificos');
+      fatoresEspecificos.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'card mb-4';
+        
+        const cardHeader = document.createElement('div');
+        cardHeader.className = 'card-header';
+        cardHeader.textContent = `${idx + 13}. ${item.nome}`;
+        card.appendChild(cardHeader);
+        
+        const cardBody = document.createElement('div');
+        cardBody.className = 'card-body';
+        
+        const table = document.createElement('table');
+        table.className = 'table table-bordered avaliacao-table';
+        
+        let html = `<thead><tr>`;
+        item.subitens.forEach(sub => {
+          html += `<th>${sub}</th>`;
+        });
+        html += `<th>Média</th></tr></thead><tbody><tr>`;
+        
+        item.subitens.forEach((_, i) => {
+          html += `<td><input type="number" class="form-control" name="esp${idx}_${i}" min="0" max="10" step="0.1" onchange="calcularMedias()" required></td>`;
+        });
+        
+        html += `<td><span id="mediaEsp${idx}" class="badge bg-primary">0.0</span></td>`;
+        html += `</tr></tbody>`;
+        
+        table.innerHTML = html;
+        cardBody.appendChild(table);
+        card.appendChild(cardBody);
+        container.appendChild(card);
+      });
+    }
+
+    function calcularMedias() {
+      let somaGerais = 0, countGerais = 0;
+      fatoresGerais.forEach((_, i) => {
+        const val = parseFloat(document.querySelector(`[name='fator${i + 1}']`).value) || 0;
+        if (!isNaN(val)) {
+          somaGerais += val;
+          countGerais++;
+        }
+      });
+      const mediaGerais = countGerais > 0 ? (somaGerais / countGerais).toFixed(1) : "0.0";
+      document.getElementById('mediaGerais').textContent = mediaGerais;
+
+      let somaEspecificos = 0, countEspecificos = 0;
+      fatoresEspecificos.forEach((item, idx) => {
+        let soma = 0, count = 0;
+        item.subitens.forEach((_, i) => {
+          const val = parseFloat(document.querySelector(`[name='esp${idx}_${i}']`).value) || 0;
+          if (!isNaN(val)) {
+            soma += val;
+            count++;
+          }
+        });
+        const media = count > 0 ? (soma / count).toFixed(1) : "0.0";
+        document.getElementById(`mediaEsp${idx}`).textContent = media;
+        if (count > 0) {
+          somaEspecificos += parseFloat(media);
+          countEspecificos++;
+        }
+      });
+      
+      const mediaEspecificos = countEspecificos > 0 ? (somaEspecificos / countEspecificos).toFixed(1) : "0.0";
+      document.getElementById('mediaEspecificos').textContent = mediaEspecificos;
+
+      const totalGerais = parseFloat(mediaGerais) || 0;
+      const totalEspecificos = parseFloat(mediaEspecificos) || 0;
+      const mediaTotal = ((totalGerais + totalEspecificos) / 2).toFixed(1);
+      document.getElementById('mediaTotal').textContent = mediaTotal;
+    }
+
+    function validateForm() {
+      const requiredFields = document.querySelectorAll('[required]');
+      let isValid = true;
+      
+      requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+          field.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          field.classList.remove('is-invalid');
+        }
+      });
+      
+      // Verificar se todas as notas foram preenchidas
+      const allInputs = document.querySelectorAll('input[type="number"]');
+      allInputs.forEach(input => {
+        const value = parseFloat(input.value);
+        if (isNaN(value) {
+          input.classList.add('is-invalid');
+          isValid = false;
+        } else if (value < 0 || value > 10) {
+          input.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          input.classList.remove('is-invalid');
+        }
+      });
+      
+      if (!isValid) {
+        alert('Por favor, preencha todos os campos obrigatórios e verifique se todas as notas estão entre 0 e 10.');
+        return false;
+      }
+      
+      return true;
+    }
+
+    function getFormData() {
+      const data = {
+        nome: document.querySelector("[name='nome']").value,
+        cargo: document.querySelector("[name='cargo']").value,
+        admissao: document.querySelector("[name='admissao']").value,
+        periodo: document.querySelector("[name='periodo']").value,
+        supervisao: document.querySelector("[name='supervisao']").value,
+        coordenacao: document.querySelector("[name='coordenacao']").value,
+        comentarios: document.querySelector("[name
