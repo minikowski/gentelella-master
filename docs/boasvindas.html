@@ -124,22 +124,66 @@
         </div>
       </section>
 
-      <!-- Instruction Card - Reduzido -->
+      <!-- Calendário Sociopedagógico -->
       <section class="glass-card p-6 rounded-3xl shadow-lg hover-scale transition-all duration-300">
         <div class="flex items-start gap-3">
           <div class="bg-indigo-100 p-2 rounded-lg flex-shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
-          <div>
-            <p class="text-base text-gray-700 font-medium">
-              Para começar, escolha a opção desejada no menu à esquerda.
-            </p>
-            <div class="divider my-3"></div>
-            <p class="text-xs text-gray-500">
-              Navegue pelas funcionalidades do sistema utilizando o painel lateral.
-            </p>
+          <div class="w-full">
+            <div class="flex justify-between items-center mb-2">
+              <p class="text-sm font-medium text-gray-700">Calendário Sociopedagógico</p>
+              <span class="text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">Junho</span>
+            </div>
+            
+            <!-- Eventos do Mês -->
+            <div class="mb-3 max-h-40 overflow-y-auto pr-2 scrollbar-thin">
+              <div class="flex items-start gap-2 mb-2">
+                <div class="mt-1 flex-shrink-0 w-2 h-2 bg-indigo-400 rounded-full"></div>
+                <div>
+                  <p class="text-xs font-medium text-gray-800">Confecção para Festa Cultural do Campo</p>
+                  <p class="text-xs text-gray-500">Todo o mês</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start gap-2 mb-2">
+                <div class="mt-1 flex-shrink-0 w-2 h-2 bg-indigo-400 rounded-full"></div>
+                <div>
+                  <p class="text-xs font-medium text-gray-800">Preparação Aniversário Guarda Mirim</p>
+                  <p class="text-xs text-gray-500">Todo o mês</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start gap-2 mb-2">
+                <div class="mt-1 flex-shrink-0 w-2 h-2 bg-indigo-400 rounded-full"></div>
+                <div>
+                  <p class="text-xs font-medium text-gray-800">Avaliação semestral</p>
+                  <p class="text-xs text-gray-500">Todo o mês</p>
+                </div>
+              </div>
+              
+              <!-- Datas importantes -->
+              <div class="mt-3">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-xs font-semibold text-indigo-600">12/06</span>
+                  <span class="text-xs text-gray-700">Dia Mundial de Combate ao Trabalho Infantil</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-semibold text-indigo-600">15/06</span>
+                  <span class="text-xs text-gray-700">Dia de Combate à Violência contra a Pessoa Idosa</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="divider my-2"></div>
+            
+            <!-- Próximos meses -->
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-500">Julho: Festa Cultural, Aniversário Guarda Mirim</span>
+              <button class="text-indigo-500 hover:text-indigo-700">Ver mais</button>
+            </div>
           </div>
         </div>
       </section>
