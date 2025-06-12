@@ -73,6 +73,29 @@
       background-color: rgba(79, 70, 229, 0.05);
       border-left: 3px solid var(--primary);
     }
+    
+    #calendarEvents {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    /* Estilo personalizado para a barra de rolagem */
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: rgba(79, 70, 229, 0.3);
+      border-radius: 2px;
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background: rgba(79, 70, 229, 0.5);
+    }
   </style>
 </head>
 <body class="p-4 min-h-screen">
@@ -140,60 +163,19 @@
           <div class="w-full h-full flex flex-col">
             <div class="flex justify-between items-center mb-2">
               <p class="text-sm font-medium text-gray-700">Calendário Sociopedagógico</p>
-              <span class="text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">Junho</span>
+              <span id="currentMonth" class="text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full"></span>
             </div>
             
             <!-- Eventos do Mês compactos -->
-            <div class="flex-1 overflow-y-auto pr-1 scrollbar-thin text-xs">
-              <!-- Evento do dia (se houver) -->
-              <div id="todayEvent" class="today-event p-2 rounded mb-2 hidden">
-                <!-- Preenchido por JavaScript -->
-              </div>
-              
-              <!-- Eventos do Mês -->
-              <div class="flex items-start gap-2 mb-1">
-                <div class="mt-1 flex-shrink-0 w-2 h-2 bg-indigo-400 rounded-full"></div>
-                <div>
-                  <p class="font-medium text-gray-800">Confecção para Festa Cultural do Campo</p>
-                  <p class="text-gray-500">Todo o mês</p>
-                </div>
-              </div>
-              
-              <div class="flex items-start gap-2 mb-1">
-                <div class="mt-1 flex-shrink-0 w-2 h-2 bg-indigo-400 rounded-full"></div>
-                <div>
-                  <p class="font-medium text-gray-800">Preparação Aniversário Guarda Mirim</p>
-                  <p class="text-gray-500">Todo o mês</p>
-                </div>
-              </div>
-              
-              <div class="flex items-start gap-2 mb-1">
-                <div class="mt-1 flex-shrink-0 w-2 h-2 bg-indigo-400 rounded-full"></div>
-                <div>
-                  <p class="font-medium text-gray-800">Avaliação semestral</p>
-                  <p class="text-gray-500">Todo o mês</p>
-                </div>
-              </div>
-              
-              <!-- Datas importantes -->
-              <div class="mt-2">
-                <div class="flex items-center gap-2 mb-1 text-gray-600">
-                  <span class="font-semibold text-indigo-600">12/06</span>
-                  <span>Dia Mundial de Combate ao Trabalho Infantil</span>
-                </div>
-                <div class="flex items-center gap-2 text-gray-600">
-                  <span class="font-semibold text-indigo-600">15/06</span>
-                  <span>Dia de Combate à Violência contra a Pessoa Idosa</span>
-                </div>
-              </div>
+            <div id="calendarEvents" class="flex-1 overflow-y-auto pr-1 scrollbar-thin text-xs">
+              <!-- Preenchido por JavaScript -->
             </div>
             
             <div class="divider my-1"></div>
             
             <!-- Próximos meses compacto -->
-            <div class="flex items-center justify-between text-xs text-gray-500">
-              <span>Julho: Festa Cultural, Aniversário Guarda Mirim</span>
-              <button class="text-indigo-500 hover:text-indigo-700">Ver mais</button>
+            <div id="nextMonths" class="flex items-center justify-between text-xs text-gray-500">
+              <!-- Preenchido por JavaScript -->
             </div>
           </div>
         </div>
@@ -235,38 +217,238 @@
     const hoje = new Date();
     const diaSemana = diasSemana[hoje.getDay()];
     const dia = hoje.getDate();
-    const mes = meses[hoje.getMonth()];
+    const mesAtual = hoje.getMonth();
+    const mesNome = meses[mesAtual];
     const ano = hoje.getFullYear();
 
-    const dataFormatada = `Hoje é <span class="font-semibold text-indigo-600">${diaSemana}</span>, ${dia} de <span class="font-semibold text-indigo-600">${mes}</span> de ${ano}.`;
+    const dataFormatada = `Hoje é <span class="font-semibold text-indigo-600">${diaSemana}</span>, ${dia} de <span class="font-semibold text-indigo-600">${mesNome}</span> de ${ano}.`;
 
     document.getElementById("dataAtual").innerHTML = dataFormatada;
     document.getElementById("saudacao").textContent = getSaudacao();
+    document.getElementById("currentMonth").textContent = mesNome.toUpperCase();
     
     // Ano atual para o copyright
     document.getElementById("currentYear").textContent = new Date().getFullYear();
 
-    // Verificar se há evento hoje e destacá-lo
-    function checkTodayEvents() {
-      const todayEvents = [
-        { date: 12, title: "Dia Mundial de Combate ao Trabalho Infantil" },
-        { date: 15, title: "Dia de Combate à Violência contra a Pessoa Idosa" }
-      ];
+    // Dados do calendário sociopedagógico atualizados
+    const calendarioSociopedagogico = {
+      5: { // Junho
+        eventos: [
+          "Confecção e preparação para a Festa Cultural do Campo",
+          "Preparação e confecção da ambientação para o Aniversário da Guarda Mirim",
+          "Avaliação semestral das atividades",
+          "Revisão do Projeto Pedagógico Anual"
+        ],
+        datasImportantes: [
+          { dia: 5, desc: "Dia Mundial do Meio Ambiente" },
+          { dia: 6, desc: "Aniversário da Lei 8.662/93 (Assistente Social)" },
+          { dia: 12, desc: "Dia Mundial de Enfrentamento ao Trabalho Infantil" },
+          { dia: 15, desc: "Dia Mundial de Enfrentamento à Violência contra a Pessoa Idosa" },
+          { dia: 18, desc: "Dia do Orgulho Autista" },
+          { dia: 19, desc: "Corpus Christi" },
+          { dia: 20, desc: "Dia Mundial da(o)s Refugiada(o)s" },
+          { dia: 21, desc: "Dia Internacional da Educação Não Sexista" },
+          { dia: 26, desc: "Dia Internacional de Luta contra a Tortura e Abuso de Drogas" },
+          { dia: 27, desc: "Dia Mundial do Orgulho LGBTQIA+" }
+        ]
+      },
+      6: { // Julho
+        eventos: [
+          "Realização da Festa Cultural do Campo",
+          "Comemoração do Aniversário da Guarda Mirim",
+          "Atividades lúdicas de férias",
+          "Confecção da ambientação do Agosto Lilás"
+        ],
+        datasImportantes: [
+          { dia: 6, desc: "Aniversário da Lei Brasileira de Inclusão (LBI)" },
+          { dia: 13, desc: "Aniversário do Estatuto da Criança e do Adolescente – ECA" },
+          { dia: 14, desc: "Dia Mundial da Liberdade de Pensamento" },
+          { dia: 25, desc: "Dia Internacional da Mulher Negra Latino-americana e Caribenha" }
+        ]
+      },
+      7: { // Agosto
+        eventos: [
+          "Campanha Agosto Lilás – enfrentamento à violência doméstica e familiar contra a mulher",
+          "Confecção e preparação para o Desfile Cívico",
+          "Atividades alusivas ao Dia Nacional da Saúde"
+        ],
+        datasImportantes: [
+          { dia: 7, desc: "Aniversário da Lei Maria da Penha (Lei 11.340/06)" },
+          { dia: 9, desc: "Dia Internacional de Luta dos Povos Indígenas" },
+          { dia: 12, desc: "Dia de Luta contra a Violência no Campo" },
+          { dia: 19, desc: "Dia de Luta do Movimento Nacional da População em Situação de Rua e Dia Nacional do Orgulho Lésbico" },
+          { dia: 22, desc: "Dia do Coordenador/Supervisor Pedagógico" },
+          { dia: 29, desc: "Dia Nacional da Visibilidade Lésbica" },
+          { dia: 30, desc: "Dia de Conscientização sobre Esclerose Múltipla" }
+        ]
+      },
+      8: { // Setembro
+        eventos: [
+          "Realização do Desfile Cívico",
+          "Campanha Setembro Amarelo – prevenção ao suicídio",
+          "Confecção e preparação da ambientação do Outubro Rosa",
+          "Capacitação da equipe"
+        ],
+        datasImportantes: [
+          { dia: 6, desc: "Dia Internacional de Luta pela Igualdade das Mulheres" },
+          { dia: 7, desc: "Dia da Independência do Brasil / Grito dos/as Excluídos/as" },
+          { dia: 19, desc: "Dia do Educador Social / Congresso da Virada" },
+          { dia: 21, desc: "Dia Nacional de Luta das Pessoas com Deficiência" },
+          { dia: 23, desc: "Dia Internacional Contra a Exploração Sexual e o Tráfico de Mulheres e Crianças" },
+          { dia: 26, desc: "Dia Nacional da Pessoa Surda" },
+          { dia: 28, desc: "Dia Latino-Americano e Caribenho pela Descriminalização e Legalização do Aborto" }
+        ]
+      },
+      9: { // Outubro
+        eventos: [
+          "Campanha Outubro Rosa – conscientização para a detecção precoce do câncer de mama",
+          "Semana da Criança",
+          "Início da elaboração do Pré-Projeto Pedagógico Anual",
+          "Confecção e preparação da ambientação do Novembro Azul",
+          "Confecção e ambientação para o Dia da Consciência Negra",
+          "Finalização dos materiais para a Mostra de Projetos"
+        ],
+        datasImportantes: [
+          { dia: 1, desc: "Dia Nacional da Pessoa Idosa / Aniversário do Estatuto da Pessoa Idosa" },
+          { dia: 5, desc: "Aniversário da Constituição Cidadã" },
+          { dia: 10, desc: "Dia Nacional de Luta Contra a Violência à Mulher / Dia Mundial da Saúde Mental" },
+          { dia: 11, desc: "Dia Internacional da Menina" },
+          { dia: 15, desc: "Dia da Professora e do Professor" },
+          { dia: 17, desc: "Dia Internacional Para Erradicação da Pobreza" },
+          { dia: 28, desc: "Dia da Servidora e do Servidor Público" }
+        ]
+      },
+      10: { // Novembro
+        eventos: [
+          "Campanha Novembro Azul – prevenção e diagnóstico precoce do câncer de próstata",
+          "Mostra de Projetos",
+          "Confecção e preparação da ambientação de Natal"
+        ],
+        datasImportantes: [
+          { dia: 2, desc: "Finados" },
+          { dia: 4, desc: "Dia da Favela" },
+          { dia: 15, desc: "Proclamação da República" },
+          { dia: 20, desc: "Dia da Consciência Negra e Dia Nacional de Zumbi dos Palmares" },
+          { dia: 25, desc: "Dia Internacional de Luta Contra a Violência à Mulher" }
+        ]
+      },
+      11: { // Dezembro
+        eventos: [
+          "Decoração de Natal",
+          "Atividades lúdicas",
+          "Apresentação do Projeto Pedagógico Anual",
+          "Elaboração do Relatório Anual de Atividades",
+          "Atividades com piscina",
+          "Assembleia com as famílias"
+        ],
+        datasImportantes: [
+          { dia: 1, desc: "Dia Mundial de Luta contra a Aids" },
+          { dia: 3, desc: "Dia Internacional da Pessoa com Deficiência / Dia de Combate ao Uso dos Agrotóxicos" },
+          { dia: 7, desc: "Aniversário da Lei Orgânica da Assistência Social – LOAS" },
+          { dia: 10, desc: "Dia Internacional dos Direitos Humanos" },
+          { dia: 19, desc: "Aniversário do Estatuto dos Povos Indígenas" },
+          { dia: 25, desc: "Natal" }
+        ]
+      }
+    };
+
+    // Função para carregar os eventos do mês atual
+    function loadCalendarEvents() {
+      const calendarEvents = document.getElementById('calendarEvents');
+      const nextMonths = document.getElementById('nextMonths');
       
-      const todayEvent = todayEvents.find(event => event.date === dia);
-      const todayEventElement = document.getElementById('todayEvent');
+      // Limpar conteúdo existente
+      calendarEvents.innerHTML = '';
       
-      if (todayEvent) {
+      // Obter dados do mês atual
+      const mesAtualData = calendarioSociopedagogico[mesAtual];
+      
+      // Se não houver dados para o mês atual (ex: janeiro a maio)
+      if (!mesAtualData) {
+        calendarEvents.innerHTML = '<p class="text-gray-500 text-center py-4">Nenhum evento programado para este mês</p>';
+        nextMonths.innerHTML = '<span class="text-gray-500">Próximos meses: Junho a Dezembro com atividades programadas</span>';
+        return;
+      }
+      
+      // Verificar se há evento hoje e destacá-lo
+      const eventosHoje = mesAtualData.datasImportantes.filter(event => event.dia === dia);
+      
+      if (eventosHoje.length > 0) {
+        const todayEventElement = document.createElement('div');
+        todayEventElement.className = 'today-event p-2 rounded mb-2';
         todayEventElement.innerHTML = `
           <div class="flex items-center gap-2">
             <span class="font-bold text-indigo-600">HOJE:</span>
-            <span class="font-medium">${todayEvent.title}</span>
+            <span class="font-medium">${eventosHoje[0].desc}</span>
           </div>
         `;
-        todayEventElement.classList.remove('hidden');
+        calendarEvents.appendChild(todayEventElement);
       }
+      
+      // Adicionar eventos do mês
+      mesAtualData.eventos.forEach(evento => {
+        const eventElement = document.createElement('div');
+        eventElement.className = 'flex items-start gap-2 mb-2';
+        eventElement.innerHTML = `
+          <div class="mt-1 flex-shrink-0 w-2 h-2 bg-indigo-400 rounded-full"></div>
+          <div>
+            <p class="font-medium text-gray-800">${evento}</p>
+          </div>
+        `;
+        calendarEvents.appendChild(eventElement);
+      });
+      
+      // Adicionar datas importantes
+      if (mesAtualData.datasImportantes.length > 0) {
+        const divider = document.createElement('div');
+        divider.className = 'divider my-2';
+        calendarEvents.appendChild(divider);
+        
+        const datesTitle = document.createElement('p');
+        datesTitle.className = 'text-xs font-semibold text-gray-600 mb-1';
+        datesTitle.textContent = 'Datas Comemorativas e de Luta:';
+        calendarEvents.appendChild(datesTitle);
+        
+        mesAtualData.datasImportantes.forEach(data => {
+          const dateElement = document.createElement('div');
+          dateElement.className = 'flex items-center gap-2 mb-1 text-gray-600';
+          dateElement.innerHTML = `
+            <span class="font-semibold text-indigo-600">${data.dia.toString().padStart(2, '0')}/${(mesAtual + 1).toString().padStart(2, '0')}</span>
+            <span>${data.desc}</span>
+          `;
+          calendarEvents.appendChild(dateElement);
+        });
+      }
+      
+      // Adicionar resumo dos próximos meses
+      const nextMonth1 = (mesAtual + 1) % 12;
+      const nextMonth2 = (mesAtual + 2) % 12;
+      
+      const nextMonth1Data = calendarioSociopedagogico[nextMonth1];
+      const nextMonth2Data = calendarioSociopedagogico[nextMonth2];
+      
+      let nextMonthsText = '';
+      
+      if (nextMonth1Data) {
+        nextMonthsText += `${meses[nextMonth1].charAt(0).toUpperCase() + meses[nextMonth1].slice(1)}: `;
+        nextMonthsText += nextMonth1Data.eventos.slice(0, 1).join(', ');
+      }
+      
+      if (nextMonth2Data) {
+        if (nextMonthsText) nextMonthsText += ' | ';
+        nextMonthsText += `${meses[nextMonth2].charAt(0).toUpperCase() + meses[nextMonth2].slice(1)}: `;
+        nextMonthsText += nextMonth2Data.eventos.slice(0, 1).join(', ');
+      }
+      
+      if (!nextMonthsText) {
+        nextMonthsText = 'Próximos meses: Junho a Dezembro com atividades programadas';
+      }
+      
+      nextMonths.innerHTML = `
+        <span>${nextMonthsText}</span>
+      `;
     }
-    
+
     // API de Clima - Open-Meteo (gratuita)
     async function fetchWeather() {
       try {
@@ -323,7 +505,7 @@
     // Chamar as funções quando a página carregar
     window.addEventListener('DOMContentLoaded', () => {
       fetchWeather();
-      checkTodayEvents();
+      loadCalendarEvents();
     });
   </script>
 </body>
