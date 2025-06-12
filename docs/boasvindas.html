@@ -19,6 +19,8 @@
       background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       color: #111827;
+      height: 100vh;
+      overflow: hidden;
     }
     
     .glass-card {
@@ -66,139 +68,146 @@
       width: 40px;
       height: 40px;
     }
+    
+    .today-event {
+      background-color: rgba(79, 70, 229, 0.05);
+      border-left: 3px solid var(--primary);
+    }
   </style>
 </head>
-<body class="p-8 min-h-screen flex flex-col items-center">
-  <div class="max-w-5xl w-full">
-    <!-- Header Section -->
-    <header class="flex items-center gap-6 mb-6 justify-center">
-      <div class="logo-shadow">
-        <img src="img2.jpg" alt="Logo Sistema Unificado" class="w-24 h-24 object-contain rounded-xl"/>
+<body class="p-4 min-h-screen">
+  <div class="max-w-5xl w-full mx-auto h-full flex flex-col">
+    <!-- Header Section compacta -->
+    <header class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-4">
+        <div class="logo-shadow">
+          <img src="img2.jpg" alt="Logo Sistema Unificado" class="w-16 h-16 object-contain rounded-xl"/>
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 tracking-tight">
+            <span class="text-gradient">Sistema Unificado</span>
+          </h1>
+          <p class="text-xs text-gray-500">Plataforma integrada de soluções</p>
+        </div>
       </div>
-      <div class="text-center md:text-left">
-        <h1 class="text-4xl font-bold text-gray-900 tracking-tight">
-          <span class="text-gradient">Sistema Unificado</span>
-        </h1>
-        <p class="text-gray-500 mt-1">Plataforma integrada de soluções</p>
-      </div>
-    </header>
-
-    <!-- Quick Links -->
-    <div class="glass-card p-4 rounded-xl shadow-sm mb-6 w-full mx-auto">
-      <div class="flex justify-center gap-4">
+      
+      <!-- Quick Links compactos -->
+      <div class="flex gap-2">
         <a href="https://raiztecnologia.jelastic.saveincloud.net/agml/sys_log/index_login.php" 
            target="_blank" 
            rel="noopener noreferrer"
-           class="link-box flex-1 text-center py-2 px-3 rounded-lg text-sm font-medium text-indigo-600 hover:text-indigo-700 border border-indigo-100">
-          Sistema AGML
+           class="link-box text-xs py-1 px-2 rounded-md font-medium text-indigo-600 hover:text-indigo-700 border border-indigo-100">
+          AGML
         </a>
         <a href="https://www2.londrina.pr.gov.br/sistemas/asoc/IRSAS_WEB_V1/" 
            target="_blank" 
            rel="noopener noreferrer"
-           class="link-box flex-1 text-center py-2 px-3 rounded-lg text-sm font-medium text-indigo-600 hover:text-indigo-700 border border-indigo-100">
+           class="link-box text-xs py-1 px-2 rounded-md font-medium text-indigo-600 hover:text-indigo-700 border border-indigo-100">
           IRSAS
         </a>
       </div>
-    </div>
+    </header>
 
-    <main class="space-y-6 w-full mx-auto">
-      <!-- Welcome Card - Reduzido -->
-      <section class="glass-card p-6 rounded-3xl shadow-lg hover-scale transition-all duration-300">
-        <div class="flex flex-col md:flex-row md:items-center gap-6">
-          <div class="flex-1">
-            <h2 class="text-xl md:text-2xl font-semibold mb-4 text-gray-800 leading-tight">
-              <span id="saudacao" class="text-indigo-600"></span>! Seja bem-vindo(a) ao <span class="text-2xl md:text-3xl font-bold text-indigo-600">Sistema Unificado</span>.
+    <main class="flex-1 grid grid-cols-1 gap-4">
+      <!-- Welcome Card compacto -->
+      <section class="glass-card p-4 rounded-2xl hover-scale transition-all duration-300">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-semibold text-gray-800">
+              <span id="saudacao" class="text-indigo-600"></span>! Bem-vindo(a) ao <span class="font-bold text-indigo-600">Sistema Unificado</span>.
             </h2>
-            <p id="dataAtual" class="text-base text-gray-600 leading-relaxed mb-3"></p>
-            <div id="weatherInfo" class="flex items-center gap-2 text-sm text-gray-600">
+            <p id="dataAtual" class="text-sm text-gray-600"></p>
+            <div id="weatherInfo" class="flex items-center gap-2 text-xs text-gray-600 mt-1">
               <span class="font-medium">Carregando clima...</span>
             </div>
           </div>
-          <div class="hidden md:block">
-            <div class="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            </div>
+          <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
           </div>
         </div>
       </section>
 
-      <!-- Calendário Sociopedagógico -->
-      <section class="glass-card p-6 rounded-3xl shadow-lg hover-scale transition-all duration-300">
-        <div class="flex items-start gap-3">
+      <!-- Calendário Sociopedagógico compacto -->
+      <section class="glass-card p-4 rounded-2xl hover-scale transition-all duration-300 flex-1">
+        <div class="flex items-start gap-3 h-full">
           <div class="bg-indigo-100 p-2 rounded-lg flex-shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
-          <div class="w-full">
+          <div class="w-full h-full flex flex-col">
             <div class="flex justify-between items-center mb-2">
               <p class="text-sm font-medium text-gray-700">Calendário Sociopedagógico</p>
               <span class="text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">Junho</span>
             </div>
             
-            <!-- Eventos do Mês -->
-            <div class="mb-3 max-h-40 overflow-y-auto pr-2 scrollbar-thin">
-              <div class="flex items-start gap-2 mb-2">
+            <!-- Eventos do Mês compactos -->
+            <div class="flex-1 overflow-y-auto pr-1 scrollbar-thin text-xs">
+              <!-- Evento do dia (se houver) -->
+              <div id="todayEvent" class="today-event p-2 rounded mb-2 hidden">
+                <!-- Preenchido por JavaScript -->
+              </div>
+              
+              <!-- Eventos do Mês -->
+              <div class="flex items-start gap-2 mb-1">
                 <div class="mt-1 flex-shrink-0 w-2 h-2 bg-indigo-400 rounded-full"></div>
                 <div>
-                  <p class="text-xs font-medium text-gray-800">Confecção para Festa Cultural do Campo</p>
-                  <p class="text-xs text-gray-500">Todo o mês</p>
+                  <p class="font-medium text-gray-800">Confecção para Festa Cultural do Campo</p>
+                  <p class="text-gray-500">Todo o mês</p>
                 </div>
               </div>
               
-              <div class="flex items-start gap-2 mb-2">
+              <div class="flex items-start gap-2 mb-1">
                 <div class="mt-1 flex-shrink-0 w-2 h-2 bg-indigo-400 rounded-full"></div>
                 <div>
-                  <p class="text-xs font-medium text-gray-800">Preparação Aniversário Guarda Mirim</p>
-                  <p class="text-xs text-gray-500">Todo o mês</p>
+                  <p class="font-medium text-gray-800">Preparação Aniversário Guarda Mirim</p>
+                  <p class="text-gray-500">Todo o mês</p>
                 </div>
               </div>
               
-              <div class="flex items-start gap-2 mb-2">
+              <div class="flex items-start gap-2 mb-1">
                 <div class="mt-1 flex-shrink-0 w-2 h-2 bg-indigo-400 rounded-full"></div>
                 <div>
-                  <p class="text-xs font-medium text-gray-800">Avaliação semestral</p>
-                  <p class="text-xs text-gray-500">Todo o mês</p>
+                  <p class="font-medium text-gray-800">Avaliação semestral</p>
+                  <p class="text-gray-500">Todo o mês</p>
                 </div>
               </div>
               
               <!-- Datas importantes -->
-              <div class="mt-3">
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="text-xs font-semibold text-indigo-600">12/06</span>
-                  <span class="text-xs text-gray-700">Dia Mundial de Combate ao Trabalho Infantil</span>
+              <div class="mt-2">
+                <div class="flex items-center gap-2 mb-1 text-gray-600">
+                  <span class="font-semibold text-indigo-600">12/06</span>
+                  <span>Dia Mundial de Combate ao Trabalho Infantil</span>
                 </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-xs font-semibold text-indigo-600">15/06</span>
-                  <span class="text-xs text-gray-700">Dia de Combate à Violência contra a Pessoa Idosa</span>
+                <div class="flex items-center gap-2 text-gray-600">
+                  <span class="font-semibold text-indigo-600">15/06</span>
+                  <span>Dia de Combate à Violência contra a Pessoa Idosa</span>
                 </div>
               </div>
             </div>
             
-            <div class="divider my-2"></div>
+            <div class="divider my-1"></div>
             
-            <!-- Próximos meses -->
-            <div class="flex items-center justify-between text-xs">
-              <span class="text-gray-500">Julho: Festa Cultural, Aniversário Guarda Mirim</span>
+            <!-- Próximos meses compacto -->
+            <div class="flex items-center justify-between text-xs text-gray-500">
+              <span>Julho: Festa Cultural, Aniversário Guarda Mirim</span>
               <button class="text-indigo-500 hover:text-indigo-700">Ver mais</button>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Footer/Credits - Reduzido -->
-      <section class="glass-card p-4 rounded-2xl shadow-md">
-        <div class="flex flex-col items-center">
-          <p class="text-xs text-gray-500 italic">
-            Desenvolvido por <span class="font-medium text-indigo-600">Victor Luis Minikowski</span>.
-          </p>
-          <p class="text-xs text-gray-400 mt-1">
-            © 2024-<span id="currentYear"></span> Sistema Unificado. Todos os direitos reservados.
-          </p>
-        </div>
-      </section>
+      <!-- Footer/Credits compacto -->
+      <footer class="glass-card p-2 rounded-xl text-center">
+        <p class="text-xs text-gray-500 italic">
+          Desenvolvido por <span class="font-medium text-indigo-600">Victor Luis Minikowski</span>.
+        </p>
+        <p class="text-xs text-gray-400 mt-1">
+          © 2024-<span id="currentYear"></span> Sistema Unificado. Todos os direitos reservados.
+        </p>
+      </footer>
     </main>
   </div>
 
@@ -211,11 +220,11 @@
       const horas = horaBrasilia.getHours();
       
       if (horas >= 5 && horas < 12) {
-        return "Olá";
+        return "Bom dia";
       } else if (horas >= 12 && horas < 18) {
-        return "Olá";
+        return "Boa tarde";
       } else {
-        return "Olá";
+        return "Boa noite";
       }
     }
     
@@ -229,7 +238,7 @@
     const mes = meses[hoje.getMonth()];
     const ano = hoje.getFullYear();
 
-    const dataFormatada = `Hoje é <span class="font-semibold text-indigo-600">${diaSemana}</span>, dia <span class="font-semibold text-indigo-600">${dia}</span> de <span class="font-semibold text-indigo-600">${mes}</span> de <span class="font-semibold text-indigo-600">${ano}</span>.`;
+    const dataFormatada = `Hoje é <span class="font-semibold text-indigo-600">${diaSemana}</span>, ${dia} de <span class="font-semibold text-indigo-600">${mes}</span> de ${ano}.`;
 
     document.getElementById("dataAtual").innerHTML = dataFormatada;
     document.getElementById("saudacao").textContent = getSaudacao();
@@ -237,6 +246,27 @@
     // Ano atual para o copyright
     document.getElementById("currentYear").textContent = new Date().getFullYear();
 
+    // Verificar se há evento hoje e destacá-lo
+    function checkTodayEvents() {
+      const todayEvents = [
+        { date: 12, title: "Dia Mundial de Combate ao Trabalho Infantil" },
+        { date: 15, title: "Dia de Combate à Violência contra a Pessoa Idosa" }
+      ];
+      
+      const todayEvent = todayEvents.find(event => event.date === dia);
+      const todayEventElement = document.getElementById('todayEvent');
+      
+      if (todayEvent) {
+        todayEventElement.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-indigo-600">HOJE:</span>
+            <span class="font-medium">${todayEvent.title}</span>
+          </div>
+        `;
+        todayEventElement.classList.remove('hidden');
+      }
+    }
+    
     // API de Clima - Open-Meteo (gratuita)
     async function fetchWeather() {
       try {
@@ -275,23 +305,26 @@
           const weather = weatherIcons[weatherCode] || {icon: '🌈', desc: 'Condições variáveis'};
           
           document.getElementById('weatherInfo').innerHTML = `
-            <span class="text-2xl">${weather.icon}</span>
+            <span class="text-xl">${weather.icon}</span>
             <div>
               <span class="font-medium">${temp}°C - ${weather.desc}</span>
-              ${precipProb > 0 ? `<span class="text-xs block">Prob. de chuva: ${precipProb}%</span>` : ''}
+              ${precipProb > 0 ? `<span class="text-xs block">Prob. chuva: ${precipProb}%</span>` : ''}
             </div>
           `;
         }
       } catch (error) {
         console.error('Erro ao buscar dados meteorológicos:', error);
         document.getElementById('weatherInfo').innerHTML = `
-          <span class="text-gray-500">Clima indisponível no momento</span>
+          <span class="text-gray-500">Clima indisponível</span>
         `;
       }
     }
 
-    // Chamar a função quando a página carregar
-    window.addEventListener('DOMContentLoaded', fetchWeather);
+    // Chamar as funções quando a página carregar
+    window.addEventListener('DOMContentLoaded', () => {
+      fetchWeather();
+      checkTodayEvents();
+    });
   </script>
 </body>
 </html>
