@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indicadores Pedagógicos - IRSAS 2025</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #6366f1;
+      --primary-dark: #4338ca;
+      --secondary: #f9fafb;
+      --accent: #10b981;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #111827;
+      min-height: 100vh;
+    }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+      border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(79, 70, 229, 0.15);
+    }
+    
+    .text-gradient {
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .indicator-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    }
+    
+    .indicator-card {
+      transition: transform 0.3s ease;
+    }
+    
+    .indicator-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .indicator-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: white;
+    }
+    
+    .indicator-tag {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    
+    .indicator-title {
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    .indicator-title::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--primary);
+    }
+    
+    .footer-logo {
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+    }
+  </style>
+</head>
+<body class="py-8 px-4">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <header class="indicator-header text-white py-8 px-6 rounded-2xl mb-8 text-center">
+      <div class="flex items-center justify-center mb-4">
+        <div class="bg-white/20 p-4 rounded-xl mr-4">
+          <i class="fas fa-chart-line text-3xl"></i>
+        </div>
+        <div>
+          <h1 class="text-3xl md:text-4xl font-bold">INDICADORES PEDAGÓGICOS</h1>
+          <p class="text-xl md:text-2xl font-light mt-2">IRSAS 2025</p>
+        </div>
+      </div>
+      <p class="text-lg max-w-3xl mx-auto mt-4 opacity-90">
+        Monitoramento e acompanhamento das ações pedagógicas para o desenvolvimento integral dos educandos
+      </p>
+    </header>
+    
+    <!-- Indicators Section -->
+    <section>
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+        <i class="fas fa-list-check text-indigo-600 mr-3"></i>
+        Indicadores Pedagógicos
+      </h2>
+      
+      <!-- PROJETO DE VIDA -->
+      <div class="glass-card p-6 mb-8 indicator-card">
+        <div class="flex flex-col md:flex-row">
+          <div class="mb-4 md:mb-0 md:mr-6">
+            <div class="indicator-icon bg-indigo-600">
+              <i class="fas fa-road"></i>
+            </div>
+          </div>
+          <div class="flex-1">
+            <div class="flex flex-wrap mb-4">
+              <span class="indicator-tag bg-indigo-100 text-indigo-800">Mensal</span>
+              <span class="indicator-tag bg-purple-100 text-purple-800">Projeto Socioemocional</span>
+            </div>
+            <h3 class="indicator-title text-xl font-bold text-gray-800 mb-3">PROJETO DE VIDA</h3>
+            <div class="text-gray-600 mb-4">
+              <p class="mb-3">Registro de ação que têm por finalidade propiciar espaços que provoquem os educandos a pensar sobre a construção de sua identidade, potencialidades, sonhos e objetivos e auxiliá-los nas suas escolhas atuais e futuras. PROJETO DE VIDA NO SCFV: enquanto espaço estratégico de fortalecimento de vínculos familiares e comunitário tem papel fundamental na mediação dos adolescentes para a construção do seu Projeto de Vida. O olhar sobre o futuro, sonhos, compromissos, o engajamento e o sentido desses elementos na vida precisam ser trabalhados a partir da realidade concreta na qual eles estão inseridos, que envolve vivências de desproteções, mas também de lutas e resistências. Projetar o futuro exige reconhecer que há um caminho a ser trilhado que deve estar alicerçado pelo reconhecimento dos direitos de cidadania. O componente Projeto de Vida deve ser planejado como estratégia pedagógica a fim de fomentar no adolescente o desenvolvimento das competências socioemocionais, autoconhecimento, as relações inter e intra pessoais, além da construção de uma visão crítica, cidadã e consciente da realidade que o cerca. A proposta é um processo dialógico que envolve educandos e educadores de tal forma que tenha relevância, sentido no processo de aprender e os integrem em suas vivências, reflexões, consciência e visão de mundo. O Projeto de Vida abarca um conjunto de atividades pedagógicas que oportunizam aos adolescentes se conhecerem melhor, descobrirem seus potenciais e com foco no desenvolvimento integral. Trata-se de um processo de autoconhecimento, identificação, nomeação e gerenciamento das emoções, mediação e resolução de conflitos, entre outros elementos, que atuarão dentro das dimensões cognitivas e  socioemocionais e na ampliação de repertório para que os adolescentes possam aprender a ser, viver e conviver melhor. A construção de um projeto de vida deve estar fundamentado a partir das interrelações sociais, ou seja, por meio de um conjunto de estratégias do SCFV que oportunizem espaços de convivência, de atividades que promovam o autoconhecimento, da valorização da vida e da concretização dos seus sonhos, para que sejam alicerçados em metas com etapas a serem alcançadas, a partir do contexto social no qual estão inseridos, potencializando intrinsecamente suas habilidades na dimensão pessoal, social e profissional.</p>
+              <p class="mb-3 font-medium">Dentro do Projeto Socioemocional- Círculo Restaurativo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- DIREITOS E PARTICIPAÇÃO CIDADÃ -->
+      <div class="glass-card p-6 mb-8 indicator-card">
+        <div class="flex flex-col md:flex-row">
+          <div class="mb-4 md:mb-0 md:mr-6">
+            <div class="indicator-icon bg-amber-600">
+              <i class="fas fa-scale-balanced"></i>
+            </div>
+          </div>
+          <div class="flex-1">
+            <div class="flex flex-wrap mb-4">
+              <span class="indicator-tag bg-indigo-100 text-indigo-800">Mensal</span>
+              <span class="indicator-tag bg-amber-100 text-amber-800">Direitos Humanos</span>
+            </div>
+            <h3 class="indicator-title text-xl font-bold text-gray-800 mb-3">DIREITOS E PARTICIPAÇÃO CIDADÃ</h3>
+            <div class="text-gray-600 mb-4">
+              <p class="mb-3">Esta ocorrência contempla as atividades realizadas aos educandos nos percursos propostos neste eixo. Pode ser lançada mensalmente.Oportunizar o acesso a informações sobre direitos e sobre a participação cidadã, estimulando o desenvolvimento de novas sociabilidades.</p>
+              <p class="mb-3 font-medium">Dentro do Projeto Direitos Humanos e Socioassistenciais - Clube dos Leitores</p>
+              <p class="mb-3 font-medium">Dentro das Intervenções das Assistentes Sociais.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- AÇÕES COMUNITÁRIAS -->
+      <div class="glass-card p-6 mb-8 indicator-card">
+        <div class="flex flex-col md:flex-row">
+          <div class="mb-4 md:mb-0 md:mr-6">
+            <div class="indicator-icon bg-green-600">
+              <i class="fas fa-people-group"></i>
+            </div>
+          </div>
+          <div class="flex-1">
+            <div class="flex flex-wrap mb-4">
+              <span class="indicator-tag bg-red-100 text-red-800">1 por ano</span>
+              <span class="indicator-tag bg-green-100 text-green-800">Comunidade</span>
+            </div>
+            <h3 class="indicator-title text-xl font-bold text-gray-800 mb-3">AÇÕES COMUNITÁRIAS</h3>
+            <div class="text-gray-600 mb-4">
+              <p class="mb-3">Participação dos educandos em ações comunitárias no território ou outras ações externas afetas aos objetivos do serviço. Estimular a participação na vida pública do território e desenvolver competências para a compreensão crítica da realidade social e do mundo moderno.</p>
+              <p class="mb-3 font-medium">Dentro do projeto Trabalho Social com a Comunidade - feito pela Equipe técnica.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ATIVIDADE INTERGERACIONAL -->
+      <div class="glass-card p-6 mb-8 indicator-card">
+        <div class="flex flex-col md:flex-row">
+          <div class="mb-4 md:mb-0 md:mr-6">
+            <div class="indicator-icon bg-rose-600">
+              <i class="fas fa-people-arrows"></i>
+            </div>
+          </div>
+          <div class="flex-1">
+            <div class="flex flex-wrap mb-4">
+              <span class="indicator-tag bg-indigo-100 text-indigo-800">Mensal</span>
+              <span class="indicator-tag bg-rose-100 text-rose-800">Intergeracional</span>
+            </div>
+            <h3 class="indicator-title text-xl font-bold text-gray-800 mb-3">ATIVIDADE INTERGERACIONAL</h3>
+            <div class="text-gray-600 mb-4">
+              <p class="mb-3">Considera-se atividade intergeracional o encontro planejado entre grupos constituídos por usuários de ciclos de vida diferentes para estarem juntos durante um período.Favorecer o desenvolvimento de atividades intergeracionais, propiciando trocas de experiências e vivências, fortalecendo o respeito, a solidariedade e os vínculos familiares e comunitários. Ações intergeracionais no SCFV que contemplam atuação social no território e vivências com diferentes ciclos de vida.</p>
+              <p class="mb-3 font-medium">Dentro do projeto Esporte, Lazer e Saúde - Jogos Cooperativos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- INCLUSÃO DIGITAL -->
+      <div class="glass-card p-6 mb-8 indicator-card">
+        <div class="flex flex-col md:flex-row">
+          <div class="mb-4 md:mb-0 md:mr-6">
+            <div class="indicator-icon bg-blue-600">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+          </div>
+          <div class="flex-1">
+            <div class="flex flex-wrap mb-4">
+              <span class="indicator-tag bg-indigo-100 text-indigo-800">1 por mês</span>
+              <span class="indicator-tag bg-blue-100 text-blue-800">Tecnologia</span>
+            </div>
+            <h3 class="indicator-title text-xl font-bold text-gray-800 mb-3">INCLUSÃO DIGITAL</h3>
+            <div class="text-gray-600 mb-4">
+              <p class="mb-3">Registro da ação de participação em oficinas de desenvolvimento e universalização das tecnologias de informática e de comunicação fomentando a inclusão social através da inclusão digital para a construção de saberes inerentes à vida contemporânea.</p>
+              <p class="mb-3 font-medium">Dentro do projeto Mundo do Trabalho - Inclusão Digital e Habilidades</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- MUNDO DO TRABALHO -->
+      <div class="glass-card p-6 mb-8 indicator-card">
+        <div class="flex flex-col md:flex-row">
+          <div class="mb-4 md:mb-0 md:mr-6">
+            <div class="indicator-icon bg-cyan-600">
+              <i class="fas fa-briefcase"></i>
+            </div>
+          </div>
+          <div class="flex-1">
+            <div class="flex flex-wrap mb-4">
+              <span class="indicator-tag bg-indigo-100 text-indigo-800">1 por mês</span>
+              <span class="indicator-tag bg-cyan-100 text-cyan-800">Profissional</span>
+            </div>
+            <h3 class="indicator-title text-xl font-bold text-gray-800 mb-3">MUNDO DO TRABALHO</h3>
+            <div class="text-gray-600 mb-4">
+              <p class="mb-3">Possibilitar o reconhecimento do trabalho e da educação como direitos de cidadania e desenvolver conhecimentos sobre o mundo do trabalho e competências específicas básicas. Atividades internas e externas no que tange o percurso mundo do trabalho realizadas pela unidade SCFV.</p>
+              <p class="mb-3 font-medium">Dentro do projeto Mundo do Trabalho  - Inclusão Digital e Habilidades</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="glass-card p-6 mt-12">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center mb-4 md:mb-0">
+          <div class="footer-logo">
+            <i class="fas fa-university text-indigo-600 text-xl"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-gray-800">Sistema Unificado</h3>
+            <p class="text-gray-600">Desenvolvido por Victor Luis Minikowski</p>
+          </div>
+        </div>
+        <div class="text-center md:text-right">
+          <p class="text-gray-600">© 2025 - Todos os direitos reservados.</p>
+          <p class="text-gray-500 text-sm mt-1">Fonte: IRSAS - SMAS - Prefeitura do Município de Londrina</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <script>
+    // Animações para os cards quando entram na tela
+    document.addEventListener('DOMContentLoaded', function() {
+      const indicatorCards = document.querySelectorAll('.indicator-card');
+      
+      // Configura o Intersection Observer
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      // Aplica animação inicial
+      indicatorCards.forEach((card, index) => {
+        card.style.opacity = 0;
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        card.style.transitionDelay = `${index * 0.1}s`;
+        observer.observe(card);
+      });
+    });
+  </script>
+</body>
+</html>
