@@ -132,53 +132,61 @@
     </header>
 
     <main class="flex-1 grid grid-cols-1 gap-4">
-      <!-- Welcome Card compacto -->
-      <section class="glass-card p-4 rounded-2xl hover-scale transition-all duration-300">
-        <div class="flex items-center justify-between">
+<!-- Welcome Card compacto -->
+<section class="glass-card p-4 rounded-2xl hover-scale transition-all duration-300">
+  <div class="flex items-center justify-between">
+    <div>
+      <h2 class="text-lg font-semibold text-gray-800">
+        <span id="saudacao" class="text-indigo-600"></span>! Bem-vindo(a) ao <span class="font-bold text-indigo-600">Sistema Unificado</span>.
+      </h2>
+      <p id="dataAtual" class="text-sm text-gray-600"></p>
+      <div class="flex items-start gap-4 mt-2">
+        <!-- Clima atual -->
+        <div id="currentWeather" class="flex items-center gap-2 bg-indigo-50 rounded-lg p-2">
+          <span id="currentWeatherIcon" class="text-2xl">🌤️</span>
           <div>
-            <h2 class="text-lg font-semibold text-gray-800">
-              <span id="saudacao" class="text-indigo-600"></span>! Bem-vindo(a) ao <span class="font-bold text-indigo-600">Sistema Unificado</span>.
-            </h2>
-            <p id="dataAtual" class="text-sm text-gray-600"></p>
-            <div class="flex items-start gap-4 mt-2">
-              <!-- Clima atual -->
-              <div id="currentWeather" class="flex items-center gap-2 bg-indigo-50 rounded-lg p-2">
-                <span id="currentWeatherIcon" class="text-2xl">🌤️</span>
-                <div>
-                  <div class="flex items-center gap-1">
-                    <span id="currentTemp" class="font-medium">--°C</span>
-                    <span id="currentWeatherDesc" class="text-xs">Carregando...</span>
-                  </div>
-                  <div id="currentRain" class="text-xs text-gray-600 hidden">
-                    <span>Chuva: </span>
-                    <span id="currentRainValue">0mm</span>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Previsão para amanhã -->
-              <div id="tomorrowWeather" class="flex items-center gap-2 bg-indigo-50 rounded-lg p-2">
-                <span id="tomorrowWeatherIcon" class="text-2xl">🌤️</span>
-                <div>
-                  <div class="text-xs font-medium text-gray-700 mb-1">Amanhã:</div>
-                  <div class="flex items-center gap-1 text-xs">
-                    <span id="tomorrowMaxTemp" class="font-medium">--°</span>
-                    <span>/</span>
-                    <span id="tomorrowMinTemp" class="text-gray-600">--°</span>
-                    <span id="tomorrowRainProb" class="ml-1">(--%)</span>
-                  </div>
-                  <div id="tomorrowWeatherDesc" class="text-xs text-gray-600">Carregando...</div>
-                </div>
-              </div>
+            <div class="flex items-center gap-1">
+              <span id="currentTemp" class="font-medium">--°C</span>
+              <span id="currentWeatherDesc" class="text-xs">Carregando...</span>
+            </div>
+            <div id="currentRain" class="text-xs text-gray-600 hidden">
+              <span>Chuva: </span>
+              <span id="currentRainValue">0mm</span>
             </div>
           </div>
-          <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
+        </div>
+        
+        <!-- Previsão para amanhã -->
+        <div id="tomorrowWeather" class="flex items-center gap-2 bg-indigo-50 rounded-lg p-2">
+          <span id="tomorrowWeatherIcon" class="text-2xl">🌤️</span>
+          <div>
+            <div class="text-xs font-medium text-gray-700 mb-1">Amanhã:</div>
+            <div class="flex items-center gap-1 text-xs">
+              <span id="tomorrowMaxTemp" class="font-medium">--°</span>
+              <span>/</span>
+              <span id="tomorrowMinTemp" class="text-gray-600">--°</span>
+              <span id="tomorrowRainProb" class="ml-1">(--%)</span>
+            </div>
+            <div id="tomorrowWeatherDesc" class="text-xs text-gray-600">Carregando...</div>
           </div>
         </div>
-      </section>
+        
+        <!-- Nova mensagem motivacional -->
+        <div class="flex items-center gap-2 bg-indigo-50 rounded-lg p-2 flex-1 max-w-xs">
+          <div>
+            <div class="text-sm font-medium text-indigo-600">Tenha um ótimo dia de trabalho!</div>
+            <div class="text-xs text-gray-600 mt-1">Para começar, selecione uma opção no menu à esquerda.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      </svg>
+    </div>
+  </div>
+</section>
 
       <!-- Calendário Sociopedagógico compacto -->
       <section class="glass-card p-4 rounded-2xl hover-scale transition-all duration-300 flex-1">
