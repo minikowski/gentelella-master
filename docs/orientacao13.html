@@ -73,11 +73,6 @@
       border-left: 4px solid #2980b9;
     }
 
-    .participante-container input,
-    .participante-container select {
-      margin-bottom: 10px;
-    }
-
     button {
       background-color: #3498db;
       color: white;
@@ -234,7 +229,7 @@
       });
 
       doc.addImage(fundo, 'JPEG', 0, 0, 21, 29.7);
-      doc.setFont("helvetica", "normal"); // substituto próximo de Arial
+      doc.setFont("helvetica", "normal");
       doc.setFontSize(11);
 
       const nome = document.getElementById("nome").value;
@@ -258,7 +253,13 @@
 
       doc.setFontSize(11);
       doc.setFont(undefined, "normal");
-      doc.text(`Colaborador(a): ${nome} – CARGO: ${cargo} – UNIDADE: ${unidade}`, 1.5, y); y += 0.8;
+      
+      // TEXTO DO COLABORADOR COM QUEBRA AUTOMÁTICA
+      const colaboradorText = `Colaborador(a): ${nome} – CARGO: ${cargo} – UNIDADE: ${unidade}`;
+      const colaboradorLines = doc.splitTextToSize(colaboradorText, 18);
+      doc.text(colaboradorLines, 1.5, y);
+      y += colaboradorLines.length * 0.5;
+      
       doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 1.5, y); y += 0.8;
 
       doc.text("Assuntos Tratados:", 1.5, y); y += 0.6;
