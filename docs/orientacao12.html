@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário de Orientação</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 5px;
+      margin-top: 5px;
+    }
+    .participante, .topico {
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    .btn {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Formulário de Orientação</h2>
+
+  <label>Nome do Colaborador:</label>
+  <input type="text" id="nomeColab">
+
+  <label>Cargo:</label>
+  <select id="cargoColab">
+    <option>EDUCADOR (A) SOCIAL</option>
+    <option>SUPERVISÃO PEDAGÓGICA</option>
+    <option>SUPERVISÃO DE UNIDADE</option>
+    <option>SUPERVISÃO ADMINISTRATIVA</option>
+  </select>
+
+  <label>Unidade:</label>
+  <select id="unidade">
+    <option>CENTRAL</option>
+    <option>CENTRO B</option>
+    <option>CSU</option>
+    <option>GUARAVERA</option>
+    <option>LERROVILLE</option>
+    <option>ELIVIVE</option>
+  </select>
+
+  <label>Assunto tratado:</label>
+  <input type="text" id="assunto" value="Feedback – Período de Experiência">
+
+  <div id="participantes">
+    <h3>Participantes</h3>
+  </div>
+  <button onclick="addParticipante()">+ Adicionar Participante</button>
+
+  <div id="topicos">
+    <h3>Tópicos</h3>
+  </div>
+  <button onclick="addTopico()">+ Adicionar Tópico</button>
+
+  <button class="btn" onclick="gerarPDF()">Gerar PDF</button>
+
+  <!-- Área invisível que será convertida em PDF -->
+  <div id="conteudoPDF" style="display: none;"></div>
+
+  <!-- Biblioteca PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script>
+    const topicosPadrao = [
+      "Pontualidade: o colaborador não cumpre o horário de entrada e/ou saída da entidade.",
+      "Assiduidade: o colaborador não cumpre a carga horária definida e não justifica, quando necessária, a ausência/falta.",
+      "Disciplina e Organização: o colaborador não cumpre o regimento interno, pacto de convivência e orientações voltadas para a efetividade do trabalho.",
+      "Adaptação: o colaborador não se identifica com as atividades de seu cargo e/ou com as características da entidade, reagindo negativamente às mudanças necessárias.",
+      "Relacionamento interpessoal: o colaborador não se comunica de forma positiva e tem dificuldades de relacionamento/convivência com superiores, colegas, educandos e seus familiares.",
+      "Iniciativa: o colaborador não demonstra atitude proativa nem apresenta alternativas ou sugestões para a resolução de questões cotidianas ou melhorias nas atividades que desenvolve.",
+      "Interesse: o colaborador não demonstra dedicação ou esforço pessoal em aperfeiçoar-se para assumir novas responsabilidades.",
+      "Conhecimento: o colaborador não possui conhecimento teórico e/ou prático suficiente para a execução das atividades.",
+      "Qualidade técnica: o colaborador não tem domínio dos processos, ferramentas ou habilidades necessárias ao desempenho das atividades.",
+      "Postura ética: o colaborador não apresenta atitudes de idoneidade, cidadania ou integridade.",
+      "Saúde e segurança: não tem conhecimento ou não age de maneira preventiva quanto às orientações sobre segurança no trabalho.",
+      "Consumo consciente: não compreende a relevância de projetos de desenvolvimento sustentável, desperdiçando recursos."
+    ];
+
+    function addParticipante() {
+      const div = document.createElement("div");
+      div.className = "participante";
+      div.innerHTML = `
+        <label>Nome:</label>
+        <input type="text" class="nomePart">
+        <label>Cargo:</label>
+        <select class="cargoPart">
+          <option>COORDENAÇÃO</option>
+          <option>SUPERVISÃO PEDAGÓGICA</option>
+          <option>SUPERVISÃO DE UNIDADE</option>
+          <option>SUPERVISÃO ADMINISTRATIVA</option>
+          <option>EDUCADOR (A) SOCIAL</option>
+        </select>
+      `;
+      document.getElementById("participantes").appendChild(div);
+    }
+
+    function addTopico() {
+      const div = document.createElement("div");
+      div.className = "topico";
+      div.innerHTML = `
+        <label>Escreva ou selecione:</label>
+        <select onchange="this.nextElementSibling.value = this.value">
+          <option value="">-- Selecione um tópico --</option>
+          ${topicosPadrao.map(t => `<option value="${t}">${t}</option>`).join("")}
+        </select>
+        <textarea rows="2" class="topicoTexto" placeholder="Ou escreva aqui..."></textarea>
+      `;
+      document.getElementById("topicos").appendChild(div);
+    }
+
+    function gerarPDF() {
+      const nome = document.getElementById("nomeColab").value;
+      const cargo = document.getElementById("cargoColab").value;
+      const unidade = document.getElementById("unidade").value;
+      const data = new Date().toLocaleDateString('pt-BR');
+      const assunto = document.getElementById("assunto").value;
+
+      const participantes = Array.from(document.querySelectorAll(".participante")).map(p => ({
+        nome: p.querySelector(".nomePart").value,
+        cargo: p.querySelector(".cargoPart").value
+      }));
+
+      const topicos = Array.from(document.querySelectorAll(".topicoTexto"))
+        .map(t => t.value.trim()).filter(Boolean);
+
+      // Conteúdo PDF
+      const conteudo = `
+        <div class="pagina" style="
+          width:21cm; height:29.7cm; padding:2.5cm; box-sizing:border-box;
+          background:url('fundo.jpg') no-repeat center center; background-size:cover;
+          font-family:Arial; font-size:12pt;
+        ">
+          <h2 style="text-align:center; font-size:18pt;">ATENDIMENTO ADMINISTRATIVO/OPERACIONAL/APOIO – ORIENTAÇÃO</h2>
+
+          <div><strong>Colaborador(a):</strong> ${nome} – <strong>CARGO:</strong> ${cargo} – <strong>UNIDADE:</strong> ${unidade}</div>
+          <div><strong>Data:</strong> ${data}</div>
+          <div><strong>Assuntos Tratados:</strong></div>
+          <div>1. Orientação: ${assunto}</div>
+
+          <div><strong>Participantes:</strong><ul>
+            ${participantes.map(p => `<li>- ${p.nome} – ${p.cargo}</li>`).join("")}
+          </ul></div>
+
+          <div><strong>O(a) ${cargo} ${nome}, da unidade ${unidade}, é orientado(a) neste alinhamento a respeito dos seguintes assuntos:</strong></div>
+          <ol>
+            ${topicos.map(t => `<li>${t}</li>`).join("")}
+          </ol>
+
+          <div style="margin-top:50px;">
+            ${participantes.map(p => `<div style="display:inline-block; width:48%; text-align:center; margin-top:50px;">
+              <div style="margin-top:40px;">______________________</div>${p.nome}
+            </div>`).join("")}
+          </div>
+        </div>
+      `;
+
+      const div = document.getElementById("conteudoPDF");
+      div.innerHTML = conteudo;
+      div.style.display = "block";
+
+      const opt = {
+        margin: 0,
+        filename: 'orientacao.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(div).save().then(() => {
+        div.style.display = "none";
+      });
+    }
+
+    // Adiciona 2 participantes e 2 tópicos por padrão
+    window.onload = () => {
+      addParticipante();
+      addParticipante();
+      addTopico();
+      addTopico();
+    };
+  </script>
+</body>
+</html>
