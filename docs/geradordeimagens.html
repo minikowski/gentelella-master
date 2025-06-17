@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Imagens - Sistema Unificado</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #6366f1;
+      --primary-dark: #4338ca;
+      --secondary: #f9fafb;
+      --accent: #10b981;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #111827;
+      min-height: 100vh;
+    }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+      border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(79, 70, 229, 0.15);
+    }
+    
+    .text-gradient {
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .indicator-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    }
+    
+    .custom-select {
+      position: relative;
+      width: 100%;
+    }
+    
+    .custom-select select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background-color: white;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .custom-select select:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+    
+    .custom-select::after {
+      content: "\f078";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      position: absolute;
+      top: 50%;
+      right: 16px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--primary);
+    }
+    
+    .action-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      border-radius: 12px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      width: 100%;
+      margin-top: 16px;
+    }
+    
+    .action-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(79, 70, 229, 0.2);
+    }
+    
+    .action-button:active {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="py-8 px-4">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <header class="indicator-header text-white py-8 px-6 rounded-2xl mb-8 text-center">
+      <div class="flex items-center justify-center mb-4">
+        <div class="bg-white/20 p-3 rounded-xl mr-4">
+          <img src="unificado2.jpg" alt="Logo Sistema Unificado" class="w-12 h-12 object-contain">
+        </div>
+        <div>
+          <h1 class="text-3xl md:text-4xl font-bold">Gerador de Imagens</h1>
+          <p class="text-xl md:text-2xl font-light mt-2">Sistema Unificado</p>
+        </div>
+      </div>
+      <p class="text-lg max-w-3xl mx-auto mt-4 opacity-90">
+        Ferramentas para criação de conteúdo visual para redes sociais e comunicação
+      </p>
+    </header>
+    
+    <!-- Main Content -->
+    <section class="glass-card p-8 mb-8">
+      <div class="max-w-md mx-auto">
+        <div class="mb-6">
+          <label for="generator-select" class="block text-gray-700 font-medium mb-2">Selecione o tipo de conteúdo:</label>
+          <div class="custom-select">
+            <select id="generator-select" class="w-full">
+              <option value="" disabled selected>Selecione uma opção</option>
+              <option value="landscape">Gerar Imagem para redes (paisagem)</option>
+              <option value="portrait">Gerar Imagem para redes (retrato)</option>
+              <option value="whatsapp">Gerar recado para o Whatsapp</option>
+              <option value="whatsapp-image">Gerar recado com imagem para o Whatsapp</option>
+            </select>
+          </div>
+        </div>
+        
+        <button id="generate-button" class="action-button opacity-50 cursor-not-allowed" disabled>
+          Selecione uma opção acima
+        </button>
+      </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="glass-card p-6 mt-12">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center mb-4 md:mb-0">
+          <div class="bg-indigo-100 p-2 rounded-lg mr-3">
+            <img src="unificado2.jpg" alt="Logo Sistema Unificado" class="w-10 h-10 object-contain">
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-gray-800">Sistema Unificado</h3>
+            <p class="text-gray-600">Desenvolvido por Victor Luis Minikowski</p>
+          </div>
+        </div>
+        <div class="text-center md:text-right">
+          <p class="text-gray-600">© 2025 - Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const selectElement = document.getElementById('generator-select');
+      const generateButton = document.getElementById('generate-button');
+      
+      // Links para cada opção
+      const links = {
+        landscape: 'https://minikowski.github.io/gentelella-master/canva-foto2.html',
+        portrait: 'https://minikowski.github.io/gentelella-master/gerador_1440x1440_legenda_esquerda.html',
+        whatsapp: 'https://minikowski.github.io/gentelella-master/recadounificado.html',
+        'whatsapp-image': 'https://minikowski.github.io/gentelella-master/recadounificadofoto.html'
+      };
+      
+      // Textos para o botão
+      const buttonTexts = {
+        landscape: 'Abrir Gerador de Imagem (Paisagem)',
+        portrait: 'Abrir Gerador de Imagem (Retrato)',
+        whatsapp: 'Abrir Gerador de Recado para Whatsapp',
+        'whatsapp-image': 'Abrir Gerador de Recado com Imagem para Whatsapp'
+      };
+      
+      // Atualiza o botão quando a seleção muda
+      selectElement.addEventListener('change', function() {
+        const selectedValue = this.value;
+        
+        if (selectedValue) {
+          generateButton.textContent = buttonTexts[selectedValue];
+          generateButton.classList.remove('opacity-50', 'cursor-not-allowed');
+          generateButton.disabled = false;
+        } else {
+          generateButton.textContent = 'Selecione uma opção acima';
+          generateButton.classList.add('opacity-50', 'cursor-not-allowed');
+          generateButton.disabled = true;
+        }
+      });
+      
+      // Abre o link correspondente quando o botão é clicado
+      generateButton.addEventListener('click', function() {
+        const selectedValue = selectElement.value;
+        
+        if (selectedValue && links[selectedValue]) {
+          window.open(links[selectedValue], '_blank');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
