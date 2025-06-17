@@ -234,8 +234,8 @@
                 
                 <div id="welcomeMessage" class="welcome-message">
                     <h3><i class="fa fa-check-circle text-success"></i> Login realizado com sucesso!</h3>
-                    <p>Bem-vindo(a) <strong><span id="userRole"></span></strong>.</p>
-                    <p>Você terá acesso aos itens específicos ao seu perfil.</p>
+                    <p>Bem-vindo(a) <strong><span id="userName"></span></strong>.</p>
+                    <p>Você terá acesso aos itens específicos ao seu perfil,<br>considerando seu cargo de <strong><span id="userRole"></span></strong>.</p>
                     <p>Redirecionando em <span id="countdown" class="countdown-animation">5</span> segundos...</p>
                 </div>
             </div>
@@ -359,7 +359,6 @@
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('loginForm');
             const welcomeMessage = document.getElementById('welcomeMessage');
-            const userRoleSpan = document.getElementById('userRole');
             
             form.addEventListener('submit', function(event) {
                 event.preventDefault();
@@ -371,7 +370,8 @@
                 if (user) {
                     // Mostra mensagem de boas-vindas
                     form.style.display = 'none';
-                    userRoleSpan.textContent = user.cargo;
+                    document.getElementById('userName').textContent = user.nome;
+                    document.getElementById('userRole').textContent = user.cargo;
                     welcomeMessage.style.display = 'block';
                     
                     // Inicia contagem regressiva para redirecionamento
