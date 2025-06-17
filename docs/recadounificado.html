@@ -3,35 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gerador de Aviso</title>
+  <title>Gerador de Aviso Sofisticado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f8f5ed;
+      background: #f9f6ee;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 20px;
     }
+
     .formulario {
       margin-bottom: 20px;
       text-align: center;
     }
+
     input, textarea, button {
       display: block;
-      width: 300px;
+      width: 360px;
       margin: 10px auto;
-      padding: 10px;
+      padding: 12px;
       font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #bbb;
     }
+
+    button {
+      background-color: #FFD700;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e6c200;
+    }
+
     #preview {
-      display: none; /* Escondido no formulário */
+      display: none;
       width: 3375px;
       height: 4219px;
       background-image: url('postunificado.jpg');
       background-size: cover;
       position: relative;
     }
+
     .conteudo {
       position: absolute;
       top: 820px;
@@ -43,26 +63,35 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      color: #000;
-      padding: 50px;
+      padding: 60px;
       box-sizing: border-box;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
+
     .conteudo h1 {
-      font-size: 200px; /* Dobrado */
-      color: #e67e22;
+      font-family: 'Playfair Display', serif;
+      font-size: 200px;
+      color: #FFD700;
       margin-bottom: 80px;
-      white-space: pre-line;
+      white-space: pre-wrap;
+      word-break: break-word;
+      text-align: center;
+      -webkit-text-stroke: 4px black;
     }
+
     .conteudo p {
-      font-size: 128px; /* Dobrado */
-      white-space: pre-line;
+      font-size: 128px;
+      color: #111;
+      white-space: pre-wrap;
+      text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="formulario">
-    <input type="text" id="titulo" placeholder="Digite o título" />
-    <textarea id="descricao" rows="5" placeholder="Digite a descrição com quebras de linha"></textarea>
+    <input type="text" id="titulo" placeholder="Digite o título do aviso" />
+    <textarea id="descricao" rows="5" placeholder="Digite a descrição (quebras de linha serão respeitadas)"></textarea>
     <button onclick="gerarImagem()">Gerar Imagem</button>
   </div>
 
@@ -94,7 +123,7 @@
         link.download = 'aviso.jpg';
         link.href = canvas.toDataURL("image/jpeg", 1.0);
         link.click();
-        preview.style.display = "none"; // Esconde de novo após geração
+        preview.style.display = "none"; // esconder novamente
       });
     }
   </script>
