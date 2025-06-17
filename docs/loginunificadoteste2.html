@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Sistema Unificado - Login</title>
+
+    <!-- Bootstrap -->
+    <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="vendors/animate.css/animate.min.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="build/css/custom.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+            padding: 20px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+            position: relative;
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+        
+        .login-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .login-header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .login-header::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 15px solid var(--primary-color);
+        }
+        
+        .login-body {
+            padding: 30px;
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .logo-container img {
+            max-width: 180px;
+            height: auto;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-control {
+            height: 45px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding-left: 40px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+            font-size: 16px;
+        }
+        
+        .btn-login {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            height: 45px;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn-login:hover {
+            background: var(--secondary-color);
+        }
+        
+        .welcome-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .footer {
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            padding: 15px;
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .countdown-animation {
+            display: inline-block;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>ACESSO RESTRITO</h1>
+            </div>
+            <div class="login-body">
+                <div class="logo-container">
+                    <img src="images/unificado5.jpg" alt="Sistema Unificado" class="img-responsive">
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <i class="fa fa-user input-icon"></i>
+                        <input type="text" id="username" class="form-control" placeholder="Usuário" required />
+                    </div>
+                    <div class="form-group">
+                        <i class="fa fa-lock input-icon"></i>
+                        <input type="password" id="password" class="form-control" placeholder="Senha" required />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-login">
+                            <i class="fa fa-sign-in"></i> ENTRAR
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="welcomeMessage" class="welcome-message">
+                    <h3><i class="fa fa-check-circle text-success"></i> Login realizado com sucesso!</h3>
+                    <p>Bem-vindo(a) <strong><span id="userName"></span></strong>.</p>
+                    <p>Você terá acesso aos itens específicos ao seu perfil,<br>considerando seu cargo de <strong><span id="userRole"></span></strong>.</p>
+                    <p>Redirecionando em <span id="countdown" class="countdown-animation">5</span> segundos...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Sistema Unificado © 2023 - <span id="currentYear"></span> - Desenvolvido por Victor Luis Minikowski</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Atualiza o ano atual no footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Cria partículas animadas
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Tamanho aleatório entre 2px e 6px
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Posição aleatória
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Animação
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                particle.style.animation = `float ${duration}s linear ${delay}s infinite`;
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Adiciona a animação de flutuação
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes float {
+                    0% {
+                        transform: translateY(0) translateX(0);
+                        opacity: 0;
+                    }
+                    10% {
+                        opacity: 1;
+                    }
+                    90% {
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: translateY(-100vh) translateX(20px);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Inicializa as partículas
+        createParticles();
+
+        const users = [
+            { nome: "Aline Arantes Loureiro", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "aline", password: "agm25" },
+            { nome: "Amanda Aparecida Pires", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "amanda", password: "agm25" },
+            { nome: "Ana Paula Alves Rodrigues", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "ana", password: "agm25" },
+            { nome: "Andrew Lourenço Rodrigues", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "andrew", password: "agm25" },
+            { nome: "Ariane Ferreira Rigate", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "ariane", password: "agm25" },
+            { nome: "Dener Diniz de Souza", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "dener", password: "dgm25" },
+            { nome: "Elizabeth Fukuchima Silverio Longo", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "elizabeth", password: "egm25" },
+            { nome: "Franciana Maria Pontes", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "franciana", password: "fgm25" },
+            { nome: "Gisele Santiago Estércio", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "gisele", password: "ggm25" },
+            { nome: "Isabely Vanessa Pascual Ferreira", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "isabely", password: "igm25" },
+            { nome: "Janaina Cristina Baptista Justino", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "janaina", password: "jgm25" },
+            { nome: "Julia Gonçalves Bianco", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "julia", password: "jgm25" },
+            { nome: "Juliana Luzia Dias", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "juliana", password: "jgm25" },
+            { nome: "Ketury Paloma de Souza", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "ketury", password: "kgm25" },
+            { nome: "Maria Beatriz Passagnolo", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "maria", password: "mgm25" },
+            { nome: "Nadya Lira Da Silva", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "nadya", password: "ngm25" },
+            { nome: "Pamela Dieize Pereira Esmerio", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "pamela", password: "pgm25" },
+            { nome: "Patrick Braga", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "patrick", password: "pgm25" },
+            { nome: "Ricardo Bernardes Candido", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "ricardo", password: "rgm25" },
+            { nome: "Thainara Assis Pereira", cargo: "Educador(a) Social", destino: "UNIFICADO2.html", username: "thainara", password: "tgm25" },
+            { nome: "Bianca Gomides Tavares Silva", cargo: "Assistente Social", destino: "UNIFICADO3.html", username: "bianca", password: "bgm25" },
+            { nome: "Edineia Ferreira Salvatore", cargo: "Assistente Social", destino: "UNIFICADO3.html", username: "edineia", password: "egm25" },
+            { nome: "Jenifer Alves Freschi", cargo: "Assistente Social", destino: "UNIFICADO3.html", username: "jenifer", password: "jgm25" },
+            { nome: "Leticia Lupion Ramos", cargo: "Assistente Social", destino: "UNIFICADO3.html", username: "leticia", password: "lgm25" },
+            { nome: "Thais Aimê Alves Damazio", cargo: "Assistente Social", destino: "UNIFICADO3.html", username: "thais", password: "tgm25" },
+            { nome: "Lindiana Souza Santos", cargo: "Auxiliar Administrativo", destino: "UNIFICADO2.html", username: "lindiana", password: "lgm25" },
+            { nome: "Marcia Pereira dos Santos", cargo: "Auxiliar Administrativo", destino: "UNIFICADO2.html", username: "marcia", password: "mgm25" },
+            { nome: "Livia Amabile Vivan Pagotti", cargo: "Coordenador(a) de Projetos Sociais", destino: "UNIFICADO.html", username: "livia", password: "lgm25" },
+            { nome: "Viviane Alves Molina", cargo: "Coordenador(a) de Projetos Sociais", destino: "UNIFICADO.html", username: "viviane", password: "vgm25" },
+            { nome: "Juliana de Meira", cargo: "Coordenador(a) de RH", destino: "UNIFICADO.html", username: "juliana", password: "jgm25" },
+            { nome: "Leonardo da Silva Santos", cargo: "Coordenador(a) Financeiro", destino: "UNIFICADO.html", username: "leonardo", password: "lgm25" },
+            { nome: "Claudio Marcio de Melo", cargo: "Gerente Geral de Projetos Sociais", destino: "UNIFICADO.html", username: "claudio", password: "cgm25" },
+            { nome: "Andressa Priscila Marrezi Silva", cargo: "Instrutor(a) de Qualificação Profissional", destino: "UNIFICADO2.html", username: "andressa", password: "agm25" },
+            { nome: "Gabriel Sampaio Strauss", cargo: "Instrutor(a) de Qualificação Profissional", destino: "UNIFICADO2.html", username: "gabriel", password: "ggm25" },
+            { nome: "Maria Luiza Vazquez Carelli", cargo: "Instrutor(a) de Qualificação Profissional", destino: "UNIFICADO2.html", username: "maria", password: "mgm25" },
+            { nome: "Paulo Roberto Gianeti Coelho", cargo: "Instrutor(a) de Qualificação Profissional", destino: "UNIFICADO2.html", username: "paulo", password: "pgm25" },
+            { nome: "Lucas Henrique Nomura", cargo: "Psicólogo(a) Social", destino: "UNIFICADO3.html", username: "lucas", password: "lgm25" },
+            { nome: "Daiane Aparecida Santana", cargo: "Secretário(a)", destino: "UNIFICADO2.html", username: "daiane", password: "dgm25" },
+            { nome: "Luana Aparecida da Silva", cargo: "Social Mídia", destino: "UNIFICADO3.html", username: "luana", password: "lgm25" },
+            { nome: "Daniela dos Santos Pereira", cargo: "Supervisor(a) Administrativo", destino: "UNIFICADO.html", username: "daniela", password: "dgm25" },
+            { nome: "Sandiele Ianes da Silva", cargo: "Supervisor(a) Administrativo", destino: "UNIFICADO.html", username: "sandiele", password: "sgm25" },
+            { nome: "Victor Luis Minikowski", cargo: "Supervisor(a) Administrativo", destino: "UNIFICADO.html", username: "victor", password: "vgm25" },
+            { nome: "Neverton Noia da Silva", cargo: "Supervisor(a) de Projetos", destino: "UNIFICADO3.html", username: "neverton", password: "ngm25" },
+            { nome: "Lais de Souza Gonçalves Carvalho", cargo: "Supervisor(a) de Unidade", destino: "UNIFICADO3.html", username: "lais", password: "lgm25" },
+            { nome: "Aline Aranda Gonçalves dos Santos", cargo: "Supervisor(a) de Unidade", destino: "UNIFICADO3.html", username: "aline", password: "agm25" },
+            { nome: "Adriana de Oliveira Ribeiro", cargo: "Supervisor(a) Pedagógico(a)", destino: "UNIFICADO3.html", username: "adriana", password: "agm25" },
+            { nome: "Cintia Andreia Martins", cargo: "Supervisor(a) Pedagógico(a)", destino: "UNIFICADO3.html", username: "cintia", password: "cgm25" },
+            { nome: "Daniele Cristina Moreira Marques", cargo: "Supervisor(a) Pedagógico(a)", destino: "UNIFICADO3.html", username: "daniele", password: "dgm25" },
+            { nome: "Fernanda Urias", cargo: "Supervisor(a) Pedagógico(a)", destino: "UNIFICADO3.html", username: "fernanda", password: "fgm25" },
+            { nome: "Tatiane Gouveia da Fonseca", cargo: "Supervisor(a) Pedagógico(a)", destino: "UNIFICADO3.html", username: "tatiane", password: "tgm25" }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('loginForm');
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const username = document.getElementById('username').value.trim().toLowerCase();
+                const password = document.getElementById('password').value.trim();
+
+                const user = users.find(u => u.username === username && u.password === password);
+                
+                if (user) {
+                    // Mostra mensagem de boas-vindas
+                    form.style.display = 'none';
+                    document.getElementById('userName').textContent = user.nome;
+                    document.getElementById('userRole').textContent = user.cargo;
+                    welcomeMessage.style.display = 'block';
+                    
+                    // Inicia contagem regressiva para redirecionamento
+                    let seconds = 5;
+                    const countdownElement = document.getElementById('countdown');
+                    const countdownInterval = setInterval(function() {
+                        seconds--;
+                        countdownElement.textContent = seconds;
+                        
+                        if (seconds <= 0) {
+                            clearInterval(countdownInterval);
+                            window.location.href = user.destino;
+                        }
+                    }, 1000);
+                } else {
+                    // Efeito de shake no formulário para erro
+                    form.classList.add('animate__animated', 'animate__shakeX');
+                    setTimeout(() => {
+                        form.classList.remove('animate__animated', 'animate__shakeX');
+                    }, 1000);
+                    
+                    // Mostra mensagem de erro
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'alert alert-danger mt-3';
+                    errorDiv.textContent = 'Usuário ou senha inválidos. Por favor, tente novamente.';
+                    
+                    // Remove mensagens de erro anteriores
+                    const existingError = document.querySelector('.alert-danger');
+                    if (existingError) existingError.remove();
+                    
+                    form.appendChild(errorDiv);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
