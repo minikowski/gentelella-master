@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de Aviso</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f8f5ed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .formulario {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    input, textarea, button {
+      display: block;
+      width: 300px;
+      margin: 10px auto;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #preview {
+      width: 3375px;
+      height: 4219px;
+      background-image: url('postunificado.jpg');
+      background-size: cover;
+      position: relative;
+    }
+    .conteudo {
+      position: absolute;
+      top: 820px; /* centralizado verticalmente na área de 4219px */
+      left: 375px; /* centralizado horizontalmente na área de 3375px */
+      width: 2624px;
+      height: 2568px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #000;
+      padding: 50px;
+      box-sizing: border-box;
+    }
+    .conteudo h1 {
+      font-size: 100px;
+      color: #e67e22;
+      margin-bottom: 40px;
+      white-space: pre-line;
+    }
+    .conteudo p {
+      font-size: 64px;
+      white-space: pre-line;
+    }
+    canvas {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="formulario">
+    <input type="text" id="titulo" placeholder="Digite o título" />
+    <textarea id="descricao" rows="5" placeholder="Digite a descrição com quebras de linha"></textarea>
+    <button onclick="gerarImagem()">Gerar Imagem</button>
+  </div>
+
+  <div id="preview">
+    <div class="conteudo" id="conteudo">
+      <h1 id="tituloTexto">Título</h1>
+      <p id="descricaoTexto">Descrição</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    function gerarImagem() {
+      const titulo = document.getElementById("titulo").value;
+      const descricao = document.getElementById("descricao").value;
+
+      document.getElementById("tituloTexto").innerText = titulo;
+      document.getElementById("descricaoTexto").innerText = descricao;
+
+      html2canvas(document.getElementById("preview"), {
+        allowTaint: true,
+        useCORS: true,
+        scale: 1
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'aviso.jpg';
+        link.href = canvas.toDataURL("image/jpeg", 1.0);
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>
