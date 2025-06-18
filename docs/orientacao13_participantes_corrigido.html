@@ -311,11 +311,13 @@ async function gerarPDF() {
     });
   });
 
+  let y = 4.5;
+
   function verificarEspaco(incremento = 0.5) {
-    if (y + incremento > 28) { // margem inferior
+    if (y + incremento > 28) {
       doc.addPage();
       doc.addImage(fundo, 'JPEG', 0, 0, 21, 29.7);
-      y = 2;
+      y = 4.5;
     }
   }
 
@@ -334,8 +336,6 @@ async function gerarPDF() {
 
   const topicos = Array.from(document.querySelectorAll(".topico textarea"))
     .map(el => el.value.trim()).filter(Boolean);
-
-  let y = 4.5;
 
   doc.setFontSize(13);
   doc.setFont(undefined, "bold");
@@ -418,6 +418,7 @@ async function gerarPDF() {
 
   doc.save("orientacao.pdf");
 }
+
 
   </script>
 
