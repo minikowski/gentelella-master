@@ -299,95 +299,126 @@
       container.appendChild(div);
     }
 
-    async function gerarPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ unit: "cm", format: "a4" });
+async function gerarPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: "cm", format: "a4" });
 
-      const fundo = await fetch('fundo.jpg').then(res => res.blob()).then(blob => {
-        return new Promise(resolve => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.readAsDataURL(blob);
-        });
-      });
+  const fundo = await fetch('fundo.jpg').then(res => res.blob()).then(blob => {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  });
 
+  function verificarEspaco(incremento = 0.5) {
+    if (y + incremento > 28) { // margem inferior
+      doc.addPage();
       doc.addImage(fundo, 'JPEG', 0, 0, 21, 29.7);
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(11);
-
-      const nome = document.getElementById("nome").value;
-      const cargo = document.getElementById("cargo").value;
-      const unidade = document.getElementById("unidade").value;
-      const assunto = document.getElementById("assunto").value;
-      const participantes = Array.from(document.querySelectorAll(".pnome")).map((el, i) => ({
-        nome: el.value,
-        cargo: document.querySelectorAll(".pcargo")[i].value
-      }));
-
-      const topicos = Array.from(document.querySelectorAll(".topico textarea"))
-        .map(el => el.value.trim()).filter(Boolean);
-
-      let y = 4.5;
-
-      doc.setFontSize(13);
-      doc.setFont(undefined, "bold");
-      doc.text("ATENDIMENTO ADMINISTRATIVO/ OPERACIONAL/ APOIO – ORIENTAÇÃO", 1.5, y);
-      y += 1;
-
-      doc.setFontSize(11);
-      doc.setFont(undefined, "normal");
-      
-      // TEXTO DO COLABORADOR COM QUEBRA AUTOMÁTICA
-      const colaboradorText = `Colaborador(a): ${nome} – CARGO: ${cargo} – UNIDADE: ${unidade}`;
-      const colaboradorLines = doc.splitTextToSize(colaboradorText, 18);
-      doc.text(colaboradorLines, 1.5, y);
-      y += colaboradorLines.length * 0.5;
-      
-      doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 1.5, y); y += 0.8;
-
-      doc.text("Assuntos Tratados:", 1.5, y); y += 0.6;
-      const assuntoLines = doc.splitTextToSize(assunto, 18);
-      doc.text(assuntoLines, 1.5, y); y += assuntoLines.length * 0.5;
-
-      doc.text("Participantes:", 1.5, y); y += 0.6;
-      doc.text(`- ${nome}`, 1.5, y); y += 0.6;
-      participantes.forEach(p => {
-        const line = `- ${p.nome} – CARGO: ${p.cargo}`;
-        const lines = doc.splitTextToSize(line, 18);
-        doc.text(lines, 1.5, y);
-        y += lines.length * 0.5;
-      });
-
-      y += 0.5;
-      const alinhamentoText = `O(a) ${cargo} ${nome}, da unidade ${unidade}, é orientado(a) neste alinhamento a respeito dos seguintes assuntos:`;
-      const alinhamentoLines = doc.splitTextToSize(alinhamentoText, 18);
-      doc.text(alinhamentoLines, 1.5, y); y += alinhamentoLines.length * 0.5 + 0.5;
-
-      let letra = 'a'.charCodeAt(0);
-      topicos.forEach(t => {
-        const texto = `${String.fromCharCode(letra++)}) ${t}`;
-        const linhas = doc.splitTextToSize(texto, 18);
-        doc.text(linhas, 1.5, y);
-        y += linhas.length * 0.5;
-      });
-
-      y += 1;
-      doc.text("Cientes:", 1.5, y); y += 0.7;
-
-      const todos = [nome, ...participantes.map(p => p.nome)];
-      for (let i = 0; i < todos.length; i += 2) {
-        const nome1 = todos[i] || "";
-        const nome2 = todos[i + 1] || "";
-        doc.text("_____________________", 1.5, y);
-        doc.text("_____________________", 11.5, y);
-        y += 0.5;
-        doc.text(nome1, 1.5, y);
-        doc.text(nome2, 11.5, y);
-        y += 0.8;
-      }
-
-      doc.save("orientacao.pdf");
+      y = 2;
     }
+  }
+
+  doc.addImage(fundo, 'JPEG', 0, 0, 21, 29.7);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(11);
+
+  const nome = document.getElementById("nome").value;
+  const cargo = document.getElementById("cargo").value;
+  const unidade = document.getElementById("unidade").value;
+  const assunto = document.getElementById("assunto").value;
+  const participantes = Array.from(document.querySelectorAll(".pnome")).map((el, i) => ({
+    nome: el.value,
+    cargo: document.querySelectorAll(".pcargo")[i].value
+  }));
+
+  const topicos = Array.from(document.querySelectorAll(".topico textarea"))
+    .map(el => el.value.trim()).filter(Boolean);
+
+  let y = 4.5;
+
+  doc.setFontSize(13);
+  doc.setFont(undefined, "bold");
+  doc.text("ATENDIMENTO ADMINISTRATIVO/ OPERACIONAL/ APOIO – ORIENTAÇÃO", 1.5, y);
+  y += 1;
+
+  doc.setFontSize(11);
+  doc.setFont(undefined, "normal");
+
+  const colaboradorText = `Colaborador(a): ${nome} – CARGO: ${cargo} – UNIDADE: ${unidade}`;
+  const colaboradorLines = doc.splitTextToSize(colaboradorText, 18);
+  colaboradorLines.forEach(line => {
+    verificarEspaco();
+    doc.text(line, 1.5, y);
+    y += 0.5;
+  });
+
+  verificarEspaco();
+  doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 1.5, y); y += 0.8;
+
+  doc.text("Assuntos Tratados:", 1.5, y); y += 0.6;
+  const assuntoLines = doc.splitTextToSize(assunto, 18);
+  assuntoLines.forEach(line => {
+    verificarEspaco();
+    doc.text(line, 1.5, y);
+    y += 0.5;
+  });
+
+  verificarEspaco();
+  doc.text("Participantes:", 1.5, y); y += 0.6;
+
+  verificarEspaco();
+  doc.text(`- ${nome}`, 1.5, y); y += 0.6;
+
+  participantes.forEach(p => {
+    const line = `- ${p.nome} – CARGO: ${p.cargo}`;
+    const lines = doc.splitTextToSize(line, 18);
+    lines.forEach(linha => {
+      verificarEspaco();
+      doc.text(linha, 1.5, y);
+      y += 0.5;
+    });
+  });
+
+  y += 0.5;
+  const alinhamentoText = `O(a) ${cargo} ${nome}, da unidade ${unidade}, é orientado(a) neste alinhamento a respeito dos seguintes assuntos:`;
+  const alinhamentoLines = doc.splitTextToSize(alinhamentoText, 18);
+  alinhamentoLines.forEach(line => {
+    verificarEspaco();
+    doc.text(line, 1.5, y);
+    y += 0.5;
+  });
+
+  y += 0.5;
+  let letra = 'a'.charCodeAt(0);
+  topicos.forEach(t => {
+    const texto = `${String.fromCharCode(letra++)}) ${t}`;
+    const linhas = doc.splitTextToSize(texto, 18);
+    linhas.forEach(linha => {
+      verificarEspaco();
+      doc.text(linha, 1.5, y);
+      y += 0.5;
+    });
+  });
+
+  y += 1;
+  verificarEspaco();
+  doc.text("Cientes:", 1.5, y); y += 0.7;
+
+  const todos = [nome, ...participantes.map(p => p.nome)];
+  for (let i = 0; i < todos.length; i += 2) {
+    verificarEspaco(1.5);
+    doc.text("_____________________", 1.5, y);
+    doc.text("_____________________", 11.5, y);
+    y += 0.5;
+    doc.text(todos[i] || "", 1.5, y);
+    doc.text(todos[i + 1] || "", 11.5, y);
+    y += 0.8;
+  }
+
+  doc.save("orientacao.pdf");
+}
+
   </script>
 
 <script>
