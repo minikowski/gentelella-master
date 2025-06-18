@@ -121,15 +121,78 @@
     <h2>ORIENTAÇÃO: ATENDIMENTO ADMINISTRATIVO/OPERACIONAL/APOIO</h2>
 
     <label for="nome">Nome do Colaborador:</label>
-    <input id="nome" type="text" />
+<input list="lista-nomes" id="nome" name="nome" oninput="atualizarCargo()" placeholder="Digite ou selecione um nome" />
+<datalist id="lista-nomes">
+  <option value="Aline Arantes Loureiro">
+  <option value="Amanda Aparecida Pires">
+  <option value="Ana Paula Alves Rodrigues">
+  <option value="Andrew Lourenço Rodrigues">
+  <option value="Ariane Ferreira Rigate">
+  <option value="Dener Diniz de Souza">
+  <option value="Elizabeth Fukuchima Silverio Longo">
+  <option value="Franciana Maria Pontes">
+  <option value="Gisele Santiago Estércio">
+  <option value="Isabely Vanessa Pascual Ferreira">
+  <option value="Janaina Cristina Baptista Justino">
+  <option value="Julia Gonçalves Bianco">
+  <option value="Juliana Luzia Dias">
+  <option value="Ketury Paloma de Souza">
+  <option value="Maria Beatriz Passagnolo">
+  <option value="Nadya Lira Da Silva">
+  <option value="Pamela Dieize Pereira Esmerio">
+  <option value="Patrick Braga">
+  <option value="Ricardo Bernardes Candido">
+  <option value="Thainara Assis Pereira">
+  <option value="Bianca Gomides Tavares Silva">
+  <option value="Edineia Ferreira Salvatore">
+  <option value="Jenifer Alves Freschi">
+  <option value="Leticia Lupion Ramos">
+  <option value="Thais Aimê Alves Damazio">
+  <option value="Lindiana Souza Santos">
+  <option value="Marcia Pereira dos Santos">
+  <option value="Livia Amabile Vivan Pagotti">
+  <option value="Viviane Alves Molina">
+  <option value="Juliana de Meira">
+  <option value="Leonardo da Silva Santos">
+  <option value="Claudio Marcio de Melo">
+  <option value="Andressa Priscila Marrezi Silva">
+  <option value="Gabriel Sampaio Strauss">
+  <option value="Maria Luiza Vazquez Carelli">
+  <option value="Paulo Roberto Gianeti Coelho">
+  <option value="Lucas Henrique Nomura">
+  <option value="Daiane Aparecida Santana">
+  <option value="Luana Aparecida da Silva">
+  <option value="Daniela dos Santos Pereira">
+  <option value="Sandiele Ianes da Silva">
+  <option value="Victor Luis Minikowski">
+  <option value="Neverton Noia da Silva">
+  <option value="Lais de Souza Gonçalves Carvalho">
+  <option value="Aline Aranda Gonçalves dos Santos">
+  <option value="Adriana de Oliveira Ribeiro">
+  <option value="Cintia Andreia Martins">
+  <option value="Daniele Cristina Moreira Marques">
+  <option value="Fernanda Urias">
+  <option value="Tatiane Gouveia da Fonseca">
+</datalist>
 
-    <label for="cargo">Cargo:</label>
-    <select id="cargo">
-      <option>SUPERVISOR (A) PEDAGÓGICO (A)</option>
-      <option>SUPERVISOR (A) DE UNIDADE</option>
-      <option>SUPERVISOR (A) ADMINISTRATIVO (A)</option>
-      <option>EDUCADOR (A) SOCIAL</option>
-    </select>
+<label for="cargo">Cargo:</label>
+<select id="cargo">
+  <option>Educador (a) Social</option>
+  <option>Assistente Social</option>
+  <option>Auxiliar Administrativo</option>
+  <option>Coordenador(a) de Projetos Sociais</option>
+  <option>Coordenador(a) de RH</option>
+  <option>Coordenador(a) Financeiro</option>
+  <option>Gerente Geral de Projetos Sociais</option>
+  <option>Instrutor(a) de Qualificação Profissional</option>
+  <option>Psicólogo(a) Social</option>
+  <option>Secretário(a)</option>
+  <option>Social Mídia</option>
+  <option>Supervisor(a) Administrativo</option>
+  <option>Supervisor(a) de Projetos</option>
+  <option>Supervisor(a) de Unidade</option>
+  <option>Supervisor(a) Pedagógico(a)</option>
+</select>
 
     <label for="unidade">Unidade:</label>
     <select id="unidade">
@@ -147,17 +210,27 @@
     <h3>Participantes (além do colaborador):</h3>
     <div id="participantes">
       <div class="participante-container">
-        <div class="input-group">
-          <input placeholder="Nome do Participante" class="pnome" type="text" />
-          <select class="pcargo">
-            <option>COORDENADOR (A)</option>
-            <option>SUPERVISOR (A) PEDAGÓGICO (A)</option>
-            <option>SUPERVISOR (A) DE UNIDADE</option>
-            <option>SUPERVISOR (A) ADMINISTRATIVO (A)</option>
-            <option>EDUCADOR (A) SOCIAL</option>
-          </select>
-        </div>
-      </div>
+  <div class="input-group">
+    <input list="lista-nomes" placeholder="Nome do Participante" class="pnome" oninput="atualizarCargoParticipante(this)" />
+    <select class="pcargo">
+      <option>Educador (a) Social</option>
+      <option>Assistente Social</option>
+      <option>Auxiliar Administrativo</option>
+      <option>Coordenador(a) de Projetos Sociais</option>
+      <option>Coordenador(a) de RH</option>
+      <option>Coordenador(a) Financeiro</option>
+      <option>Gerente Geral de Projetos Sociais</option>
+      <option>Instrutor(a) de Qualificação Profissional</option>
+      <option>Psicólogo(a) Social</option>
+      <option>Secretário(a)</option>
+      <option>Social Mídia</option>
+      <option>Supervisor(a) Administrativo</option>
+      <option>Supervisor(a) de Projetos</option>
+      <option>Supervisor(a) de Unidade</option>
+      <option>Supervisor(a) Pedagógico(a)</option>
+    </select>
+  </div>
+</div>
     </div>
     <button type="button" onclick="addParticipante()">Adicionar Participante</button>
 
@@ -189,13 +262,23 @@
       div.className = 'participante-container';
       div.innerHTML = `
         <div class="input-group">
-          <input placeholder="Nome do Participante" class="pnome" type="text" />
+          <input list="lista-nomes" placeholder="Nome do Participante" class="pnome" oninput="atualizarCargoParticipante(this)" />
           <select class="pcargo">
-            <option>COORDENADOR (A)</option>
-            <option>SUPERVISOR (A) PEDAGÓGICO (A)</option>
-            <option>SUPERVISOR (A) DE UNIDADE</option>
-            <option>SUPERVISOR (A) ADMINISTRATIVO (A)</option>
-            <option>EDUCADOR (A) SOCIAL</option>
+            <option>Educador (a) Social</option>
+            <option>Assistente Social</option>
+            <option>Auxiliar Administrativo</option>
+            <option>Coordenador(a) de Projetos Sociais</option>
+            <option>Coordenador(a) de RH</option>
+            <option>Coordenador(a) Financeiro</option>
+            <option>Gerente Geral de Projetos Sociais</option>
+            <option>Instrutor(a) de Qualificação Profissional</option>
+            <option>Psicólogo(a) Social</option>
+            <option>Secretário(a)</option>
+            <option>Social Mídia</option>
+            <option>Supervisor(a) Administrativo</option>
+            <option>Supervisor(a) de Projetos</option>
+            <option>Supervisor(a) de Unidade</option>
+            <option>Supervisor(a) Pedagógico(a)</option>
           </select>
         </div>
       `;
@@ -216,95 +299,209 @@
       container.appendChild(div);
     }
 
-    async function gerarPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ unit: "cm", format: "a4" });
+async function gerarPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: "cm", format: "a4" });
 
-      const fundo = await fetch('fundo.jpg').then(res => res.blob()).then(blob => {
-        return new Promise(resolve => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.readAsDataURL(blob);
-        });
-      });
+  const fundo = await fetch('fundo.jpg').then(res => res.blob()).then(blob => {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  });
 
+  let y = 4.5;
+
+  function verificarEspaco(incremento = 0.5) {
+    if (y + incremento > 28) {
+      doc.addPage();
       doc.addImage(fundo, 'JPEG', 0, 0, 21, 29.7);
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(11);
-
-      const nome = document.getElementById("nome").value;
-      const cargo = document.getElementById("cargo").value;
-      const unidade = document.getElementById("unidade").value;
-      const assunto = document.getElementById("assunto").value;
-      const participantes = Array.from(document.querySelectorAll(".pnome")).map((el, i) => ({
-        nome: el.value,
-        cargo: document.querySelectorAll(".pcargo")[i].value
-      }));
-
-      const topicos = Array.from(document.querySelectorAll(".topico textarea"))
-        .map(el => el.value.trim()).filter(Boolean);
-
-      let y = 4.5;
-
-      doc.setFontSize(13);
-      doc.setFont(undefined, "bold");
-      doc.text("ATENDIMENTO ADMINISTRATIVO/ OPERACIONAL/ APOIO – ORIENTAÇÃO", 1.5, y);
-      y += 1;
-
-      doc.setFontSize(11);
-      doc.setFont(undefined, "normal");
-      
-      // TEXTO DO COLABORADOR COM QUEBRA AUTOMÁTICA
-      const colaboradorText = `Colaborador(a): ${nome} – CARGO: ${cargo} – UNIDADE: ${unidade}`;
-      const colaboradorLines = doc.splitTextToSize(colaboradorText, 18);
-      doc.text(colaboradorLines, 1.5, y);
-      y += colaboradorLines.length * 0.5;
-      
-      doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 1.5, y); y += 0.8;
-
-      doc.text("Assuntos Tratados:", 1.5, y); y += 0.6;
-      const assuntoLines = doc.splitTextToSize(assunto, 18);
-      doc.text(assuntoLines, 1.5, y); y += assuntoLines.length * 0.5;
-
-      doc.text("Participantes:", 1.5, y); y += 0.6;
-      doc.text(`- ${nome}`, 1.5, y); y += 0.6;
-      participantes.forEach(p => {
-        const line = `- ${p.nome} – CARGO: ${p.cargo}`;
-        const lines = doc.splitTextToSize(line, 18);
-        doc.text(lines, 1.5, y);
-        y += lines.length * 0.5;
-      });
-
-      y += 0.5;
-      const alinhamentoText = `O(a) ${cargo} ${nome}, da unidade ${unidade}, é orientado(a) neste alinhamento a respeito dos seguintes assuntos:`;
-      const alinhamentoLines = doc.splitTextToSize(alinhamentoText, 18);
-      doc.text(alinhamentoLines, 1.5, y); y += alinhamentoLines.length * 0.5 + 0.5;
-
-      let letra = 'a'.charCodeAt(0);
-      topicos.forEach(t => {
-        const texto = `${String.fromCharCode(letra++)}) ${t}`;
-        const linhas = doc.splitTextToSize(texto, 18);
-        doc.text(linhas, 1.5, y);
-        y += linhas.length * 0.5;
-      });
-
-      y += 1;
-      doc.text("Cientes:", 1.5, y); y += 0.7;
-
-      const todos = [nome, ...participantes.map(p => p.nome)];
-      for (let i = 0; i < todos.length; i += 2) {
-        const nome1 = todos[i] || "";
-        const nome2 = todos[i + 1] || "";
-        doc.text("_____________________", 1.5, y);
-        doc.text("_____________________", 11.5, y);
-        y += 0.5;
-        doc.text(nome1, 1.5, y);
-        doc.text(nome2, 11.5, y);
-        y += 0.8;
-      }
-
-      doc.save("orientacao.pdf");
+      y = 4.5;
     }
+  }
+
+  doc.addImage(fundo, 'JPEG', 0, 0, 21, 29.7);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(11);
+
+  const nome = document.getElementById("nome").value;
+  const cargo = document.getElementById("cargo").value;
+  const unidade = document.getElementById("unidade").value;
+  const assunto = document.getElementById("assunto").value;
+  const participantes = Array.from(document.querySelectorAll(".pnome")).map((el, i) => ({
+    nome: el.value,
+    cargo: document.querySelectorAll(".pcargo")[i].value
+  }));
+
+  const topicos = Array.from(document.querySelectorAll(".topico textarea"))
+    .map(el => el.value.trim()).filter(Boolean);
+
+  doc.setFontSize(13);
+  doc.setFont(undefined, "bold");
+  doc.text("ATENDIMENTO ADMINISTRATIVO/ OPERACIONAL/ APOIO – ORIENTAÇÃO", 1.5, y);
+  y += 1;
+
+  doc.setFontSize(11);
+  doc.setFont(undefined, "normal");
+
+  const colaboradorText = `Colaborador(a): ${nome} – CARGO: ${cargo} – UNIDADE: ${unidade}`;
+  const colaboradorLines = doc.splitTextToSize(colaboradorText, 18);
+  colaboradorLines.forEach(line => {
+    verificarEspaco();
+    doc.text(line, 1.5, y);
+    y += 0.5;
+  });
+
+  verificarEspaco();
+  doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 1.5, y); y += 0.8;
+
+  doc.text("Assuntos Tratados:", 1.5, y); y += 0.6;
+  const assuntoLines = doc.splitTextToSize(assunto, 18);
+  assuntoLines.forEach(line => {
+    verificarEspaco();
+    doc.text(line, 1.5, y);
+    y += 0.5;
+  });
+
+  verificarEspaco();
+  doc.text("Participantes:", 1.5, y); y += 0.6;
+
+  verificarEspaco();
+  doc.text(`- ${nome}`, 1.5, y); y += 0.6;
+
+  participantes.forEach(p => {
+    const line = `- ${p.nome} – CARGO: ${p.cargo}`;
+    const lines = doc.splitTextToSize(line, 18);
+    lines.forEach(linha => {
+      verificarEspaco();
+      doc.text(linha, 1.5, y);
+      y += 0.5;
+    });
+  });
+
+  y += 0.5;
+  const alinhamentoText = `O(a) ${cargo} ${nome}, da unidade ${unidade}, é orientado(a) neste alinhamento a respeito dos seguintes assuntos:`;
+  const alinhamentoLines = doc.splitTextToSize(alinhamentoText, 18);
+  alinhamentoLines.forEach(line => {
+    verificarEspaco();
+    doc.text(line, 1.5, y);
+    y += 0.5;
+  });
+
+  y += 0.5;
+  let letra = 'a'.charCodeAt(0);
+  topicos.forEach(t => {
+    const texto = `${String.fromCharCode(letra++)}) ${t}`;
+    const linhas = doc.splitTextToSize(texto, 18);
+    linhas.forEach(linha => {
+      verificarEspaco();
+      doc.text(linha, 1.5, y);
+      y += 0.5;
+    });
+  });
+
+  y += 1;
+  verificarEspaco();
+  doc.text("Cientes:", 1.5, y); y += 0.7;
+
+  const todos = [nome, ...participantes.map(p => p.nome)];
+  for (let i = 0; i < todos.length; i += 2) {
+    verificarEspaco(1.5);
+    doc.text("_____________________", 1.5, y);
+    doc.text("_____________________", 11.5, y);
+    y += 0.5;
+    doc.text(todos[i] || "", 1.5, y);
+    doc.text(todos[i + 1] || "", 11.5, y);
+    y += 0.8;
+  }
+
+  doc.save("orientacao.pdf");
+}
+
+
   </script>
+
+<script>
+  const nomesECargos = {
+    "Aline Arantes Loureiro": "Educador (a) Social",
+    "Amanda Aparecida Pires": "Educador (a) Social",
+    "Ana Paula Alves Rodrigues": "Educador (a) Social",
+    "Andrew Lourenço Rodrigues": "Educador (a) Social",
+    "Ariane Ferreira Rigate": "Educador (a) Social",
+    "Dener Diniz de Souza": "Educador (a) Social",
+    "Elizabeth Fukuchima Silverio Longo": "Educador (a) Social",
+    "Franciana Maria Pontes": "Educador (a) Social",
+    "Gisele Santiago Estércio": "Educador (a) Social",
+    "Isabely Vanessa Pascual Ferreira": "Educador (a) Social",
+    "Janaina Cristina Baptista Justino": "Educador (a) Social",
+    "Julia Gonçalves Bianco": "Educador (a) Social",
+    "Juliana Luzia Dias": "Educador (a) Social",
+    "Ketury Paloma de Souza": "Educador (a) Social",
+    "Maria Beatriz Passagnolo": "Educador (a) Social",
+    "Nadya Lira Da Silva": "Educador (a) Social",
+    "Pamela Dieize Pereira Esmerio": "Educador (a) Social",
+    "Patrick Braga": "Educador (a) Social",
+    "Ricardo Bernardes Candido": "Educador (a) Social",
+    "Thainara Assis Pereira": "Educador (a) Social",
+    "Bianca Gomides Tavares Silva": "Assistente Social",
+    "Edineia Ferreira Salvatore": "Assistente Social",
+    "Jenifer Alves Freschi": "Assistente Social",
+    "Leticia Lupion Ramos": "Assistente Social",
+    "Thais Aimê Alves Damazio": "Assistente Social",
+    "Lindiana Souza Santos": "Auxiliar Administrativo",
+    "Marcia Pereira dos Santos": "Auxiliar Administrativo",
+    "Livia Amabile Vivan Pagotti": "Coordenador(a) de Projetos Sociais",
+    "Viviane Alves Molina": "Coordenador(a) de Projetos Sociais",
+    "Juliana de Meira": "Coordenador(a) de RH",
+    "Leonardo da Silva Santos": "Coordenador(a) Financeiro",
+    "Claudio Marcio de Melo": "Gerente Geral de Projetos Sociais",
+    "Andressa Priscila Marrezi Silva": "Instrutor(a) de Qualificação Profissional",
+    "Gabriel Sampaio Strauss": "Instrutor(a) de Qualificação Profissional",
+    "Maria Luiza Vazquez Carelli": "Instrutor(a) de Qualificação Profissional",
+    "Paulo Roberto Gianeti Coelho": "Instrutor(a) de Qualificação Profissional",
+    "Lucas Henrique Nomura": "Psicólogo(a) Social",
+    "Daiane Aparecida Santana": "Secretário(a)",
+    "Luana Aparecida da Silva": "Social Mídia",
+    "Daniela dos Santos Pereira": "Supervisor(a) Administrativo",
+    "Sandiele Ianes da Silva": "Supervisor(a) Administrativo",
+    "Victor Luis Minikowski": "Supervisor(a) Administrativo",
+    "Neverton Noia da Silva": "Supervisor(a) de Projetos",
+    "Lais de Souza Gonçalves Carvalho": "Supervisor(a) de Unidade",
+    "Aline Aranda Gonçalves dos Santos": "Supervisor(a) de Unidade",
+    "Adriana de Oliveira Ribeiro": "Supervisor(a) Pedagógico(a)",
+    "Cintia Andreia Martins": "Supervisor(a) Pedagógico(a)",
+    "Daniele Cristina Moreira Marques": "Supervisor(a) Pedagógico(a)",
+    "Fernanda Urias": "Supervisor(a) Pedagógico(a)",
+    "Tatiane Gouveia da Fonseca": "Supervisor(a) Pedagógico(a)"
+  };
+
+  
+  function atualizarCargoParticipante(inputElement) {
+    const nome = inputElement.value.trim();
+    const cargoSelect = inputElement.closest('.input-group').querySelector('.pcargo');
+
+    if (nomesECargos[nome]) {
+      cargoSelect.value = nomesECargos[nome];
+      cargoSelect.disabled = true;
+    } else {
+      cargoSelect.disabled = false;
+    }
+  }
+
+
+  function atualizarCargo() {
+    const nome = document.getElementById("nome").value.trim();
+    const cargoSelect = document.getElementById("cargo");
+
+    if (nomesECargos[nome]) {
+      cargoSelect.value = nomesECargos[nome];
+      cargoSelect.disabled = true;
+    } else {
+      cargoSelect.disabled = false;
+    }
+  }
+</script>
+
 </body>
 </html>
