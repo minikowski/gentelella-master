@@ -1,4 +1,4 @@
-# 📊 Sistema de Gestão de Frequência e Relatórios – SCFV
+# 📊 Sistema Unificado de Gestão – SCFV
 
 Sistema desenvolvido por **Victor Luis Minikowski**  
 ✉️ victorlmnk@gmail.com
@@ -129,13 +129,25 @@ Abaixo estão listadas todas as subpáginas funcionais atualmente implementadas 
 
 ---
 
-## 📬 Contato
 
-Fique à vontade para sugerir melhorias ou contribuir!
+## 🚀 Automatizações com Google Apps Script
+
+O sistema também utiliza **Google Apps Script** para criar automações que reduzem o trabalho manual da equipe.
+
+### ✉️ Envio automático de e-mails
+- **Objetivo:** Cobrar o preenchimento de indicadores e formulários pendentes.
+- **Funcionamento:** 
+  - O Apps Script verifica periodicamente o estado dos dados nas planilhas.
+  - Caso campos estejam em branco ou incompletos, um e-mail personalizado é enviado automaticamente para os responsáveis.
+  - A mensagem inclui links diretos para o formulário ou documento que precisa ser atualizado.
+- **Benefícios:**
+  - Redução de retrabalho por esquecimento
+  - Aumento da regularidade no preenchimento de dados
+  - Comunicação direta com a equipe, sem depender de controle manual
+
+## 📬 Contato
 
 **Victor Luis Minikowski**  
 📧 victorlmnk@gmail.com
 
 ---
-
-> *Este projeto está em constante evolução conforme minha formação técnica em Ciência de Dados avança. Objetivo: transformar uma solução artesanal em uma plataforma profissional e escalável.*
