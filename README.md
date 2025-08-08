@@ -1,3 +1,5 @@
+---
+# Front Matter para GitHub Pages
 layout: default
 title: SCFV - Sistema Unificado de Gestão
 nav_order: 1 
@@ -138,42 +140,19 @@ graph TD
     E --> G
     E --> H
 🤖 Automações (Google Apps Script)
-
 Um dos principais recursos do sistema são as automações que reduzem o trabalho manual.
-
 Exemplo: Lembrete Automático de Preenchimento
-
 Verificação Diária: Um script verifica planilhas ou registros pendentes.
-
 Notificação: Envia um e-mail personalizado para o responsável.
-
 Ação: O e-mail contém um link direto para o formulário ou planilha que precisa de atenção.
-
 Fluxo: Gatilho de Tempo → Verificação na Planilha → Envio de E-mail → Ação do Usuário
-
 🔄 Roadmap de Evolução
-
 O projeto está em constante evolução. Os próximos passos planejados incluem:
-
 Fase Atual: Backend em Google Sheets, formulários e relatórios estáticos.
-
 Próximas Etapas: Migrar o backend para uma solução com Python + SQLite para maior escalabilidade.
-
 Futuro: Implementar um sistema de autenticação de usuários, um painel administrativo completo e APIs RESTful para integrações.
-
 Longo Prazo: Hospedagem profissional da aplicação e sistema de permissões granular por usuário.
-
 📬 Contato
-
 Ficou com dúvidas ou tem sugestões? Entre em contato!
-
 Victor Luis Minikowski
 📧 victorlmnk@gmail.com
-
-code
-Code
-download
-content_copy
-expand_less
-IGNORE_WHEN_COPYING_START
-IGNORE_WHEN_COPYING_END
