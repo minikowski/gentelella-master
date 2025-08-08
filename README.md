@@ -1,9 +1,3 @@
----
-layout: default
-title: SCFV - Sistema Unificado de Gestão
-nav_order: 1 
----
-
 # 📊 Sistema Unificado de Gestão – SCFV
 
 **Uma solução de gestão simplificada, de baixo custo e alto impacto, utilizando o poder do Google Workspace.**
