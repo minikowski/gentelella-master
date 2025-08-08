@@ -105,6 +105,63 @@ Projetado inicialmente para o **SCFV (Serviço de Convivência e Fortalecimento 
 - Templates institucionais
 
 ---
+layout: default
+title: Gestão de Projetos Sociais
+nav_order: 5
+---
+
+# 🌍 Gestão de Projetos Sociais
+
+Módulo completo para administração de projetos sociais, integrado ao fluxo de educandos e métricas institucionais.
+
+## 🧩 Funcionalidades Principais
+
+### 👥 Gestão de Participantes
+<div class="funcionalidade">
+  <div class="icon">person_add</div>
+  <div class="content">
+    <h3>Realizar Matrícula</h3>
+    <p>Formulário unificado com validação automática e geração de ficha cadastral</p>
+    <div class="badge">Google Forms</div>
+  </div>
+</div>
+
+<div class="funcionalidade">
+  <div class="icon">person_remove</div>
+  <div class="content">
+    <h3>Desligamento</h3>
+    <p>Registro de saída com motivos pré-definidos e relatório automático</p>
+  </div>
+</div>
+
+### 📊 Controle Operacional
+<div class="funcionalidade">
+  <div class="icon">check_circle</div>
+  <div class="content">
+    <h3>Frequência</h3>
+    <p>Sistema de malotes digitais com consolidação automática</p>
+    <div class="badge">Google Sheets</div>
+  </div>
+</div>
+
+<div class="funcionalidade">
+  <div class="icon">analytics</div>
+  <div class="content">
+    <h3>Métricas Sociais</h3>
+    <p>Painel com indicadores de evasão, frequência e impacto social</p>
+  </div>
+</div>
+
+## 🗃️ Estrutura de Dados
+
+```mermaid
+graph TD
+  A[Formulário de Matrícula] --> B[Planilha Mestra]
+  B --> C{Processamento}
+  C --> D[Relatórios PDF]
+  C --> E[Painel Web]
+  C --> F[Exportação AGML]
+---
 
 ## 🤖 Automações (Google Apps Script)
 
