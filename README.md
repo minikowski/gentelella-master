@@ -1,5 +1,4 @@
 ---
-# Front Matter para GitHub Pages
 layout: default
 title: SCFV - Sistema Unificado de Gestão
 nav_order: 1 
@@ -15,16 +14,17 @@ Desenvolvido por **Victor Luis Minikowski**
 ---
 
 ### 📍 Navegação Rápida
-* [Visão Geral](#🧠-visão-geral)
-* [Arquitetura do Sistema](#⚙️-arquitetura-do-sistema)
-* [Vantagens](#✨-vantagens)
-* [Stack Tecnológico](#🛠️-stack-tecnológico)
-* [Módulos Principais](#📂-módulos-principais)
-* [Módulo Detalhado: Gestão de Projetos Sociais](#🌍-módulo-detalhado-gestão-de-projetos-sociais)
-* [Fluxo de Dados](#🗃️-fluxo-de-dados)
-* [Automações](#🤖-automações)
-* [Roadmap de Evolução](#🔄-roadmap-de-evolução)
-* [Contato](#📬-contato)
+
+* [Visão Geral](#visão-geral)
+* [Arquitetura do Sistema](#arquitetura-do-sistema)
+* [Vantagens](#vantagens)
+* [Stack Tecnológico](#stack-tecnológico)
+* [Módulos Principais](#módulos-principais)
+* [Módulo Detalhado: Gestão de Projetos Sociais](#módulo-detalhado-gestão-de-projetos-sociais)
+* [Fluxo de Dados](#fluxo-de-dados)
+* [Automações](#automações)
+* [Roadmap de Evolução](#roadmap-de-evolução)
+* [Contato](#contato)
 
 ---
 
@@ -39,16 +39,19 @@ Embora tenha sido criado para o **SCFV (Serviço de Convivência e Fortaleciment
 ## ⚙️ Arquitetura do Sistema
 
 ### 📥 Entrada de Dados
+
 - **Google Forms:** Utilizado para a coleta de dados primários, com validações de campo para garantir a consistência das informações.
 - **Integração Nativa:** Os dados dos formulários são enviados automaticamente para o Google Sheets, sem necessidade de conectores externos.
 - **Interface Simplificada:** Formulários intuitivos que facilitam o uso por equipes com diferentes níveis de habilidade técnica.
 
 ### ⚡ Processamento
+
 - **Google Sheets:** Funciona como o coração do sistema, onde os dados são processados.
 - **Fórmulas Avançadas:** Consolidação de múltiplas fontes, controle automático de presenças e padronização de informações.
 - **Google Apps Script:** Utilizado para automações, como envio de e-mails, lembretes e geração de relatórios.
 
 ### 📤 Saída de Dados
+
 - **Relatórios em HTML/PDF:** A partir do arquivo `UNIFICADO.html`, é possível gerar relatórios profissionais e exportá-los para PDF com um único clique.
 - **Painéis de Controle:** Visualização de KPIs e métricas em tempo real diretamente nas planilhas ou em painéis web simples.
 
@@ -139,20 +142,3 @@ graph TD
     E --> F
     E --> G
     E --> H
-🤖 Automações (Google Apps Script)
-Um dos principais recursos do sistema são as automações que reduzem o trabalho manual.
-Exemplo: Lembrete Automático de Preenchimento
-Verificação Diária: Um script verifica planilhas ou registros pendentes.
-Notificação: Envia um e-mail personalizado para o responsável.
-Ação: O e-mail contém um link direto para o formulário ou planilha que precisa de atenção.
-Fluxo: Gatilho de Tempo → Verificação na Planilha → Envio de E-mail → Ação do Usuário
-🔄 Roadmap de Evolução
-O projeto está em constante evolução. Os próximos passos planejados incluem:
-Fase Atual: Backend em Google Sheets, formulários e relatórios estáticos.
-Próximas Etapas: Migrar o backend para uma solução com Python + SQLite para maior escalabilidade.
-Futuro: Implementar um sistema de autenticação de usuários, um painel administrativo completo e APIs RESTful para integrações.
-Longo Prazo: Hospedagem profissional da aplicação e sistema de permissões granular por usuário.
-📬 Contato
-Ficou com dúvidas ou tem sugestões? Entre em contato!
-Victor Luis Minikowski
-📧 victorlmnk@gmail.com
