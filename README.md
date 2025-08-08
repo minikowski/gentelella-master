@@ -1,19 +1,3 @@
-Peço desculpas! Você está absolutamente certo. Na tentativa de reorganizar e unificar o conteúdo, acabei removendo a seção "🌍 Gestão de Projetos Sociais", que era um módulo detalhado e importante. Foi uma falha minha.
-
-Agradeço por apontar. Reintegrei a seção ao layout aprimorado, tratando-a como um aprofundamento de um dos módulos principais. Também converti os divs HTML para um formato Markdown mais universal, que funciona bem tanto no GitHub quanto em GitHub Pages.
-
-Versão Corrigida e Completa
-
-Aqui está a versão completa do README.md com a seção "Gestão de Projetos Sociais" devidamente incluída e formatada.
-
-code
-Markdown
-download
-content_copy
-expand_less
-
----
-# Front Matter para GitHub Pages (coloque no topo do seu arquivo .md principal)
 layout: default
 title: SCFV - Sistema Unificado de Gestão
 nav_order: 1 
