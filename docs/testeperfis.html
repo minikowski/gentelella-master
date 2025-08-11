@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Teste de Visualizações</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ======== GERAL E RESET ======== */
+        :root {
+            --cor-primaria: #005c97;
+            --cor-secundaria: #363795;
+            --cor-fundo: #f4f7fa;
+            --cor-texto: #333;
+            --cor-borda: #dce1e6;
+            --cor-sombra: rgba(0, 0, 0, 0.08);
+            --cor-header: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+        }
+
+        /* ======== LAYOUT PRINCIPAL ======== */
+        .painel-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* ======== CABEÇALHO ======== */
+        .painel-header {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centraliza itens horizontalmente */
+            flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha em telas pequenas */
+            gap: 20px; /* Espaçamento entre o título e o menu */
+            padding: 20px 25px;
+            background: var(--cor-header);
+            border-bottom: 1px solid var(--cor-borda);
+            box-shadow: 0 4px 12px var(--cor-sombra);
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .painel-header h1 {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: var(--cor-primaria);
+            flex-shrink: 0;
+        }
+
+        /* ======== MENU SUSPENSO (SELECT) ======== */
+        #view-selector {
+            font-size: 1em;
+            font-weight: 500;
+            color: var(--cor-texto);
+            padding: 12px 40px 12px 15px; /* Espaço para a seta */
+            min-width: 300px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+
+            /* Aparência customizada */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333333' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 1em;
+        }
+
+        #view-selector:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+            box-shadow: 0 0 0 3px rgba(0, 92, 151, 0.2);
+        }
+
+        /* ======== ÁREA DE CONTEÚDO (IFRAME) ======== */
+        .content-wrapper {
+            flex-grow: 1;
+            padding: 20px;
+            overflow: auto;
+        }
+
+        #content-frame {
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px var(--cor-sombra);
+            transition: opacity 0.3s ease-in-out;
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="painel-container">
+
+        <header class="painel-header">
+            <h1>Painel de Teste Unificado</h1>
+            <select id="view-selector">
+                <option value="">-- Selecione um perfil de usuário --</option>
+                <option value="https://minikowski.github.io/gentelella-master/UNIFICADO.html">Acesso Ilimitado</option>
+                <option value="https://minikowski.github.io/gentelella-master/UNIFICADO2.html">Educador(a) Social</option>
+                <option value="https://minikowski.github.io/gentelella-master/UNIFICADO3.html">Supervisão e Apoio</option>
+                <option value="https://minikowski.github.io/gentelella-master/UNIFICADO4.html">Social</option>
+            </select>
+        </header>
+
+        <main class="content-wrapper">
+            <iframe id="content-frame" title="Visualização do Sistema" srcdoc="
+                <div style='display:flex; flex-direction:column; justify-content:center; align-items:center; height:100%; font-family:Roboto, sans-serif; color:#888;'>
+                    <svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' fill='currentColor' class='bi bi-mouse' viewBox='0 0 16 16' style='color:#ccc; margin-bottom: 20px;'>
+                      <path d='M8 3a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 3zm4 8a4 4 0 0 1-8 0V5a4 4 0 1 1 8 0v6zM8 0a5 5 0 0 0-5 5v6a5 5 0 0 0 10 0V5a5 5 0 0 0-5-5z'/>
+                    </svg>
+                    <h2 style='font-weight:500;'>Bem-vindo ao Painel de Testes</h2>
+                    <p style='margin-top:5px; font-weight:400;'>Selecione um perfil no menu acima para começar.</p>
+                </div>
+            ">
+            </iframe>
+        </main>
+
+    </div>
+
+    <script>
+        const viewSelector = document.getElementById('view-selector');
+        const contentFrame = document.getElementById('content-frame');
+
+        viewSelector.addEventListener('change', function() {
+            const selectedPage = this.value;
+
+            // Efeito de fade out para suavizar a transição
+            contentFrame.style.opacity = '0';
+
+            setTimeout(() => {
+                if (selectedPage) {
+                    contentFrame.src = selectedPage;
+                } else {
+                    // Recarrega a mensagem inicial se o usuário limpar a seleção
+                    contentFrame.src = 'about:blank'; // Limpa antes de colocar o srcdoc
+                    contentFrame.srcdoc = `
+                        <div style='display:flex; flex-direction:column; justify-content:center; align-items:center; height:100%; font-family:Roboto, sans-serif; color:#888;'>
+                             <svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' fill='currentColor' class='bi bi-mouse' viewBox='0 0 16 16' style='color:#ccc; margin-bottom: 20px;'><path d='M8 3a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 3zm4 8a4 4 0 0 1-8 0V5a4 4 0 1 1 8 0v6zM8 0a5 5 0 0 0-5 5v6a5 5 0 0 0 10 0V5a5 5 0 0 0-5-5z'/></svg>
+                            <h2 style='font-weight:500;'>Bem-vindo ao Painel de Testes</h2>
+                            <p style='margin-top:5px; font-weight:400;'>Selecione um perfil no menu acima para começar.</p>
+                        </div>
+                    `;
+                }
+                // Efeito de fade in
+                contentFrame.style.opacity = '1';
+            }, 200); // Tempo para a animação de fade out
+        });
+    </script>
+
+</body>
+</html>
