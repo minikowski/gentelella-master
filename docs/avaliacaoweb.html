@@ -1,240 +1,222 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Avaliações | Versão Melhorada</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      --primary: #4f46e5;
-      --primary-hover: #6366f1;
-      --secondary: #10b981;
-      --secondary-hover: #34d399;
-      --background: #f3f4f6;
-      --card-bg: #ffffff;
-      --text-dark: #1f2937;
-      --text-light: #6b7280;
-      --border-color: #e5e7eb;
-    }
-    
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--background);
-      color: var(--text-dark);
-    }
-    
-    .btn {
-      transition: all 0.2s ease;
-      font-weight: 500;
-      border-radius: 0.375rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1rem;
-      text-align: center;
-    }
-    
-    .btn-primary { background-color: var(--primary); color: white; }
-    .btn-primary:hover { background-color: var(--primary-hover); }
-    .btn-secondary { background-color: var(--secondary); color: white; }
-    .btn-secondary:hover { background-color: var(--secondary-hover); }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Negado - Sistema Unificado</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
-    .tab-item {
-      cursor: pointer;
-      padding: 0.5rem 1rem;
-      border-bottom: 2px solid transparent;
-      color: var(--text-light);
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
+        :root {
+            --primary-color: #e0e0e0;
+            --secondary-color: #a9a9b1;
+            --background-start: #0f0c29;
+            --background-mid: #302b63;
+            --background-end: #24243e;
+            --accent-color-1: #ff4757;
+            --accent-color-2: #37a2ff;
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --glass-background: rgba(26, 26, 38, 0.45);
+        }
 
-    .tab-item.active {
-      color: var(--primary);
-      border-bottom-color: var(--primary);
-    }
-    
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* Estilos para o Accordion/Details */
-    details > summary {
-      list-style: none;
-      cursor: pointer;
-    }
-    details > summary::-webkit-details-marker {
-      display: none; 
-    }
-    details summary .accordion-icon {
-      transition: transform 0.2s ease;
-    }
-    details[open] summary .accordion-icon {
-      transform: rotate(180deg);
-    }
-  </style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(45deg, var(--background-start), var(--background-mid), var(--background-end));
+            background-size: 400% 400%;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animação de partículas no fundo */
+        .background-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            list-style: none;
+            display: block;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: animateParticles 20s linear infinite;
+            bottom: -150px;
+        }
+
+        .shape:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+        .shape:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .shape:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+        .shape:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+        .shape:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+        .shape:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
+        .shape:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
+        .shape:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+        .shape:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+        .shape:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+
+        @keyframes animateParticles {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
+        }
+
+        .container {
+            background: var(--glass-background);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 50px 60px;
+            border-radius: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 650px;
+            box-shadow: 0 15px 35px var(--shadow-color);
+            z-index: 2;
+            animation: fadeInScale 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Borda animada */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--accent-color-1), var(--accent-color-2));
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: rotateBorder 5s linear infinite;
+        }
+
+        @keyframes rotateBorder {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .icon-warning {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 15px auto;
+            color: var(--accent-color-1);
+        }
+
+        .logo {
+            width: 110px;
+            height: auto;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        p.main-message {
+            color: var(--secondary-color);
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 35px;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .support-info {
+            font-size: 15px;
+            color: var(--secondary-color);
+            font-weight: 400;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 25px;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 30px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .logo {
+                width: 90px;
+            }
+            
+            p.main-message {
+                font-size: 16px;
+            }
+        }
+    </style>
 </head>
-<body class="min-h-screen">
-  <div class="max-w-5xl mx-auto px-4 py-8">
-    <!-- Header -->
-    <header class="flex items-center gap-4 mb-8">
-      <div class="bg-white p-2 rounded-xl shadow-md">
-        <img src="img2.jpg" alt="Logo" class="w-14 h-14 object-contain">
-      </div>
-      <div>
-        <h1 class="text-2xl font-bold">Sistema de Avaliações</h1>
-        <p class="text-md text-text-light">Gestão centralizada de avaliações institucionais</p>
-      </div>
-    </header>
+<body>
 
-    <main class="space-y-6">
+    <ul class="background-shapes">
+        <li class="shape"></li>
+        <li class="shape"></li>
+        <li class="shape"></li>
+        <li class="shape"></li>
+        <li class="shape"></li>
+        <li class="shape"></li>
+        <li class="shape"></li>
+        <li class="shape"></li>
+        <li class="shape"></li>
+        <li class="shape"></li>
+    </ul>
 
-      <!-- SEÇÃO RECOLHÍVEL: ACESSO RÁPIDO -->
-      <details class="bg-card-bg rounded-xl shadow-sm border border-transparent hover:border-gray-300 transition-all" open>
-        <summary class="p-5 flex justify-between items-center">
-          <div class="flex items-center gap-4">
-            <i class="fa-solid fa-bolt-lightning text-2xl text-yellow-500"></i>
-            <h2 class="font-bold text-lg">Acesso Rápido</h2>
-          </div>
-          <i class="accordion-icon fas fa-chevron-down text-text-light"></i>
-        </summary>
-        <div class="px-5 pb-5 pt-2 border-t border-border-color">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-            <!-- Eventos -->
-            <div class="bg-gray-50 rounded-lg p-5 border-l-4 border-blue-500">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="font-bold text-md">Eventos</h3>
-                <i class="fas fa-calendar-check text-2xl text-blue-400"></i>
-              </div>
-              <div class="grid grid-cols-2 gap-3">
-                <a href="https://forms.gle/KeJi9wKH3Dh7EMCP6" class="btn btn-primary" target="_self"><i class="fas fa-edit"></i><span>Formulário</span></a>
-                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRpNzu0SDjWL0MywWDgeqUSTSd5p3kIWfiUM8-OYqfHhEAtQbWFuXdXCsqz1VQ0d7o_6HMhiIAjTI2A/pub?gid=979984763&single=true&output=pdf" class="btn btn-secondary" target="_self"><i class="fas fa-chart-bar"></i><span>Acompanhamento</span></a>
-              </div>
-            </div>
-            <!-- Visitas -->
-            <div class="bg-gray-50 rounded-lg p-5 border-l-4 border-green-500">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="font-bold text-md">Visitas</h3>
-                <i class="fas fa-map-marked-alt text-2xl text-green-400"></i>
-              </div>
-              <div class="grid grid-cols-2 gap-3">
-                <a href="https://forms.gle/HruAijsRaqEXTwCF8" class="btn btn-primary" target="_self"><i class="fas fa-edit"></i><span>Formulário</span></a>
-                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSc8pzPfsp8KaHKmWMIPPQoSvzJVnw2cBrgfVL_g2IFyTT4zKZXzJTSFD4dfZiyYJCkvtbMm69ihYUw/pub?gid=703561483&single=true&output=pdf" class="btn btn-secondary" target="_self"><i class="fas fa-chart-bar"></i><span>Acompanhamento</span></a>
-              </div>
-            </div>
-          </div>
+    <div class="container">
+        <!-- Ícone de Aviso em SVG -->
+        <svg class="icon-warning" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
+        </svg>
+
+        <img src="unificado2.jpg" alt="Logo do Sistema Unificado" class="logo">
+        
+        <h1>Acesso Negado</h1>
+        
+        <p class="main-message">Desculpe, a sua instituição não está cadastrada no Sistema Unificado.</p>
+        
+        <div class="support-info">
+            <p>Em caso de dúvidas, entre em contato com a sua coordenação.</p>
         </div>
-      </details>
+    </div>
 
-      <!-- SEÇÃO RECOLHÍVEL: AVALIAÇÃO DE COLABORADORES -->
-      <details class="bg-card-bg rounded-xl shadow-sm border border-transparent hover:border-gray-300 transition-all" open>
-        <summary class="p-5 flex justify-between items-center">
-          <div class="flex items-center gap-4">
-            <i class="fas fa-users text-2xl text-purple-500"></i>
-            <h2 class="font-bold text-lg">Avaliação de Colaboradores</h2>
-          </div>
-          <i class="accordion-icon fas fa-chevron-down text-text-light"></i>
-        </summary>
-        <div class="px-5 pb-5 pt-2 space-y-3 border-t border-border-color">
-
-          <!-- ITEM RECOLHÍVEL: EDUCADORES SOCIAIS -->
-          <details class="bg-gray-50 rounded-lg p-4 border" open>
-            <summary class="font-semibold flex justify-between items-center">Educadores Sociais<i class="accordion-icon fas fa-chevron-down text-sm text-text-light"></i></summary>
-            <div class="mt-4 pt-4 border-t">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <a href="https://minikowski.github.io/gentelella-master/floyd.html" class="btn btn-primary" target="_self"><i class="fas fa-edit"></i><span>Formulário</span></a>
-                <a href="https://docs.google.com/spreadsheets/d/1vBlMUoXHIsBhtLo9kdP65r2m0FwVn2SP_9ZUQAnr5Vg/edit?usp=sharing" class="btn btn-secondary" target="_self"><i class="fas fa-chart-bar"></i><span>Acompanhamento</span></a>
-              </div>
-            </div>
-          </details>
-
-          <!-- ITEM RECOLHÍVEL: SUPERVISORES PEDAGÓGICOS -->
-          <details class="bg-gray-50 rounded-lg p-4 border" open>
-            <summary class="font-semibold flex justify-between items-center">Supervisores Pedagógicos<i class="accordion-icon fas fa-chevron-down text-sm text-text-light"></i></summary>
-            <div class="mt-4 pt-4 border-t tab-container" data-container-id="pedagogico">
-              <nav class="flex-wrap border-b border-gray-200"><button class="tab-item active" data-tab="ped-educadores">Pelos Educadores</button><button class="tab-item" data-tab="ped-coordenacao">Pela Coordenação</button></nav>
-              <div class="mt-4">
-                <div id="ped-educadores" class="tab-content active"><div class="grid grid-cols-1 md:grid-cols-2 gap-3"><a href="https://forms.gle/QrZr7UAWoke1GNUd6" class="btn btn-primary" target="_self"><i class="fas fa-edit"></i><span>Formulário</span></a><!-- ATENÇÃO: Insira o link de acompanhamento (Supervisores Pedagógicos / Pelos Educadores) --><a href="https://minikowski.github.io/gentelella-master/acompanhamento.html" class="btn btn-secondary" target="_self"><i class="fas fa-chart-bar"></i><span>Acompanhamento</span></a></div></div>
-                <div id="ped-coordenacao" class="tab-content"><div class="grid grid-cols-1 md:grid-cols-2 gap-3"><a href="https://minikowski.github.io/gentelella-master/superpedagogico.html" class="btn btn-primary" target="_self"><i class="fas fa-edit"></i><span>Formulário</span></a><!-- ATENÇÃO: Insira o link de acompanhamento (Supervisores Pedagógicos / Pela Coordenação) --><a href="https://docs.google.com/spreadsheets/d/1vBlMUoXHIsBhtLo9kdP65r2m0FwVn2SP_9ZUQAnr5Vg/edit?usp=sharing" class="btn btn-secondary" target="_self"><i class="fas fa-chart-bar"></i><span>Acompanhamento</span></a></div></div>
-              </div>
-            </div>
-          </details>
-          
-          <!-- ITEM RECOLHÍVEL: SUPERVISORES DE UNIDADE -->
-          <details class="bg-gray-50 rounded-lg p-4 border" open>
-            <summary class="font-semibold flex justify-between items-center">Supervisores de Unidade<i class="accordion-icon fas fa-chevron-down text-sm text-text-light"></i></summary>
-            <div class="mt-4 pt-4 border-t tab-container" data-container-id="unidade">
-              <nav class="flex-wrap border-b border-gray-200"><button class="tab-item active" data-tab="uni-educadores">Pelos Educadores</button><button class="tab-item" data-tab="uni-coordenacao">Pela Coordenação</button></nav>
-              <div class="mt-4">
-                <div id="uni-educadores" class="tab-content active"><div class="grid grid-cols-1 md:grid-cols-2 gap-3"><a href="https://docs.google.com/forms/d/e/1FAIpQLSdsR39SgvSvUu6XYIb3OTp4xiRQ-EgtNFYk582Pu2z_2VYcBQ/viewform?usp=dialog" class="btn btn-primary" target="_self"><i class="fas fa-edit"></i><span>Formulário</span></a><!-- ATENÇÃO: Insira o link de acompanhamento (Supervisores de Unidade / Pelos Educadores) --><a href="https://minikowski.github.io/gentelella-master/acompanhamento.html" class="btn btn-secondary" target="_self"><i class="fas fa-chart-bar"></i><span>Acompanhamento</span></a></div></div>
-                <div id="uni-coordenacao" class="tab-content"><div class="grid grid-cols-1 md:grid-cols-2 gap-3"><a href="https://minikowski.github.io/gentelella-master/superunidade.html" class="btn btn-primary" target="_self"><i class="fas fa-edit"></i><span>Formulário</span></a><!-- ATENÇÃO: Insira o link de acompanhamento (Supervisores de Unidade / Pela Coordenação) --><a href="https://minikowski.github.io/gentelella-master/acompanhamento.html" class="btn btn-secondary" target="_self"><i class="fas fa-chart-bar"></i><span>Acompanhamento</span></a></div></div>
-              </div>
-            </div>
-          </details>
-
-          <!-- ITEM RECOLHÍVEL: SUPERVISORES ADMINISTRATIVOS -->
-          <details class="bg-gray-50 rounded-lg p-4 border">
-            <summary class="font-semibold flex justify-between items-center">Supervisores Administrativos<i class="accordion-icon fas fa-chevron-down text-sm text-text-light"></i></summary>
-            <div class="mt-4 pt-4 border-t">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <a href="https://minikowski.github.io/gentelella-master/avaliatecnico.html" class="btn btn-primary" target="_self"><i class="fas fa-edit"></i><span>Formulário</span></a>
-                    <!-- ATENÇÃO: Insira o link de acompanhamento para Supervisores Administrativos -->
-                    <a href="https://minikowski.github.io/gentelella-master/acompanhamento.html" class="btn btn-secondary" target="_self"><i class="fas fa-chart-bar"></i><span>Acompanhamento</span></a>
-                </div>
-            </div>
-          </details>
-
-          <!-- ITEM RECOLHÍVEL: TÉCNICOS DE REFERÊNCIA -->
-          <details class="bg-gray-50 rounded-lg p-4 border">
-            <summary class="font-semibold flex justify-between items-center">Técnicos de Referência<i class="accordion-icon fas fa-chevron-down text-sm text-text-light"></i></summary>
-            <div class="mt-4 pt-4 border-t">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <!-- ATENÇÃO: Insira o link do formulário para Técnicos de Referência -->
-                    <a href="https://minikowski.github.io/gentelella-master/acompanhamento.html" class="btn btn-primary" target="_self"><i class="fas fa-edit"></i><span>Formulário</span></a>
-                    <!-- ATENÇÃO: Insira o link de acompanhamento para Técnicos de Referência -->
-                    <a href="https://minikowski.github.io/gentelella-master/acompanhamento.html" class="btn btn-secondary" target="_self"><i class="fas fa-chart-bar"></i><span>Acompanhamento</span></a>
-                </div>
-            </div>
-          </details>
-
-        </div>
-      </details>
-
-    </main>
-
-    <footer class="mt-10 text-center text-sm text-text-light">
-      <p>© <span id="currentYear"></span> Sistema de Avaliações. Desenvolvido com foco em usabilidade e gestão.</p>
-    </footer>
-  </div>
-
-  <script>
-    // Script para o ano atual no rodapé
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-    // Script para funcionalidade das abas (suporta múltiplos grupos de abas)
-    const tabContainers = document.querySelectorAll('.tab-container');
-
-    tabContainers.forEach(container => {
-      const tabs = container.querySelectorAll('.tab-item');
-      const tabContents = container.querySelectorAll('.tab-content');
-
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          // Remove 'active' de todas as abas e conteúdos dentro deste container
-          tabs.forEach(t => t.classList.remove('active'));
-          tabContents.forEach(c => c.classList.remove('active'));
-
-          // Adiciona 'active' na aba clicada e no conteúdo correspondente
-          tab.classList.add('active');
-          const targetContent = container.querySelector(`#${tab.dataset.tab}`);
-          if(targetContent) {
-            targetContent.classList.add('active');
-          }
-        });
-      });
-    });
-  </script>
 </body>
 </html>
