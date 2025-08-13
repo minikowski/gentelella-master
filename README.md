@@ -1,4 +1,4 @@
-# 📊 Sistema Unificado de Gestão – SCFV
+# 📊 Sistema Unificado de Gestão
 
 **Uma solução de gestão simplificada, de baixo custo e alto impacto, utilizando o poder do Google Workspace.**
 
