@@ -2,6 +2,10 @@
 
 **Uma solução de gestão simplificada, de baixo custo e alto impacto, utilizando o poder do Google Workspace.**
 
+<p align="center">
+  <img src="https://private-user-images.githubusercontent.com/207116127/477680840-ad25b2e2-96bf-4fea-bc51-8fd20246a770.png" alt="Tela Principal do Sistema" width="800"/>
+</p>
+
 Desenvolvido por **Victor Luis Minikowski**  
 ✉️ `victorlmnk@gmail.com`
 
