@@ -1,222 +1,571 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acesso Negado - Sistema Unificado</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistema Unificado - Boas-vindas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 
+      DESIGN SOFISTICADO v2.0
+      - Paleta de cores base e variáveis dinâmicas.
+      - Animações de entrada para uma experiência mais fluida.
+      - Efeito Glassmorphism aprimorado com sombras e bordas sutis.
+      - Temas mensais que alteram não apenas o fundo, mas a cor de destaque principal.
+      - Tipografia e espaçamentos refinados para melhor legibilidade e estética.
+      - Microinterações aprimoradas em links e elementos de UI.
+    */
+    :root {
+      --primary-base: #4f46e5;
+      --primary-light: #6366f1;
+      --primary-dark: #4338ca;
+      
+      --text-main: #1f2937;
+      --text-secondary: #4b5563;
+      --text-accent: var(--primary-base);
+      
+      --bg-body-start: #f9fafb;
+      --bg-body-end: #e5e7eb;
+      
+      --bg-card: rgba(255, 255, 255, 0.65);
+      --border-card: rgba(255, 255, 255, 0.5);
+      --shadow-card: rgba(31, 38, 135, 0.08);
+      
+      --bg-interactive: rgba(79, 70, 229, 0.05);
+      --bg-interactive-hover: rgba(79, 70, 229, 0.1);
 
-        :root {
-            --primary-color: #e0e0e0;
-            --secondary-color: #a9a9b1;
-            --background-start: #0f0c29;
-            --background-mid: #302b63;
-            --background-end: #24243e;
-            --accent-color-1: #ff4757;
-            --accent-color-2: #37a2ff;
-            --shadow-color: rgba(0, 0, 0, 0.6);
-            --glass-background: rgba(26, 26, 38, 0.45);
-        }
+      --scrollbar-thumb: rgba(79, 70, 229, 0.3);
+      --scrollbar-thumb-hover: rgba(79, 70, 229, 0.5);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    body {
+      background: linear-gradient(135deg, var(--bg-body-start) 0%, var(--bg-body-end) 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      transition: background 0.8s ease;
+      animation: fadeIn 1s ease-out;
+    }
+    
+    .glass-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-card);
+      box-shadow: 0 10px 35px 0 var(--shadow-card);
+      border-radius: 1.25rem; /* Aumentado para um look mais suave */
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    
+    .main-content > * {
+        animation: fadeInUp 0.5s ease-out forwards;
+        opacity: 0;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    .main-content > *:nth-child(1) { animation-delay: 0.1s; }
+    .main-content > *:nth-child(2) { animation-delay: 0.2s; }
+    .main-content > *:nth-child(3) { animation-delay: 0.3s; }
+    
+    .logo-shadow {
+      filter: drop-shadow(0 5px 8px rgba(79, 70, 229, 0.25));
+      transition: transform 0.4s ease;
+    }
+    
+    .logo-shadow:hover {
+      transform: scale(1.05);
+    }
+    
+    .text-gradient {
+      background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-base) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .hover-scale:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px -5px var(--shadow-card);
+    }
+    
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--primary-base) 50%, transparent 100%);
+      opacity: 0.15;
+    }
+    
+    .link-box {
+      background-color: var(--bg-interactive);
+      border: 1px solid transparent;
+      color: var(--text-accent);
+      transition: all 0.3s ease;
+    }
+    
+    .link-box:hover {
+      background-color: var(--bg-interactive-hover);
+      border-color: var(--primary-base);
+      transform: translateY(-2px);
+      box-shadow: 0 2px 4px rgba(79, 70, 229, 0.1);
+    }
+    
+    .today-event {
+      background-color: var(--bg-interactive);
+      border-left: 3px solid var(--primary-base);
+      transition: background-color 0.3s ease;
+    }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(45deg, var(--background-start), var(--background-mid), var(--background-end));
-            background-size: 400% 400%;
-            color: var(--primary-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
-            animation: gradientBG 15s ease infinite;
-        }
+    .today-event .font-bold {
+        color: var(--primary-dark);
+    }
+    
+    #calendarEvents {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 5px;
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border-radius: 10px;
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    /* Ajustes finos de UI */
+    #currentMonth {
+        background-color: var(--bg-interactive) !important;
+        color: var(--text-accent) !important;
+        font-weight: 500;
+    }
 
-        /* Animação de partículas no fundo */
-        .background-shapes {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+    .font-semibold.text-indigo-600, .font-bold.text-indigo-600, .text-indigo-600 {
+        color: var(--text-accent);
+    }
+    
+    .bg-indigo-50 {
+        background-color: var(--bg-interactive) !important;
+    }
 
-        .shape {
-            position: absolute;
-            list-style: none;
-            display: block;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: animateParticles 20s linear infinite;
-            bottom: -150px;
-        }
+    .bg-indigo-100 {
+        background-color: var(--bg-interactive-hover) !important;
+    }
 
-        .shape:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
-        .shape:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
-        .shape:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
-        .shape:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
-        .shape:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
-        .shape:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
-        .shape:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
-        .shape:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
-        .shape:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
-        .shape:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+    .text-indigo-500 {
+        color: var(--text-accent);
+    }
 
-        @keyframes animateParticles {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
-        }
+    .font-bold.text-gray-800 {
+        color: var(--text-main);
+    }
 
-        .container {
-            background: var(--glass-background);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 50px 60px;
-            border-radius: 20px;
-            text-align: center;
-            width: 90%;
-            max-width: 650px;
-            box-shadow: 0 15px 35px var(--shadow-color);
-            z-index: 2;
-            animation: fadeInScale 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Borda animada */
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 20px;
-            padding: 1px;
-            background: linear-gradient(135deg, var(--accent-color-1), var(--accent-color-2));
-            -webkit-mask: 
-                linear-gradient(#fff 0 0) content-box, 
-                linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            animation: rotateBorder 5s linear infinite;
-        }
-
-        @keyframes rotateBorder {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        .icon-warning {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 15px auto;
-            color: var(--accent-color-1);
-        }
-
-        .logo {
-            width: 110px;
-            height: auto;
-            margin-bottom: 25px;
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            line-height: 1.4;
-            color: var(--primary-color);
-            text-shadow: 0 0 10px rgba(255,255,255,0.2);
-        }
-
-        p.main-message {
-            color: var(--secondary-color);
-            font-size: 18px;
-            font-weight: 300;
-            margin-bottom: 35px;
-            max-width: 450px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .support-info {
-            font-size: 15px;
-            color: var(--secondary-color);
-            font-weight: 400;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 25px;
-            margin-top: 25px;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 40px 30px;
-            }
-
-            h1 {
-                font-size: 22px;
-            }
-
-            .logo {
-                width: 90px;
-            }
-            
-            p.main-message {
-                font-size: 16px;
-            }
-        }
-    </style>
+    p {
+        line-height: 1.6;
+    }
+  </style>
 </head>
-<body>
-
-    <ul class="background-shapes">
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-    </ul>
-
-    <div class="container">
-        <!-- Ícone de Aviso em SVG -->
-        <svg class="icon-warning" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
-        </svg>
-
-        <img src="unificado2.jpg" alt="Logo do Sistema Unificado" class="logo">
-        
-        <h1>Acesso Negado</h1>
-        
-        <p class="main-message">Desculpe, a sua instituição não está cadastrada no Sistema Unificado.</p>
-        
-        <div class="support-info">
-            <p>Em caso de dúvidas, entre em contato com a sua coordenação.</p>
+<body class="p-4 min-h-screen">
+  <div class="max-w-5xl w-full mx-auto h-full flex flex-col">
+    <!-- Header Section compacta -->
+    <header class="flex items-center justify-between mb-4" style="animation: fadeInUp 0.5s ease-out forwards; opacity: 0;">
+      <div class="flex items-center gap-4">
+        <div class="logo-shadow">
+          <img src="img2.jpg" alt="Logo Sistema Unificado" class="w-16 h-16 object-contain rounded-xl"/>
         </div>
-    </div>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 tracking-tight">
+            <span class="text-gradient">Sistema Unificado</span>
+          </h1>
+          <p class="text-xs text-gray-500">Plataforma integrada de soluções</p>
+        </div>
+      </div>
+      
+      <!-- Quick Links compactos -->
+      <div class="flex gap-2">
+        <a href="https://raiztecnologia.jelastic.saveincloud.net/agml/sys_log/index_login.php" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="link-box text-xs py-1 px-2 rounded-md font-medium">
+          AGML
+        </a>
+        <a href="https://www2.londrina.pr.gov.br/sistemas/asoc/IRSAS_WEB_V1/" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="link-box text-xs py-1 px-2 rounded-md font-medium">
+          IRSAS
+        </a>
+      </div>
+    </header>
 
+    <main class="flex-1 grid grid-cols-1 gap-4 main-content">
+      <!-- Welcome Card compacto -->
+      <section class="glass-card p-4 hover-scale">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-semibold text-gray-800">
+              <span id="saudacao"></span>! Bem-vindo(a) ao <span class="font-bold">Sistema Unificado</span>.
+            </h2>
+            <p id="dataAtual" class="text-sm text-gray-600"></p>
+            <div class="flex items-start gap-4 mt-2">
+              <!-- Clima atual -->
+              <div id="currentWeather" class="flex items-center gap-2 bg-indigo-50 rounded-lg p-2">
+                <span id="currentWeatherIcon" class="text-2xl">🌤️</span>
+                <div>
+                  <div class="flex items-center gap-1">
+                    <span id="currentTemp" class="font-medium">--°C</span>
+                    <span id="currentWeatherDesc" class="text-xs">Carregando...</span>
+                  </div>
+                  <div id="currentRain" class="text-xs text-gray-600 hidden">
+                    <span>Chuva: </span>
+                    <span id="currentRainValue">0mm</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Previsão para amanhã -->
+              <div id="tomorrowWeather" class="flex items-center gap-2 bg-indigo-50 rounded-lg p-2">
+                <span id="tomorrowWeatherIcon" class="text-2xl">🌤️</span>
+                <div>
+                  <div class="text-xs font-medium text-gray-700 mb-1">Amanhã:</div>
+                  <div class="flex items-center gap-1 text-xs">
+                    <span id="tomorrowMaxTemp" class="font-medium">--°</span>
+                    <span>/</span>
+                    <span id="tomorrowMinTemp" class="text-gray-600">--°</span>
+                    <span id="tomorrowRainProb" class="ml-1">(--%)</span>
+                  </div>
+                  <div id="tomorrowWeatherDesc" class="text-xs text-gray-600">Carregando...</div>
+                </div>
+              </div>
+              
+              <!-- Caixa de orientações ampliada -->
+              <div id="weatherAdvice" class="hidden flex items-start gap-2 bg-indigo-50 rounded-lg p-2 flex-1">
+                <div>
+                  <div class="text-xs font-medium mb-1">Orientações para amanhã:</div>
+                  <div id="weatherAdviceText" class="text-xs text-gray-600">Carregando orientações...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- Calendário Sociopedagógico compacto -->
+      <section class="glass-card p-4 hover-scale flex-1">
+        <div class="flex items-start gap-3 h-full">
+          <div class="bg-indigo-100 p-2 rounded-lg flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div class="w-full h-full flex flex-col">
+            <div class="flex justify-between items-center mb-2">
+              <p class="text-sm font-medium text-gray-700">Calendário Sociopedagógico</p>
+              <span id="currentMonth" class="text-xs px-2 py-1 rounded-full"></span>
+            </div>
+            
+            <div id="calendarEvents" class="flex-1 overflow-y-auto pr-1 scrollbar-thin text-xs">
+              <!-- Preenchido por JavaScript -->
+            </div>
+            
+            <div class="divider my-1"></div>
+            
+            <div id="nextMonths" class="flex items-center justify-between text-xs text-gray-500">
+              <!-- Preenchido por JavaScript -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer/Credits compacto -->
+      <footer class="glass-card p-2 text-center">
+        <p class="text-xs text-gray-500 italic">
+          Desenvolvido por <span class="font-medium">Victor Luis Minikowski</span>.
+        </p>
+        <p class="text-xs text-gray-400 mt-1">
+          © 2024-<span id="currentYear"></span> Sistema Unificado. Todos os direitos reservados.
+        </p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Saudação baseada no horário de Brasília (UTC-3)
+    function getSaudacao() {
+      const agora = new Date();
+      const horaBrasilia = new Date(agora.getTime() - (agora.getTimezoneOffset() * 60000) - (3 * 3600000));
+      const horas = horaBrasilia.getHours();
+      if (horas >= 5 && horas < 12) return "Olá";
+      if (horas >= 12 && horas < 18) return "Olá";
+      return "Olá";
+    }
+    
+    const diasSemana = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
+    const meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+
+    const hoje = new Date();
+    const diaSemana = diasSemana[hoje.getDay()];
+    const dia = hoje.getDate();
+    const mesAtual = hoje.getMonth();
+    const mesNome = meses[mesAtual];
+    const ano = hoje.getFullYear();
+
+    const dataFormatada = `Hoje é <span class="font-semibold">${diaSemana}</span>, ${dia} de <span class="font-semibold">${mesNome}</span> de ${ano}.`;
+
+    document.getElementById("dataAtual").innerHTML = dataFormatada;
+    document.getElementById("saudacao").textContent = getSaudacao();
+    document.getElementById("currentMonth").textContent = mesNome.toUpperCase();
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+    function applyMonthTheme() {
+      const root = document.documentElement;
+      
+      const themes = {
+        // Junho - Verde
+        5: { 
+          '--primary-base': '#10b981', '--primary-light': '#34d399', '--primary-dark': '#059669',
+          '--bg-body-start': '#f0fdf4', '--bg-body-end': '#dcfce7'
+        },
+        // Julho - Laranja/Coral
+        6: {
+          '--primary-base': '#f97316', '--primary-light': '#fb923c', '--primary-dark': '#ea580c',
+          '--bg-body-start': '#fff7ed', '--bg-body-end': '#ffedd5'
+        },
+        // Agosto - Lilás/Roxo
+        7: {
+          '--primary-base': '#8b5cf6', '--primary-light': '#a78bfa', '--primary-dark': '#7c3aed',
+          '--bg-body-start': '#f5f3ff', '--bg-body-end': '#ede9fe'
+        },
+        // Setembro - Amarelo
+        8: {
+          '--primary-base': '#eab308', '--primary-light': '#facc15', '--primary-dark': '#ca8a04',
+          '--bg-body-start': '#fefce8', '--bg-body-end': '#fef9c3'
+        },
+        // Outubro - Rosa
+        9: {
+          '--primary-base': '#ec4899', '--primary-light': '#f472b6', '--primary-dark': '#db2777',
+          '--bg-body-start': '#fdf2f8', '--bg-body-end': '#fce7f3'
+        },
+        // Novembro - Azul
+        10: {
+          '--primary-base': '#3b82f6', '--primary-light': '#60a5fa', '--primary-dark': '#2563eb',
+          '--bg-body-start': '#eff6ff', '--bg-body-end': '#dbeafe'
+        },
+        // Dezembro - Vermelho
+        11: {
+          '--primary-base': '#ef4444', '--primary-light': '#f87171', '--primary-dark': '#dc2626',
+          '--bg-body-start': '#fef2f2', '--bg-body-end': '#fee2e2'
+        }
+      };
+
+      const theme = themes[mesAtual];
+      if (theme) {
+        for (const [key, value] of Object.entries(theme)) {
+          root.style.setProperty(key, value);
+        }
+        // Atualiza cores derivadas
+        root.style.setProperty('--text-accent', 'var(--primary-base)');
+        root.style.setProperty('--bg-interactive', `rgba(${hexToRgb(theme['--primary-base'])}, 0.08)`);
+        root.style.setProperty('--bg-interactive-hover', `rgba(${hexToRgb(theme['--primary-base'])}, 0.12)`);
+        root.style.setProperty('--scrollbar-thumb', `rgba(${hexToRgb(theme['--primary-base'])}, 0.4)`);
+        root.style.setProperty('--scrollbar-thumb-hover', `rgba(${hexToRgb(theme['--primary-base'])}, 0.6)`);
+        root.style.setProperty('--shadow-card', `rgba(${hexToRgb(theme['--primary-dark'])}, 0.08)`);
+      }
+    }
+
+    function hexToRgb(hex) {
+        let r = 0, g = 0, b = 0;
+        if (hex.length == 4) {
+            r = parseInt(hex[1] + hex[1], 16);
+            g = parseInt(hex[2] + hex[2], 16);
+            b = parseInt(hex[3] + hex[3], 16);
+        } else if (hex.length == 7) {
+            r = parseInt(hex[1] + hex[2], 16);
+            g = parseInt(hex[3] + hex[4], 16);
+            b = parseInt(hex[5] + hex[6], 16);
+        }
+        return `${r}, ${g}, ${b}`;
+    }
+    
+    const calendarioSociopedagogico = {
+      5: { /* Junho */ eventos: ["Confecção e preparação para a Festa Cultural do Campo", "Preparação e confecção da ambientação para o Aniversário da Guarda Mirim",], datasImportantes: [{ dia: 5, desc: "Dia Mundial do Meio Ambiente" }, { dia: 6, desc: "Aniversário da Lei 8.662/93 (Assistente Social)" }, { dia: 12, desc: "Dia Mundial de Enfrentamento ao Trabalho Infantil" }, { dia: 15, desc: "Dia Mundial de Enfrentamento à Violência contra a Pessoa Idosa" }, { dia: 18, desc: "Dia do Orgulho Autista" }, { dia: 19, desc: "Corpus Christi" }, { dia: 20, desc: "Dia Mundial da(o)s Refugiada(o)s" }, { dia: 21, desc: "Dia Internacional da Educação Não Sexista" }, { dia: 26, desc: "Dia Internacional de Luta contra a Tortura e Abuso de Drogas" }, { dia: 27, desc: "Dia Mundial do Orgulho LGBTQIA+" }], tema: "Junho Verde - meio ambiente e sustentabilidade" },
+      6: { /* Julho */ eventos: ["Realização da Festa Cultural do Campo", "Comemoração do Aniversário da Guarda Mirim", "Atividades lúdicas de férias", "Confecção da ambientação do Agosto Lilás"], datasImportantes: [{ dia: 6, desc: "Aniversário da Lei Brasileira de Inclusão (LBI)" }, { dia: 13, desc: "Aniversário do Estatuto da Criança e do Adolescente – ECA" }, { dia: 14, desc: "Dia Mundial da Liberdade de Pensamento" }, { dia: 25, desc: "Dia Internacional da Mulher Negra Latino-americana e Caribenha" }], tema: "Julho Coral - conscientização sobre os direitos das crianças e adolescentes" },
+      7: { /* Agosto */ eventos: ["Campanha Agosto Lilás – enfrentamento à violência doméstica e familiar contra a mulher", "Confecção e preparação para o Desfile Cívico", "Atividades alusivas ao Dia Nacional da Saúde"], datasImportantes: [{ dia: 7, desc: "Aniversário da Lei Maria da Penha (Lei 11.340/06)" }, { dia: 9, desc: "Dia Internacional de Luta dos Povos Indígenas" }, { dia: 12, desc: "Dia de Luta contra a Violência no Campo" }, { dia: 19, desc: "Dia de Luta do Movimento Nacional da População em Situação de Rua e Dia Nacional do Orgulho Lésbico" }, { dia: 22, desc: "Dia do Coordenador/Supervisor Pedagógico" }, { dia: 29, desc: "Dia Nacional da Visibilidade Lésbica" }, { dia: 30, desc: "Dia de Conscientização sobre Esclerose Múltipla" }], tema: "Agosto Lilás – enfrentamento à violência doméstica e familiar contra a mulher" },
+      8: { /* Setembro */ eventos: ["Realização do Desfile Cívico", "Campanha Setembro Amarelo – prevenção ao suicídio", "Confecção e preparação da ambientação do Outubro Rosa", "Capacitação da equipe"], datasImportantes: [{ dia: 6, desc: "Dia Internacional de Luta pela Igualdade das Mulheres" }, { dia: 7, desc: "Dia da Independência do Brasil / Grito dos/as Excluídos/as" }, { dia: 19, desc: "Dia do Educador Social / Congresso da Virada" }, { dia: 21, desc: "Dia Nacional de Luta das Pessoas com Deficiência" }, { dia: 23, desc: "Dia Internacional Contra a Exploração Sexual e o Tráfico de Mulheres e Crianças" }, { dia: 26, desc: "Dia Nacional da Pessoa Surda" }, { dia: 28, desc: "Dia Latino-Americano e Caribenho pela Descriminalização e Legalização do Aborto" }], tema: "Setembro Amarelo – prevenção ao suicídio" },
+      9: { /* Outubro */ eventos: ["Campanha Outubro Rosa – conscientização para a detecção precoce do câncer de mama", "Semana da Criança", "Início da elaboração do Pré-Projeto Pedagógico Anual", "Confecção e preparação da ambientação do Novembro Azul", "Confecção e ambientação para o Dia da Consciência Negra", "Finalização dos materiais para a Mostra de Projetos"], datasImportantes: [{ dia: 1, desc: "Dia Nacional da Pessoa Idosa / Aniversário do Estatuto da Pessoa Idosa" }, { dia: 5, desc: "Aniversário da Constituição Cidadã" }, { dia: 10, desc: "Dia Nacional de Luta Contra a Violência à Mulher / Dia Mundial da Saúde Mental" }, { dia: 11, desc: "Dia Internacional da Menina" }, { dia: 15, desc: "Dia da Professora e do Professor" }, { dia: 17, desc: "Dia Internacional Para Erradicação da Pobreza" }, { dia: 28, desc: "Dia da Servidora e do Servidor Público" }], tema: "Outubro Rosa – conscientização para a detecção precoce do câncer de mama" },
+      10: { /* Novembro */ eventos: ["Campanha Novembro Azul – prevenção e diagnóstico precoce do câncer de próstata", "Mostra de Projetos", "Confecção e preparação da ambientação de Natal"], datasImportantes: [{ dia: 2, desc: "Finados" }, { dia: 4, desc: "Dia da Favela" }, { dia: 15, desc: "Proclamação da República" }, { dia: 20, desc: "Dia da Consciência Negra e Dia Nacional de Zumbi dos Palmares" }, { dia: 25, desc: "Dia Internacional de Luta Contra a Violência à Mulher" }], tema: "Novembro Azul – prevenção e diagnóstico precoce do câncer de próstata" },
+      11: { /* Dezembro */ eventos: ["Decoração de Natal", "Atividades lúdicas", "Apresentação do Projeto Pedagógico Anual", "Elaboração do Relatório Anual de Atividades", "Atividades com piscina", "Assembleia com as famílias"], datasImportantes: [{ dia: 1, desc: "Dia Mundial de Luta contra a Aids" }, { dia: 3, desc: "Dia Internacional da Pessoa com Deficiência / Dia de Combate ao Uso dos Agrotóxicos" }, { dia: 7, desc: "Aniversário da Lei Orgânica da Assistência Social – LOAS" }, { dia: 10, desc: "Dia Internacional dos Direitos Humanos" }, { dia: 19, desc: "Aniversário do Estatuto dos Povos Indígenas" }, { dia: 25, desc: "Natal" }], tema: "Dezembro Vermelho – combate ao HIV/AIDS e outras ISTs" }
+    };
+
+    function loadCalendarEvents() {
+      const calendarEvents = document.getElementById('calendarEvents');
+      const nextMonths = document.getElementById('nextMonths');
+      calendarEvents.innerHTML = '';
+      
+      const mesAtualData = calendarioSociopedagogico[mesAtual];
+      if (!mesAtualData) {
+        calendarEvents.innerHTML = '<p class="text-gray-500 text-center py-4">Nenhum evento programado para este mês</p>';
+        nextMonths.innerHTML = '<span class="text-gray-500">Próximos meses: Junho a Dezembro com atividades programadas</span>';
+        return;
+      }
+      
+      if (mesAtualData.tema) {
+        const themeElement = document.createElement('div');
+        themeElement.className = 'flex items-start gap-2 mb-3';
+        themeElement.innerHTML = `<div class="mt-1 flex-shrink-0 w-2 h-2 bg-current rounded-full" style="color: var(--primary-base)"></div><div><p class="font-bold">MÊS TEMÁTICO:</p><p class="font-medium text-gray-800">${mesAtualData.tema}</p></div>`;
+        calendarEvents.appendChild(themeElement);
+      }
+      
+      const eventosHoje = mesAtualData.datasImportantes.filter(event => event.dia === dia);
+      if (eventosHoje.length > 0) {
+        const todayEventElement = document.createElement('div');
+        todayEventElement.className = 'today-event p-2 rounded mb-2';
+        todayEventElement.innerHTML = `<div class="flex items-center gap-2"><span class="font-bold">HOJE:</span><span class="font-medium">${eventosHoje[0].desc}</span></div>`;
+        calendarEvents.appendChild(todayEventElement);
+      }
+      
+      mesAtualData.eventos.forEach(evento => {
+        const eventElement = document.createElement('div');
+        eventElement.className = 'flex items-start gap-2 mb-2';
+        eventElement.innerHTML = `<div class="mt-1.5 flex-shrink-0 w-1.5 h-1.5 bg-current rounded-full" style="color: var(--primary-base); opacity: 0.7;"></div><div><p class="font-medium text-gray-800">${evento}</p></div>`;
+        calendarEvents.appendChild(eventElement);
+      });
+      
+      if (mesAtualData.datasImportantes.length > 0) {
+        const divider = document.createElement('div');
+        divider.className = 'divider my-2';
+        calendarEvents.appendChild(divider);
+        
+        const datesTitle = document.createElement('p');
+        datesTitle.className = 'text-xs font-semibold text-gray-600 mb-1';
+        datesTitle.textContent = 'Datas Comemorativas e de Luta:';
+        calendarEvents.appendChild(datesTitle);
+        
+        mesAtualData.datasImportantes.forEach(data => {
+          const dateElement = document.createElement('div');
+          dateElement.className = 'flex items-center gap-2 mb-1 text-gray-600';
+          dateElement.innerHTML = `<span class="font-semibold w-10 text-right">${data.dia.toString().padStart(2, '0')}/${(mesAtual + 1).toString().padStart(2, '0')}</span><span>${data.desc}</span>`;
+          calendarEvents.appendChild(dateElement);
+        });
+      }
+      
+      const nextMonth1 = (mesAtual + 1) % 12, nextMonth2 = (mesAtual + 2) % 12;
+      const nextMonth1Data = calendarioSociopedagogico[nextMonth1], nextMonth2Data = calendarioSociopedagogico[nextMonth2];
+      let nextMonthsText = '';
+      if (nextMonth1Data) nextMonthsText += `${meses[nextMonth1].charAt(0).toUpperCase() + meses[nextMonth1].slice(1)}: ${nextMonth1Data.eventos.slice(0, 1).join(', ')}`;
+      if (nextMonth2Data) {
+        if (nextMonthsText) nextMonthsText += ' | ';
+        nextMonthsText += `${meses[nextMonth2].charAt(0).toUpperCase() + meses[nextMonth2].slice(1)}: ${nextMonth2Data.eventos.slice(0, 1).join(', ')}`;
+      }
+      if (!nextMonthsText) nextMonthsText = 'Próximos meses: Junho a Dezembro com atividades programadas';
+      nextMonths.innerHTML = `<span>${nextMonthsText}</span>`;
+    }
+
+    async function fetchWeather() {
+      try {
+        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-23.3103&longitude=-51.1628&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&hourly=temperature_2m,precipitation_probability,weather_code,rain&current=temperature_2m,precipitation,weather_code,rain&timezone=America%2FSao_Paulo');
+        const data = await response.json();
+        
+        const weatherIcons = { 0: {icon: '☀️', desc: 'Céu limpo'}, 1: {icon: '🌤️', desc: 'Poucas nuvens'}, 2: {icon: '⛅', desc: 'Parcialmente nublado'}, 3: {icon: '☁️', desc: 'Nublado'}, 45: {icon: '🌫️', desc: 'Neblina'}, 51: {icon: '🌧️', desc: 'Chuva leve'}, 53: {icon: '🌧️', desc: 'Chuva moderada'}, 55: {icon: '🌧️', desc: 'Chuva intensa'}, 61: {icon: '🌧️', desc: 'Chuva leve'}, 63: {icon: '🌧️', desc: 'Chuva moderada'}, 65: {icon: '🌧️', desc: 'Chuva intensa'}, 71: {icon: '❄️', desc: 'Queda de neve'}, 73: {icon: '❄️', desc: 'Neve moderada'}, 75: {icon: '❄️', desc: 'Neve intensa'}, 80: {icon: '🌦️', desc: 'Pancadas de chuva'}, 81: {icon: '🌦️', desc: 'Pancadas fortes'}, 82: {icon: '🌧️', desc: 'Chuva torrencial'}, 95: {icon: '⛈️', desc: 'Trovoada'}, 96: {icon: '⛈️', desc: 'Trovoada com granizo'}, 99: {icon: '⛈️', desc: 'Trovoada com granizo forte'} };
+        
+        if (data.current) {
+          const current = data.current;
+          const currentWeather = weatherIcons[current.weather_code] || {icon: '🌈', desc: 'Condições variáveis'};
+          document.getElementById('currentWeatherIcon').textContent = currentWeather.icon;
+          document.getElementById('currentTemp').textContent = `${Math.round(current.temperature_2m)}°C`;
+          document.getElementById('currentWeatherDesc').textContent = currentWeather.desc;
+          if (current.precipitation > 0) {
+            document.getElementById('currentRain').classList.remove('hidden');
+            document.getElementById('currentRainValue').textContent = `${current.precipitation}mm`;
+          } else {
+            document.getElementById('currentRain').classList.add('hidden');
+          }
+        }
+        
+        if (data.daily && data.daily.time.length > 1) {
+          const tomorrowCode = data.daily.weather_code[1], tomorrowWeather = weatherIcons[tomorrowCode] || {icon: '🌈', desc: 'Condições variáveis'};
+          const tomorrowMinTemp = data.daily.temperature_2m_min[1];
+          document.getElementById('tomorrowWeatherIcon').textContent = tomorrowWeather.icon;
+          document.getElementById('tomorrowMaxTemp').textContent = `${Math.round(data.daily.temperature_2m_max[1])}°`;
+          document.getElementById('tomorrowMinTemp').textContent = `${Math.round(tomorrowMinTemp)}°`;
+          document.getElementById('tomorrowRainProb').textContent = `(${data.daily.precipitation_probability_max[1]}%)`;
+          document.getElementById('tomorrowWeatherDesc').textContent = tomorrowWeather.desc;
+          generateWeatherAdvice(tomorrowCode, data.daily.precipitation_probability_max[1], tomorrowMinTemp);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar dados meteorológicos:', error);
+        document.getElementById('currentWeather').innerHTML = `<span class="text-gray-500">Clima indisponível</span>`;
+        document.getElementById('tomorrowWeather').classList.add('hidden');
+        document.getElementById('weatherAdvice').classList.add('hidden');
+      }
+    }
+
+    function generateWeatherAdvice(weatherCode, rainProbability, minTemp) {
+      const adviceBox = document.getElementById('weatherAdvice');
+      const adviceText = document.getElementById('weatherAdviceText');
+      let advice = '';
+      
+      if (minTemp < 10) {
+        advice = "Atenção, colaboradores da Guarda Mirim! Amanhã fará muito frio! 🥶❄️⛄Quando chegar em casa, já separe um casaco.";
+        adviceText.textContent = advice;
+        adviceBox.classList.remove('hidden');
+        return;
+      }
+      
+      switch(weatherCode) {
+        case 0: advice = "Amanhã será de céu limpo e muito sol! Excelente para realizar atividades externas previstas no planejamento, como vivências do Projeto de Vida ou jogos cooperativos. Lembrem os educandos de levar garrafinha de água e usar protetor solar."; break;
+        case 1: advice = "A previsão de amanhã indica poucas nuvens, ideal para momentos de integração ao ar livre. Verifiquem se há atividades externas previstas e organizem com antecedência."; break;
+        case 2: advice = "Amanhã com céu parcialmente nublado. Clima tranquilo para desenvolver oficinas e atividades reflexivas previstas nos projetos, mantendo a organização dos espaços internos e externos."; break;
+        case 3: advice = "Tempo nublado amanhã. Reforcem o cronograma de atividades internas e garantam espaços adequados para rodas de conversa, oficinas e ações socioemocionais planejadas."; break;
+        case 45: advice = "Neblina prevista pela manhã. Atenção no deslocamento dos educandos e organização de entrada. Um acolhimento inicial pode contribuir com o engajamento nas atividades do dia."; break;
+        case 51: case 61: advice = "Chuva leve prevista amanhã. Mantenham as atividades previstas em espaços internos e orientem os educandos a trazerem guarda-chuva."; break;
+        case 53: case 63: advice = "Chuva moderada para amanhã. Garanta o cumprimento das atividades em local fechado e verifique condições dos espaços. Reforce com os educandos a importância de trazerem guarda-chuva."; break;
+        case 55: case 65: advice = "Amanhã com previsão de chuva intensa. Reforcem o uso de espaços internos para as ações pedagógicas. Alertem os educandos sobre os cuidados no trajeto, especialmente com o uso do guarda-chuva."; break;
+        case 71: case 73: case 75: advice = "Frente fria intensa prevista. Garanta ambientes confortáveis para os educandos e oriente que venham com agasalhos por cima do uniforme. Reforce o acolhimento nas primeiras horas do dia."; break;
+        case 80: advice = "Previsão de pancadas de chuva ao longo do dia. Ajustem a rotina conforme necessário e orientem os educandos a trazerem guarda-chuva."; break;
+        case 81: advice = "Amanhã com pancadas de chuva mais intensas. Acolhimento e segurança devem ser prioridade. Reorganize as atividades para espaços internos conforme o planejamento."; break;
+        case 82: advice = "Chuva torrencial prevista. Garanta que as atividades aconteçam em local coberto e acolhedor. Oriente os educandos quanto ao uso do guarda-chuva e redobre a atenção nos momentos de entrada e saída."; break;
+        case 95: advice = "Trovoadas previstas. Evitem o uso de pátios e mantenham todas as ações em espaços fechados e seguros. Reforce com os educandos os cuidados ao longo do trajeto."; break;
+        case 96: case 99: advice = "Trovoadas com granizo previstas. Redobrem os cuidados com deslocamentos e mantenham a rotina em ambientes protegidos. Oriente os educandos sobre o uso do guarda-chuva e a necessidade de atenção no trajeto."; break;
+        default: advice = "Condições climáticas variáveis previstas para amanhã. Verifiquem o planejamento e estejam preparados para ajustes conforme necessário.";
+      }
+      
+      if (rainProbability > 70 && (weatherCode <= 3)) {
+        advice = "Apesar da previsão de céu aberto, há alta probabilidade de chuva amanhã (" + rainProbability + "%). Estejam preparados para ajustar as atividades para espaços internos se necessário.";
+      }
+      
+      adviceText.textContent = advice;
+      adviceBox.classList.remove('hidden');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      applyMonthTheme();
+      fetchWeather();
+      loadCalendarEvents();
+    });
+  </script>
 </body>
 </html>
