@@ -103,7 +103,15 @@ Sistema de malotes digitais onde as listas de presença são enviadas e consolid
 *Plataforma: **Google Sheets***
 
 **💹 Métricas Sociais**  
-Painel dedicado com indicadores chave, como taxa de evasão, frequência média e análise de impacto social do projeto.
+Registro de informações socioeconômicas e demográficas dos educandos, obtidas a partir do sistema municipal da assistência social do município, para acompanhamento e análise de vulnerabilidade social.
+
+Identificação: Nome do educando, coletivo, código de cadastro no sistema municipal, NIS, CPF.
+
+Contato: Telefone, endereço, bairro, dois contatos de referência.
+
+Dados pessoais: Data de nascimento, sexo, raça, escolaridade, se estuda, ocupação.
+
+Condição social: Deficiência, renda pessoal, número de integrantes da família, renda familiar, renda per capita.
 
 ---
 
@@ -113,26 +121,34 @@ O diagrama abaixo ilustra o fluxo de informações dentro do sistema, desde a co
 
 ```mermaid
 graph TD
-    subgraph Entrada
-        A[📝 Formulário de Matrícula]
-        B[📋 Listas de Presença]
-        C[📑 Registro de Atendimento]
-    end
+    %% Estilo dos nós
+    classDef entrada fill:#E3F2FD,stroke:#2196F3,color:#0D47A1;
+    classDef processamento fill:#FFF3E0,stroke:#FB8C00,color:#E65100;
+    classDef saida fill:#E8F5E9,stroke:#43A047,color:#1B5E20;
 
-    subgraph Processamento
-        D{📊 Planilha Mestra no Google Sheets}
-        D -- Consolida --> E[🤖 Lógica com Fórmulas e Scripts]
-    end
+    %% Entrada
+    A[📝 Formulário de Matrícula]
+    B[📋 Lista de Presença]
+    C[📑 Registro de Atendimento]
+    class A,B,C entrada
 
-    subgraph Saída
-        F[📄 Relatórios em PDF]
-        G[📈 Painel Web de KPIs]
-        H[📤 Exportação de Dados]
-    end
+    %% Processamento
+    D[📊 Planilha Mestra (Google Sheets)]
+    E[⚙️ Processamento com Fórmulas e Scripts]
+    class D,E processamento
 
+    %% Saída
+    F[📄 Relatórios em PDF]
+    G[📈 Painel Web de KPIs]
+    H[📤 Exportação de Dados]
+    class F,G,H saida
+
+    %% Fluxo
     A --> D
     B --> D
     C --> D
+    D --> E
     E --> F
     E --> G
     E --> H
+
