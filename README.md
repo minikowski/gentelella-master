@@ -2,9 +2,9 @@
 
 **Uma solução de gestão simplificada, de baixo custo e alto impacto, utilizando o poder do Google Workspace.**
 
-<p align="center">
+[<p align="center">
   <img src="https://private-user-images.githubusercontent.com/207116127/477680840-ad25b2e2-96bf-4fea-bc51-8fd20246a770.png" alt="Tela Principal do Sistema" width="800"/>
-</p>
+</p>](https://private-user-images.githubusercontent.com/207116127/477680840-ad25b2e2-96bf-4fea-bc51-8fd20246a770.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTUxMDgyMTUsIm5iZiI6MTc1NTEwNzkxNSwicGF0aCI6Ii8yMDcxMTYxMjcvNDc3NjgwODQwLWFkMjViMmUyLTk2YmYtNGZlYS1iYzUxLThmZDIwMjQ2YTc3MC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwODEzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDgxM1QxNzU4MzVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0wMWIwNGI0MTg0MWVmY2Y2MWIzYTZmYTQzYTkzNGJjMjA3MzM5NjNlM2I4MTIyYmRhMzM3MzNlMDVkYWZkNTczJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.iUkfmeh-3PLdj8z8E-tY9Ic3Q3_7W1yr3-o9fCEOPFk)
 
 Desenvolvido por **Victor Luis Minikowski**  
 ✉️ `victorlmnk@gmail.com`
