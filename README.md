@@ -7,18 +7,18 @@ Desenvolvido por **Victor Luis Minikowski**
 
 ---
 
-### 📍 Navegação Rápida
+## 📍 Navegação Rápida
 
-* [Visão Geral](#visão-geral)
-* [Arquitetura do Sistema](#arquitetura-do-sistema)
-* [Vantagens](#vantagens)
-* [Stack Tecnológico](#stack-tecnológico)
-* [Módulos Principais](#módulos-principais)
-* [Módulo Detalhado: Gestão de Projetos Sociais](#módulo-detalhado-gestão-de-projetos-sociais)
-* [Fluxo de Dados](#fluxo-de-dados)
-* [Automações](#automações)
-* [Roadmap de Evolução](#roadmap-de-evolução)
-* [Contato](#contato)
+- [Visão Geral](#visão-geral)  
+- [Arquitetura do Sistema](#arquitetura-do-sistema)  
+- [Vantagens](#vantagens)  
+- [Stack Tecnológico](#stack-tecnológico)  
+- [Módulos Principais](#módulos-principais)  
+- [Módulo Detalhado: Gestão de Projetos Sociais](#módulo-detalhado-gestão-de-projetos-sociais)  
+- [Fluxo de Dados](#fluxo-de-dados)  
+- [Automações](#automações)  
+- [Roadmap de Evolução](#roadmap-de-evolução)  
+- [Contato](#contato)
 
 ---
 
@@ -34,29 +34,29 @@ Embora tenha sido criado para o **SCFV (Serviço de Convivência e Fortaleciment
 
 ### 📥 Entrada de Dados
 
-- **Google Forms:** Utilizado para a coleta de dados primários, com validações de campo para garantir a consistência das informações.
-- **Integração Nativa:** Os dados dos formulários são enviados automaticamente para o Google Sheets, sem necessidade de conectores externos.
+- **Google Forms:** Utilizado para a coleta de dados primários, com validações de campo para garantir a consistência das informações.  
+- **Integração Nativa:** Os dados dos formulários são enviados automaticamente para o Google Sheets, sem necessidade de conectores externos.  
 - **Interface Simplificada:** Formulários intuitivos que facilitam o uso por equipes com diferentes níveis de habilidade técnica.
 
 ### ⚡ Processamento
 
-- **Google Sheets:** Funciona como o coração do sistema, onde os dados são processados.
-- **Fórmulas Avançadas:** Consolidação de múltiplas fontes, controle automático de presenças e padronização de informações.
+- **Google Sheets:** Funciona como o coração do sistema, onde os dados são processados.  
+- **Fórmulas Avançadas:** Consolidação de múltiplas fontes, controle automático de presenças e padronização de informações.  
 - **Google Apps Script:** Utilizado para automações, como envio de e-mails, lembretes e geração de relatórios.
 
 ### 📤 Saída de Dados
 
-- **Relatórios em HTML/PDF:** A partir do arquivo `UNIFICADO.html`, é possível gerar relatórios profissionais e exportá-los para PDF com um único clique.
+- **Relatórios em HTML/PDF:** A partir do arquivo `UNIFICADO.html`, é possível gerar relatórios profissionais e exportá-los para PDF com um único clique.  
 - **Painéis de Controle:** Visualização de KPIs e métricas em tempo real diretamente nas planilhas ou em painéis web simples.
 
 ---
 
 ## ✨ Vantagens
 
-| Benefício | Descrição |
-|:--- |:--- |
-| 💸 **Custo Zero** | Elimina a necessidade de servidores, licenças de software ou bancos de dados pagos. |
-| 🚀 **Implementação Rápida** | O sistema pode ser configurado e estar funcional em poucas horas. |
+| Benefício               | Descrição                                                                 |
+|------------------------|---------------------------------------------------------------------------|
+| 💸 **Custo Zero**       | Elimina a necessidade de servidores, licenças de software ou bancos de dados pagos. |
+| 🚀 **Implementação Rápida** | O sistema pode ser configurado e estar funcional em poucas horas.         |
 | 🛠️ **Manutenção Simplificada** | A lógica do sistema é editável diretamente nas planilhas, facilitando ajustes. |
 | 📄 **Saída Profissional** | Gera relatórios com layout limpo e profissional, prontos para uso oficial. |
 
@@ -64,19 +64,19 @@ Embora tenha sido criado para o **SCFV (Serviço de Convivência e Fortaleciment
 
 ## 🛠️ Stack Tecnológico
 
-- **Backend:** `Google Sheets` + `Google Apps Script`
-- **Frontend:** `HTML5`, `CSS3`, `JavaScript` (baseado no template [Gentelella Admin](https://github.com/ColorlibHQ/gentelella))
-- **Coleta de Dados:** `Google Forms`
+- **Backend:** `Google Sheets` + `Google Apps Script`  
+- **Frontend:** `HTML5`, `CSS3`, `JavaScript` (baseado no template [Gentelella Admin](https://github.com/ColorlibHQ/gentelella))  
+- **Coleta de Dados:** `Google Forms`  
 - **Geração de Relatórios:** Conversão de HTML para PDF nativa do navegador.
 
 ---
 
 ## 📂 Módulos Principais
 
-- **📋 Gestão de Matrículas e Educandos:** Controle de matrículas, desligamentos e frequência.
-- **👩‍⚕️ Atendimento Técnico e Pedagógico:** Registro de ocorrências e geração de relatórios técnicos.
-- **📈 KPIs e Métricas Institucionais:** Acompanhamento de indicadores de desempenho e impacto.
-- **🖼️ Ferramentas de Comunicação:** Geradores de imagens e templates para comunicação externa.
+- **📋 Gestão de Matrículas e Educandos:** Controle de matrículas, desligamentos e frequência.  
+- **👩‍⚕️ Atendimento Técnico e Pedagógico:** Registro de ocorrências e geração de relatórios técnicos.  
+- **📈 KPIs e Métricas Institucionais:** Acompanhamento de indicadores de desempenho e impacto.  
+- **🖼️ Ferramentas de Comunicação:** Geradores de imagens e templates para comunicação externa.  
 - **🌍 Gestão de Projetos Sociais:** Administração completa do ciclo de vida dos projetos.
 
 ---
@@ -87,7 +87,7 @@ Este módulo oferece uma administração completa para projetos, integrando-se a
 
 ### Funcionalidades Principais
 
-#### **👥 Gestão de Participantes**
+#### 👥 Gestão de Participantes
 
 **➕ Realizar Matrícula**  
 Formulário unificado com validação automática para inscrição de participantes, que gera uma ficha cadastral padronizada.  
@@ -96,7 +96,7 @@ Formulário unificado com validação automática para inscrição de participan
 **➖ Realizar Desligamento**  
 Processo para registrar a saída de um participante, com motivos pré-definidos para análise posterior e emissão de relatório automático.
 
-#### **📊 Controle Operacional**
+#### 📊 Controle Operacional
 
 **✔️ Controle de Frequência**  
 Sistema de malotes digitais onde as listas de presença são enviadas e consolidadas automaticamente na planilha central.  
@@ -105,13 +105,10 @@ Sistema de malotes digitais onde as listas de presença são enviadas e consolid
 **💹 Métricas Sociais**  
 Registro de informações socioeconômicas e demográficas dos educandos, obtidas a partir do sistema municipal da assistência social do município, para acompanhamento e análise de vulnerabilidade social.
 
-Identificação: Nome do educando, coletivo, código de cadastro no sistema municipal, NIS, CPF.
-
-Contato: Telefone, endereço, bairro, dois contatos de referência.
-
-Dados pessoais: Data de nascimento, sexo, raça, escolaridade, se estuda, ocupação.
-
-Condição social: Deficiência, renda pessoal, número de integrantes da família, renda familiar, renda per capita.
+- **Identificação:** Nome do educando, coletivo, código de cadastro no sistema municipal, NIS, CPF.  
+- **Contato:** Telefone, endereço, bairro, dois contatos de referência.  
+- **Dados pessoais:** Data de nascimento, sexo, raça, escolaridade, se estuda, ocupação.  
+- **Condição social:** Deficiência, renda pessoal, número de integrantes da família, renda familiar, renda per capita.
 
 ---
 
@@ -151,5 +148,3 @@ graph TD
     E --> F
     E --> G
     E --> H
-
-
