@@ -133,7 +133,7 @@ graph TD
     class A,B,C entrada
 
     %% Processamento
-    D[📊 Planilha Mestra (Google Sheets)]
+    D[📊 Planilha Mestra - Google Sheets]
     E[⚙️ Processamento com Fórmulas e Scripts]
     class D,E processamento
 
@@ -151,4 +151,5 @@ graph TD
     E --> F
     E --> G
     E --> H
+
 
