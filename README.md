@@ -151,8 +151,9 @@ Registro de informações socioeconômicas e demográficas dos educandos, obtida
 - **Dados pessoais:** Data de nascimento, sexo, raça, escolaridade, se estuda, ocupação.  
 - **Condição social:** Deficiência, renda pessoal, número de integrantes da família, renda familiar, renda per capita.
 
-  **📈 Métricas Comportamentais**  
+**📈 Métricas Comportamentais**  
 Registro e acompanhamento de faltas e ocorrências registradas nos cadastros dos educandos, permitindo análises comportamentais e intervenções pedagógicas mais precisas.
+
 ---
 
 ## 🗃️ Fluxo de Dados
