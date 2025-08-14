@@ -82,7 +82,8 @@ Embora tenha sido criado para o **SCFV (Serviço de Convivência e Fortaleciment
 - **🖼️ Ferramentas de Comunicação:** Geradores de imagens e templates para comunicação externa.  
 - **🌍 Gestão de Projetos Sociais:** Administração completa do ciclo de vida dos projetos.  
 - **📊 Avaliação de Colaboradores:** Sistema de avaliação vertical mútua (180°), com geração automática de ofícios a serem assinados pelas partes. Permite o acompanhamento da evolução dos colaboradores por meio de visualizações detalhadas ou gráficos, além de acesso rápido para que educadores forneçam feedback sobre sua supervisão.  
-- **📌 Orientação de Colaboradores:** Ferramenta para geração automática de ofícios voltados à orientação de colaboradores que necessitem de intervenção do RH. O conteúdo é adaptável à visão, missão e valores da instituição, promovendo alinhamento estratégico e humanizado.
+- **📌 Orientação de Colaboradores:** Ferramenta para geração automática de ofícios voltados à orientação de colaboradores que necessitem de intervenção do RH. O conteúdo é adaptável à visão, missão e valores da instituição, promovendo alinhamento estratégico e humanizado.  
+- **📚 Acompanhamento de Indicadores Pedagógicos:** Os educadores lançam o relato e avaliação de suas atividades, elas preenchem automaticamente o Relatório Mensal, e as supervisoras recebem e-mail para acompanhar em tempo real a situação da meta.
 
 ---
 
@@ -114,6 +115,46 @@ Registro de informações socioeconômicas e demográficas dos educandos, obtida
 - **Contato:** Telefone, endereço, bairro, dois contatos de referência.  
 - **Dados pessoais:** Data de nascimento, sexo, raça, escolaridade, se estuda, ocupação.  
 - **Condição social:** Deficiência, renda pessoal, número de integrantes da família, renda familiar, renda per capita.
+
+#### 📈 Métricas Comportamentais  
+Registro e acompanhamento de faltas e ocorrências registradas nos cadastros dos educandos, permitindo análises comportamentais e intervenções pedagógicas mais precisas.
+Se quiser, posso te ajudar a validar a estrutura final ou revisar o documento completo para garantir consistência. É só dizer!
+
+
+
+---
+
+## 🌍 Módulo Detalhado: Gestão de Projetos Sociais
+
+Este módulo oferece uma administração completa para projetos, integrando-se ao fluxo de educandos e às métricas institucionais.
+
+### Funcionalidades Principais
+
+#### 👥 Gestão de Participantes
+
+**➕ Realizar Matrícula**  
+Formulário unificado com validação automática para inscrição de participantes, que gera uma ficha cadastral padronizada.  
+*Plataforma: **Google Forms***
+
+**➖ Realizar Desligamento**  
+Processo para registrar a saída de um participante, com motivos pré-definidos para análise posterior e emissão de relatório automático.
+
+#### 📊 Controle Operacional
+
+**✔️ Controle de Frequência**  
+Sistema de malotes digitais onde as listas de presença são enviadas e consolidadas automaticamente na planilha central.  
+*Plataforma: **Google Sheets***
+
+**💹 Métricas Sociais**  
+Registro de informações socioeconômicas e demográficas dos educandos, obtidas a partir do sistema municipal da assistência social do município, para acompanhamento e análise de vulnerabilidade social.
+
+- **Identificação:** Nome do educando, coletivo, código de cadastro no sistema municipal, NIS, CPF.  
+- **Contato:** Telefone, endereço, bairro, dois contatos de referência.  
+- **Dados pessoais:** Data de nascimento, sexo, raça, escolaridade, se estuda, ocupação.  
+- **Condição social:** Deficiência, renda pessoal, número de integrantes da família, renda familiar, renda per capita.
+
+  **📈 Métricas Comportamentais**  
+Registro e acompanhamento de faltas e ocorrências registradas nos cadastros dos educandos, permitindo análises comportamentais e intervenções pedagógicas mais precisas.
 ---
 
 ## 🗃️ Fluxo de Dados
