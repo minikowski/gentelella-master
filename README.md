@@ -80,7 +80,6 @@ Embora tenha sido criado para o **SCFV (Serviço de Convivência e Fortaleciment
 - **👩‍⚕️ Atendimento Técnico e Pedagógico:** Registro de ocorrências e geração de relatórios técnicos.  
 - **📈 KPIs e Métricas Institucionais:** Acompanhamento de indicadores de desempenho e impacto.  
 - **🖼️ Ferramentas de Comunicação:** Geradores de imagens e templates para comunicação externa.  
-- **🌍 Gestão de Projetos Sociais:** Administração completa do ciclo de vida dos projetos.  
 - **📊 Avaliação de Colaboradores:** Sistema de avaliação vertical mútua (180°), com geração automática de ofícios a serem assinados pelas partes. Permite o acompanhamento da evolução dos colaboradores por meio de visualizações detalhadas ou gráficos, além de acesso rápido para que educadores forneçam feedback sobre sua supervisão.  
 - **📌 Orientação de Colaboradores:** Ferramenta para geração automática de ofícios voltados à orientação de colaboradores que necessitem de intervenção do RH. O conteúdo é adaptável à visão, missão e valores da instituição, promovendo alinhamento estratégico e humanizado.  
 - **📚 Acompanhamento de Indicadores Pedagógicos:** Os educadores lançam o relato e avaliação de suas atividades, a plataforma preenche os campos adequados no Relatório Mensal, e as supervisoras recebem e-mail para acompanhar em tempo real a situação da meta.
