@@ -117,7 +117,6 @@ Registro de informações socioeconômicas e demográficas dos educandos, obtida
 
 #### 📈 Métricas Comportamentais  
 Registro e acompanhamento de faltas e ocorrências registradas nos cadastros dos educandos, permitindo análises comportamentais e intervenções pedagógicas mais precisas.
-Se quiser, posso te ajudar a validar a estrutura final ou revisar o documento completo para garantir consistência. É só dizer!
 
 
 
