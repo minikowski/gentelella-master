@@ -77,7 +77,6 @@ Embora tenha sido criado para o **SCFV (Serviço de Convivência e Fortaleciment
 
 ## 📂 Módulos Principais
 
-- **📋 Gestão de Matrículas e Educandos:** Controle de matrículas, desligamentos e frequência.  
 - **👩‍⚕️ Atendimento Técnico e Pedagógico:** Registro de ocorrências e geração de relatórios técnicos.  
 - **📈 KPIs e Métricas Institucionais:** Acompanhamento de indicadores de desempenho e impacto.  
 - **🖼️ Ferramentas de Comunicação:** Geradores de imagens e templates para comunicação externa.  
@@ -115,7 +114,6 @@ Registro de informações socioeconômicas e demográficas dos educandos, obtida
 - **Contato:** Telefone, endereço, bairro, dois contatos de referência.  
 - **Dados pessoais:** Data de nascimento, sexo, raça, escolaridade, se estuda, ocupação.  
 - **Condição social:** Deficiência, renda pessoal, número de integrantes da família, renda familiar, renda per capita.
-
 ---
 
 ## 🗃️ Fluxo de Dados
