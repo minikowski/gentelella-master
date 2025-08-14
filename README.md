@@ -118,42 +118,6 @@ Registro de informações socioeconômicas e demográficas dos educandos, obtida
 #### 📈 Métricas Comportamentais  
 Registro e acompanhamento de faltas e ocorrências registradas nos cadastros dos educandos, permitindo análises comportamentais e intervenções pedagógicas mais precisas.
 
-
-
----
-
-## 🌍 Módulo Detalhado: Gestão de Projetos Sociais
-
-Este módulo oferece uma administração completa para projetos, integrando-se ao fluxo de educandos e às métricas institucionais.
-
-### Funcionalidades Principais
-
-#### 👥 Gestão de Participantes
-
-**➕ Realizar Matrícula**  
-Formulário unificado com validação automática para inscrição de participantes, que gera uma ficha cadastral padronizada.  
-*Plataforma: **Google Forms***
-
-**➖ Realizar Desligamento**  
-Processo para registrar a saída de um participante, com motivos pré-definidos para análise posterior e emissão de relatório automático.
-
-#### 📊 Controle Operacional
-
-**✔️ Controle de Frequência**  
-Sistema de malotes digitais onde as listas de presença são enviadas e consolidadas automaticamente na planilha central.  
-*Plataforma: **Google Sheets***
-
-**💹 Métricas Sociais**  
-Registro de informações socioeconômicas e demográficas dos educandos, obtidas a partir do sistema municipal da assistência social do município, para acompanhamento e análise de vulnerabilidade social.
-
-- **Identificação:** Nome do educando, coletivo, código de cadastro no sistema municipal, NIS, CPF.  
-- **Contato:** Telefone, endereço, bairro, dois contatos de referência.  
-- **Dados pessoais:** Data de nascimento, sexo, raça, escolaridade, se estuda, ocupação.  
-- **Condição social:** Deficiência, renda pessoal, número de integrantes da família, renda familiar, renda per capita.
-
-**📈 Métricas Comportamentais**  
-Registro e acompanhamento de faltas e ocorrências registradas nos cadastros dos educandos, permitindo análises comportamentais e intervenções pedagógicas mais precisas.
-
 ---
 
 ## 🗃️ Fluxo de Dados
