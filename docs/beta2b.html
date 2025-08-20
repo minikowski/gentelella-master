@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Orientações</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f5f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      background: #004080;
+      color: white;
+      width: 100%;
+      padding: 10px 20px;
+    }
+    header img {
+      height: 50px;
+      margin-right: 15px;
+      border-radius: 8px;
+    }
+    header h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+    .chat-container {
+      width: 90%;
+      max-width: 800px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .messages {
+      padding: 20px;
+      flex: 1;
+      overflow-y: auto;
+      max-height: 500px;
+    }
+    .message {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: flex-end;
+    }
+    .message.user {
+      justify-content: flex-end;
+    }
+    .message.user .bubble {
+      background: #004080;
+      color: white;
+      border-radius: 15px 15px 0 15px;
+    }
+    .message.bot .bubble {
+      background: #e9ecef;
+      color: #333;
+      border-radius: 15px 15px 15px 0;
+    }
+    .bubble {
+      padding: 10px 15px;
+      max-width: 70%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin: 0 8px;
+    }
+    .input-area {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+    .input-area input {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+    .input-area button {
+      background: #004080;
+      color: white;
+      border: none;
+      padding: 0 20px;
+      cursor: pointer;
+    }
+    footer {
+      margin: 10px;
+      font-size: 12px;
+      color: #555;
+    }
+    .typing {
+      font-style: italic;
+      color: gray;
+      font-size: 13px;
+      margin-left: 38px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="unificado5.jpg" alt="Logo">
+    <h1>Chat de Orientações</h1>
+  </header>
+
+  <div class="chat-container">
+    <div class="messages" id="messages"></div>
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Digite sua pergunta...">
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+
+  <footer>Desenvolvido por Victor Luis Minikowski.</footer>
+
+  <script>
+    // Banco de orientações embutido (funciona offline e online)
+    const orientacoes = [
+      { resposta: "Solicitar que o uniforme seja colocado por cima da camiseta antes de entrar na entidade." },
+      { resposta: "Solicitar que o crachá seja colocado antes de entrar na entidade." },
+      { resposta: "Solicitar que finalize o consumo antes de entrar ou descarte no lixo." },
+      { resposta: "Registrar no protocolo e comunicar educador/instrutor responsável em caso de justificativa de vestimenta inadequada." },
+      { resposta: "Solicitar apoio da Supervisão de Unidade/Pedagógica em caso de conflito." },
+      { resposta: "Orientar sobre postura inadequada. Se persistir, comunicar educador/instrutor responsável." },
+      { resposta: "Encaminhar o educando para aferição de saúde na secretaria e avisar a família em caso de mal-estar." },
+      { resposta: "Avisar a cozinha sobre odor, comida fria ou estragada para reposição." },
+      { resposta: "Oferecer porções adequadas e orientar que pode repetir se necessário." },
+      { resposta: "Incentivar a experimentar pequenas porções, informando que pode repetir depois." },
+      { resposta: "Questionar motivo do descarte e registrar orientação comportamental se necessário." },
+      { resposta: "Intervir em brincadeiras inadequadas e orientar. Se persistir, registrar protocolo." }
+{ categoria: "Leitura do Pacto", resposta: "Realizar leitura dos textos impressos e registrar observações em ata. Ler cada item do pacto em voz alta, detalhando itens em amarelo com supervisão." }
+{ categoria: "Direitos - Refeitório", resposta: "Consumir lanche e almoço conforme cardápio nutricional, respeitando horários vigentes. Orientar sobre dúvidas do consumo livre." }
+{ categoria: "Vestuário - Esportes", resposta: "Exigir calçado fechado em atividades esportivas para prevenção de acidentes. Reforçar norma não cumprida no futsal." }
+{ categoria: "Vestuário - Uniforme", resposta: "Permitir peças até 7cm acima do joelho. Desenvolver projeto para crianças do MOD 1 com shortinhos curtos." }
+{ categoria: "Protocolos - Entrada/Saída", resposta: "Permitir atrasos e saídas antecipadas mediante contato com responsável e registro em protocolos." }
+{ categoria: "Registro Comportamental", resposta: "Acompanhar e orientar individualmente educandos através de registro de Orientação Comportamental e Social." }
+{ categoria: "Comunicação", resposta: "Comunicar atividades com antecedência via bilhetes ou contato telefônico. Educandos devem entregar bilhetes aos responsáveis." }
+{ categoria: "Justificativa de Faltas", resposta: "Justificar ausências com atestados médicos, odontológicos (apenas extração) em 72h. Demais casos analisados pela equipe técnica." }
+{ categoria: "Medicação", resposta: "Permitir uso de medicação prescrita com receituário original e comunicação à secretaria. Não medicar ou fornecer medicamentos." }
+{ categoria: "Uso de Espaços", resposta: "Permitir ausência de sala com uso de placa de identificação por até 20 minutos. Casos médicos exigem documentação." }
+{ categoria: "Problemas de Saúde", resposta: "Notificar educador e dirigir-se à secretaria para contato com responsável em caso de problemas de saúde." }
+{ categoria: "Recursos Audiovisuais", resposta: "Utilizar recursos audiovisuais preservando equipamentos. Música instrumental em sala durante atividades." }
+{ categoria: "Música - Intervalos", resposta: "Permitir música no pátio com playlist aprovada pela coordenação, sem conteúdo inadequado. Trabalhar diversidade musical." }
+{ categoria: "Música - Ritmos", resposta: "Permitir batidas de rap e funk para paródias, sem letras originais. Apresentar variedade de ritmos musicais." }
+{ categoria: "Devers - Pertences", resposta: "Educandos responsáveis por seus pertences. Armazenar em guarda-volume com educador. Orientar sobre resistência em guardar cartão VT." }
+{ categoria: "Devers - Pontualidade", resposta: "Comparecer pontualmente às atividades. Avaliar casos de atraso para refeições." }
+{ categoria: "Devers - Uniforme", resposta: "Exigir uso do uniforme. Emprestar camiseta em caso de esquecimento e registrar a ocorrência no sistema." }
+{ categoria: "Devers - Conservação", resposta: "Cooperar com organização e limpeza dos ambientes. Zelar pela conservação do patrimônio." }
+{ categoria: "Danos ao Patrimônio", resposta: "Orientar e encaminhar educandos que danificarem patrimônio. Reposição individual ou coletiva conforme caso." }
+{ categoria: "Organização de Espaços", resposta: "Manter organização dos espaços utilizados. Utilizar placa de identificação para saída da sala." }
+{ categoria: "Climatizadores", resposta: "Utilizar climatizadores conforme procedimento orientativo, com janelas e portas abertas." }
+{ categoria: "Autogestão - Lanche", resposta: "Solicitar 1 lanche por educando sem repetição. Entregar solicitação dentro do horário. Reportar atrasos na entrega." }
+{ categoria: "Refeições", resposta: "Evitar desperdício de alimentos. Orientar MOD 1 sobre consumo adequado (sobremesa após refeição)." }
+{ categoria: "Identificação", resposta: "Utilizar crachá de identificação visível diariamente. Devolver ao encerrar vínculo com a entidade." }
+{ categoria: "Proibições - Saída", resposta: "Proibir saída sem autorização. Usar placa de identificação para sair da sala (um educando por vez)." }
+{ categoria: "Proibições - Acompanhantes", resposta: "Proibir entrada de pessoas não autorizadas nas dependências." }
+{ categoria: "Proibições - Transporte", resposta: "Proibir uso de bicicleta, skate, patins ou moto no trajeto. Exceto SCFV rural com termo de autorização." }
+{ categoria: "Proibições - Alimentos", resposta: "Proibir trazer/consumir alimentos externos. Exceto dietas especiais com comunicação formal." }
+{ categoria: "Proibições - Refeitório", resposta: "Proibir desperdício de comida. Permitir experimentar sobremesa com uma colher para conhecer o sabor." }
+{ categoria: "Proibições - Vestuário", resposta: "Proibir vestimentas inadequadas. Permitir toucas/capuz apenas externamente no outono/inverno devido ao frio." }
+{ categoria: "Proibições - Uniforme", resposta: "Exigir uso do uniforme nos espaços. Permitir retirar apenas no banheiro após saída ou para educação física." }
+{ categoria: "Proibições - Comportamento", resposta: "Proibir tratamento desrespeitoso, apelidos, gírias, palavrões e brincadeiras inadequadas. Intervir e orientar." }
+{ categoria: "Proibições - Agressões", resposta: "Proibir ofensas e agressões físicas ou morais. Orientar envolvidos e famílias, acionando procedimentos institucionais/jurídicos." }
+{ categoria: "Proibições - Substâncias", resposta: "Proibir consumo de álcool, drogas e porte de armas. Recolher materiais e acionar órgãos competentes." }
+{ categoria: "Proibições - Namoro", resposta: "Proibir demonstrações de namoro e carícias. Respeitar relacionamentos, mas não permitir abraços, beijos ou carícias." }
+{ categoria: "Proibições - Patrimônio", resposta: "Proibir apoiar pés em móveis, rabiscar e pixar. Conservar pintura e layout institucional." }
+{ categoria: "Proibições - Redes Sociais", resposta: "Proibir divulgação não autorizada sobre a entidade em redes sociais. Não permitir promoção de rifas ou eventos." }
+{ categoria: "Proibições - Sono", resposta: "Proibir dormir ou deitar nas salas. Encaminhar educando com sono ou mal-estar para a pedagogia/supervisão." }
+{ categoria: "Proibições - Fones", resposta: "Proibir uso de fones de ouvido pessoais nas salas e espaços. Permitir apenas antes da entrada nas salas." }
+    ];
+
+    function findMatch(query) {
+      const words = query.toLowerCase().split(/\s+/);
+      for (let item of orientacoes) {
+        const respostaWords = item.resposta.toLowerCase().split(/\s+/);
+        if (words.some(word => respostaWords.includes(word))) {
+          return item.resposta;
+        }
+      }
+      return "🤔 Não encontrei uma orientação específica para isso. Tente reformular sua pergunta.";
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage("user", text);
+      input.value = "";
+
+      // mostra "digitando..."
+      const typingId = showTyping();
+
+      setTimeout(() => {
+        removeTyping(typingId);
+        const resposta = findMatch(text);
+        addMessage("bot", resposta);
+      }, 800);
+    }
+
+    function addMessage(sender, text) {
+      const messages = document.getElementById("messages");
+      const div = document.createElement("div");
+      div.className = "message " + sender;
+
+      // avatar
+      const avatar = document.createElement("img");
+      avatar.className = "avatar";
+      avatar.src = sender === "bot" ? "https://cdn-icons-png.flaticon.com/512/4712/4712109.png" : "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.textContent = text;
+
+      if (sender === "bot") {
+        div.appendChild(avatar);
+        div.appendChild(bubble);
+      } else {
+        div.appendChild(bubble);
+        div.appendChild(avatar);
+      }
+
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function showTyping() {
+      const messages = document.getElementById("messages");
+      const div = document.createElement("div");
+      div.className = "typing";
+      div.textContent = "Digitando...";
+      const id = "typing-" + Date.now();
+      div.id = id;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+      return id;
+    }
+
+    function removeTyping(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+  </script>
+</body>
+</html>

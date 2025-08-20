@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Chat Orientações</title>
+  <title>Chat Orientações SCFV</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -110,7 +110,7 @@
 <body>
   <header>
     <img src="unificado5.jpg" alt="Logo">
-    <h1>Chat de Orientações</h1>
+    <h1>Chat de Orientações SCFV</h1>
   </header>
 
   <div class="chat-container">
@@ -124,20 +124,21 @@
   <footer>Desenvolvido por Victor Luis Minikowski.</footer>
 
   <script>
-    // Banco de orientações embutido (funciona offline e online)
     const orientacoes = [
-      { resposta: "Solicitar que o uniforme seja colocado por cima da camiseta antes de entrar na entidade." },
-      { resposta: "Solicitar que o crachá seja colocado antes de entrar na entidade." },
-      { resposta: "Solicitar que finalize o consumo antes de entrar ou descarte no lixo." },
-      { resposta: "Registrar no protocolo e comunicar educador/instrutor responsável em caso de justificativa de vestimenta inadequada." },
-      { resposta: "Solicitar apoio da Supervisão de Unidade/Pedagógica em caso de conflito." },
-      { resposta: "Orientar sobre postura inadequada. Se persistir, comunicar educador/instrutor responsável." },
-      { resposta: "Encaminhar o educando para aferição de saúde na secretaria e avisar a família em caso de mal-estar." },
-      { resposta: "Avisar a cozinha sobre odor, comida fria ou estragada para reposição." },
-      { resposta: "Oferecer porções adequadas e orientar que pode repetir se necessário." },
-      { resposta: "Incentivar a experimentar pequenas porções, informando que pode repetir depois." },
-      { resposta: "Questionar motivo do descarte e registrar orientação comportamental se necessário." },
-      { resposta: "Intervir em brincadeiras inadequadas e orientar. Se persistir, registrar protocolo." }
+      { categoria: "Portão", resposta: "Solicitar que o uniforme seja colocado por cima da camiseta antes de entrar na entidade." },
+      { categoria: "Portão", resposta: "Solicitar que o crachá seja colocado antes de entrar na entidade." },
+      { categoria: "Portão", resposta: "Solicitar que finalize o consumo antes de entrar ou descarte no lixo." },
+      { categoria: "Portão", resposta: "Registrar no protocolo e comunicar educador/instrutor responsável em caso de justificativa de vestimenta inadequada." },
+
+      { categoria: "Corredor", resposta: "Solicitar apoio da Supervisão de Unidade/Pedagógica em caso de conflito." },
+      { categoria: "Corredor", resposta: "Orientar sobre postura inadequada. Se persistir, comunicar educador/instrutor responsável." },
+      { categoria: "Corredor", resposta: "Encaminhar o educando para aferição de saúde na secretaria e avisar a família em caso de mal-estar." },
+
+      { categoria: "Refeitório", resposta: "Avisar a cozinha sobre odor, comida fria ou estragada para reposição." },
+      { categoria: "Refeitório", resposta: "Oferecer porções adequadas e orientar que pode repetir se necessário." },
+      { categoria: "Refeitório", resposta: "Incentivar a experimentar pequenas porções, informando que pode repetir depois." },
+      { categoria: "Refeitório", resposta: "Questionar motivo do descarte e registrar orientação comportamental se necessário." },
+      { categoria: "Refeitório", resposta: "Intervir em brincadeiras inadequadas e orientar. Se persistir, registrar protocolo." }
     ];
 
     function findMatch(query) {
@@ -145,7 +146,7 @@
       for (let item of orientacoes) {
         const respostaWords = item.resposta.toLowerCase().split(/\s+/);
         if (words.some(word => respostaWords.includes(word))) {
-          return item.resposta;
+          return `(${item.categoria}) ${item.resposta}`;
         }
       }
       return "🤔 Não encontrei uma orientação específica para isso. Tente reformular sua pergunta.";
@@ -159,7 +160,6 @@
       addMessage("user", text);
       input.value = "";
 
-      // mostra "digitando..."
       const typingId = showTyping();
 
       setTimeout(() => {
@@ -174,7 +174,6 @@
       const div = document.createElement("div");
       div.className = "message " + sender;
 
-      // avatar
       const avatar = document.createElement("img");
       avatar.className = "avatar";
       avatar.src = sender === "bot" ? "https://cdn-icons-png.flaticon.com/512/4712/4712109.png" : "https://cdn-icons-png.flaticon.com/512/149/149071.png";
