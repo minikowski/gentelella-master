@@ -110,15 +110,32 @@
   <footer>Desenvolvido por Victor Luis Minikowski.</footer>
 
   <script>
-    // Base de dados simples (extraída do seu texto)
+    // Banco resumido de orientações (pode expandir com todo o texto depois)
     const orientacoes = [
-      { pergunta: "recusa de alimentos", resposta: "Incentivar o educando a experimentar os alimentos, oferecer pequenas porções e orientar que pode se servir novamente." },
-      { pergunta: "conflitos na entrada", resposta: "Solicitar apoio à Supervisão de Unidade/Supervisão Pedagógica em caso de conflitos identificados." },
-      { pergunta: "uniforme portão entrada", resposta: "Solicitar que o uniforme seja colocado por cima da camiseta antes de entrar na entidade." },
-      { pergunta: "banheiro mal estar", resposta: "Questionar o educando, orientar a procurar a secretaria para aferição de temperatura/pressão e comunicar à família." },
-      { pergunta: "refeitório desperdício", resposta: "Orientar a dar mais uma garfada. Caso não consiga, registrar orientação e justificar ao educador/instrutor." },
-      { pergunta: "corredor brincadeiras inadequadas", resposta: "Orientar sobre postura inadequada. Persistindo, informar educador/instrutor de referência." }
+      { resposta: "Solicitar que o uniforme seja colocado por cima da camiseta antes de entrar na entidade." },
+      { resposta: "Solicitar que o crachá seja colocado antes de entrar na entidade." },
+      { resposta: "Solicitar que finalize o consumo antes de entrar ou descarte no lixo." },
+      { resposta: "Registrar no protocolo e comunicar educador/instrutor responsável em caso de justificativa de vestimenta inadequada." },
+      { resposta: "Solicitar apoio da Supervisão de Unidade/Pedagógica em caso de conflito." },
+      { resposta: "Orientar sobre postura inadequada. Se persistir, comunicar educador/instrutor responsável." },
+      { resposta: "Encaminhar o educando para aferição de saúde na secretaria e avisar a família em caso de mal-estar." },
+      { resposta: "Avisar a cozinha sobre odor, comida fria ou estragada para reposição." },
+      { resposta: "Oferecer porções adequadas e orientar que pode repetir se necessário." },
+      { resposta: "Incentivar a experimentar pequenas porções, informando que pode repetir depois." },
+      { resposta: "Questionar motivo do descarte e registrar orientação comportamental se necessário." },
+      { resposta: "Intervir em brincadeiras inadequadas e orientar. Se persistir, registrar protocolo." }
     ];
+
+    function findMatch(query) {
+      const words = query.toLowerCase().split(/\s+/);
+      for (let item of orientacoes) {
+        const respostaWords = item.resposta.toLowerCase().split(/\s+/);
+        if (words.some(word => respostaWords.includes(word))) {
+          return item.resposta;
+        }
+      }
+      return "Não encontrei uma orientação específica. Tente reformular sua pergunta.";
+    }
 
     function sendMessage() {
       const input = document.getElementById("userInput");
@@ -128,15 +145,7 @@
       addMessage("user", text);
       input.value = "";
 
-      // Busca simples por palavras-chave
-      const lower = text.toLowerCase();
-      let resposta = "Não encontrei uma orientação específica para isso. Tente usar outras palavras.";
-      for (let item of orientacoes) {
-        if (lower.includes(item.pergunta)) {
-          resposta = item.resposta;
-          break;
-        }
-      }
+      const resposta = findMatch(text);
 
       setTimeout(() => addMessage("bot", resposta), 500);
     }
