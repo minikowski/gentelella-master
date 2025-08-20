@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Orientações</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f5f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      background: #004080;
+      color: white;
+      width: 100%;
+      padding: 10px 20px;
+    }
+    header img {
+      height: 50px;
+      margin-right: 15px;
+      border-radius: 8px;
+    }
+    header h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+    .chat-container {
+      width: 90%;
+      max-width: 800px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .messages {
+      padding: 20px;
+      flex: 1;
+      overflow-y: auto;
+      max-height: 500px;
+    }
+    .message {
+      margin-bottom: 15px;
+      display: flex;
+    }
+    .message.user {
+      justify-content: flex-end;
+    }
+    .message.user .bubble {
+      background: #004080;
+      color: white;
+      border-radius: 15px 15px 0 15px;
+    }
+    .message.bot .bubble {
+      background: #e9ecef;
+      color: #333;
+      border-radius: 15px 15px 15px 0;
+    }
+    .bubble {
+      padding: 10px 15px;
+      max-width: 70%;
+    }
+    .input-area {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+    .input-area input {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+    .input-area button {
+      background: #004080;
+      color: white;
+      border: none;
+      padding: 0 20px;
+      cursor: pointer;
+    }
+    footer {
+      margin: 10px;
+      font-size: 12px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="unificado5.jpg" alt="Logo">
+    <h1>Chat de Orientações</h1>
+  </header>
+
+  <div class="chat-container">
+    <div class="messages" id="messages"></div>
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Digite sua pergunta...">
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+
+  <footer>Desenvolvido por Victor Luis Minikowski.</footer>
+
+  <script>
+    // Base de dados simples (extraída do seu texto)
+    const orientacoes = [
+      { pergunta: "recusa de alimentos", resposta: "Incentivar o educando a experimentar os alimentos, oferecer pequenas porções e orientar que pode se servir novamente." },
+      { pergunta: "conflitos na entrada", resposta: "Solicitar apoio à Supervisão de Unidade/Supervisão Pedagógica em caso de conflitos identificados." },
+      { pergunta: "uniforme portão entrada", resposta: "Solicitar que o uniforme seja colocado por cima da camiseta antes de entrar na entidade." },
+      { pergunta: "banheiro mal estar", resposta: "Questionar o educando, orientar a procurar a secretaria para aferição de temperatura/pressão e comunicar à família." },
+      { pergunta: "refeitório desperdício", resposta: "Orientar a dar mais uma garfada. Caso não consiga, registrar orientação e justificar ao educador/instrutor." },
+      { pergunta: "corredor brincadeiras inadequadas", resposta: "Orientar sobre postura inadequada. Persistindo, informar educador/instrutor de referência." }
+    ];
+
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage("user", text);
+      input.value = "";
+
+      // Busca simples por palavras-chave
+      const lower = text.toLowerCase();
+      let resposta = "Não encontrei uma orientação específica para isso. Tente usar outras palavras.";
+      for (let item of orientacoes) {
+        if (lower.includes(item.pergunta)) {
+          resposta = item.resposta;
+          break;
+        }
+      }
+
+      setTimeout(() => addMessage("bot", resposta), 500);
+    }
+
+    function addMessage(sender, text) {
+      const messages = document.getElementById("messages");
+      const div = document.createElement("div");
+      div.className = "message " + sender;
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.textContent = text;
+      div.appendChild(bubble);
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+  </script>
+</body>
+</html>
