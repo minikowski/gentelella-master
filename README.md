@@ -77,13 +77,12 @@ Embora tenha sido criado para o **SCFV (Serviço de Convivência e Fortaleciment
 
 ## 📂 Módulos Principais
 
-- **👩‍⚕️ Atendimento Técnico e Pedagógico:** Registro de ocorrências e geração de relatórios técnicos.  
-- **📈 KPIs e Métricas Institucionais:** Acompanhamento de indicadores de desempenho e impacto.  
-- **🖼️ Ferramentas de Comunicação:** Geradores de imagens e templates para comunicação externa.  
-- **📊 Avaliação de Colaboradores:** Sistema de avaliação vertical mútua (180°), com geração automática de ofícios a serem assinados pelas partes. Permite o acompanhamento da evolução dos colaboradores por meio de visualizações detalhadas ou gráficos, além de acesso rápido para que educadores forneçam feedback sobre sua supervisão.  
+- **📈 KPIs e Métricas Institucionais:** Acompanhamento de indicadores de desempenho e impacto dos colaboradores. Exemplo: O KPI pedagógico acomapanha a efetividade dos planejamentos dos educadores, tornando possível, por exemplo, identificar com qual modalidade (idade dos educandos) ele tem melhor desenvoltura.
+- **🖼️ Ferramentas de Comunicação:** Geradores de imagens e templates para comunicação externa. São geradas imagens padronizadas para as redes sociais (com logo, identidade visual e enquadramento); avisos e convites para o Whatsapp.  
+- **📊 Avaliação de Colaboradores:** Sistema de avaliação vertical mútua (180°), com geração automática de ofícios a serem assinados pelas partes. Permite o acompanhamento da evolução dos colaboradores por meio de visualizações detalhadas ou gráficos, além de acesso rápido para que educadores forneçam feedback sobre sua supervisão em sua plataforma.  
 - **📌 Orientação de Colaboradores:** Ferramenta para geração automática de ofícios voltados à orientação de colaboradores que necessitem de intervenção do RH. O conteúdo é adaptável à visão, missão e valores da instituição, promovendo alinhamento estratégico e humanizado.  
-- **📚 Acompanhamento de Indicadores Pedagógicos:** Os educadores lançam o relato e avaliação de suas atividades, a plataforma preenche os campos adequados no Relatório Mensal, e as supervisoras recebem e-mail para acompanhar em tempo real a situação da meta.
-- **📩 Acompanhamento de Feedbacks da Aprendizagem Profissional:** E-mail automático para as supervisoras do SCFV quando um de seus educandos recebem feedback de empresas parceiras da Aprendizagem Profissional.
+- **📚 Acompanhamento de Indicadores Pedagógicos:** Os educadores lançam o relato e avaliação de suas atividades, a plataforma preenche os campos adequados no Relatório Mensal, e as supervisoras recebem e-mail para acompanhar em tempo real a situação da meta, evitando o atraso do relatório.
+- **📩 Acompanhamento de Feedbacks da Aprendizagem Profissional:** E-mail automático para as supervisoras do SCFV quando um de seus educandos recebem feedback de empresas parceiras da Aprendizagem Profissional. Esta ferramente facilita a comunicação entre ambos os serviços.
 ---
 
 ## 🌍 Módulo Detalhado: Gestão de Projetos Sociais
@@ -114,6 +113,8 @@ Registro de informações socioeconômicas e demográficas dos educandos, obtida
 - **Contato:** Telefone, endereço, bairro, dois contatos de referência.  
 - **Dados pessoais:** Data de nascimento, sexo, raça, escolaridade, se estuda, ocupação.  
 - **Condição social:** Deficiência, renda pessoal, número de integrantes da família, renda familiar, renda per capita.
+
+**👩‍⚕️ Atendimento Técnico e Pedagógico:** Registro de ocorrências e geração de relatórios técnicos.  
 
 #### 📈 Métricas Comportamentais  
 Registro e acompanhamento de faltas e ocorrências registradas nos cadastros dos educandos, permitindo análises comportamentais e intervenções pedagógicas mais precisas.
