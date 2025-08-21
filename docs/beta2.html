@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema Unificado Otimizado com Palavras-Chave</title>
+  <title>Sistema Unificado com Fluxos e Pacto</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -74,11 +74,11 @@
   </header>
 
   <div id="chat-container">
-    <div class="message bot-message">Olá! Faça uma pergunta sobre o Pacto de Convivência.</div>
+    <div class="message bot-message">Olá! Posso ajudar com dúvidas sobre o Pacto de Convivência ou sobre os fluxos internos. O que você gostaria de saber?</div>
   </div>
 
   <div id="input-container">
-    <input type="text" id="user-input" placeholder="Ex: Pode usar boné?">
+    <input type="text" id="user-input" placeholder="Ex: Como funciona o desligamento?">
     <button onclick="sendMessage()">Enviar</button>
   </div>
 
@@ -88,18 +88,17 @@
 
   <script>
     /**
-     * NOVA ESTRUTURA: BASE DE CONHECIMENTO
-     * Cada objeto contém:
-     * - `keywords`: Uma lista de palavras-chave e sinônimos que ativam esta resposta.
-     * - `text`: A resposta completa a ser exibida.
+     * BASE DE CONHECIMENTO AMPLIADA
+     * Inclui o Pacto de Convivência e os novos Fluxos Operacionais.
      */
     const knowledgeBase = [
+      // --- PACTO DE CONVIVÊNCIA ---
       {
         keywords: ['orientação', 'ajuda', 'propor', 'atividades', 'colaboradores'],
         text: 'DIREITO: Solicitar orientação a qualquer colaborador da entidade e propor atividades colaborativas com educadores, colegas e comunidade.'
       },
       {
-        keywords: ['espaços', 'sala', 'laboratório', 'quadra', 'pátio', 'refeitório', 'reserva', 'usar'],
+        keywords: ['espaços', 'sala', 'laboratório', 'quadra', 'pátio', 'refeitório', 'reserva'],
         text: 'DIREITO: Utilizar os espaços institucionais de aprendizado e convivência social (sala de atividades, laboratório de inclusão digital, sala de leitura, laboratório de panificação, quadra, pátio e refeitório) prezando pela organização e reserva previamente destes espaços.'
       },
       {
@@ -107,16 +106,8 @@
         text: 'DIREITO: Consumir livremente o lanche e almoço oferecido de acordo com o cardápio nutricional da entidade respeitando os horários vigentes.'
       },
       {
-        keywords: ['celular', 'telefone', 'aparelho'],
-        text: 'DIREITO: Utilizar o celular antes de adentrar nas salas de atividades, com exceção no momento do almoço/refeitório.\n\nDEVER: É de total responsabilidade dos educandos cuidar de seus pertences. O educador irá armazenar o celular, fone de ouvido, etc. no case porta celular.'
-      },
-      {
-        keywords: ['carregar', 'tomada', 'carregador'],
-        text: 'DEVER (Ressalva): A entidade NÃO pode pegar o celular para carregar, bem como emprestar o carregador para uso, contudo permitimos que o educando utilize o tempo do almoço para realizar o carregamento nas tomadas do pátio, consequentemente a responsabilidade, o cuidado e o monitoramento do celular é do educando.'
-      },
-      {
-        keywords: ['camiseta', 'uniforme', 'vestimenta', 'empréstimo', 'roupa'],
-        text: 'DIREITO: Receber duas camisetas gratuitamente, uma única vez, e caso necessite devido avarias ou manchas, poderá receber outra, mediante avaliação da equipe técnica.\n\nDEVER: Apresentar-se adequadamente uniformizado com camiseta da Guarda Mirim. \n\nRessalva: Educandos que comparecerem sem uniforme na instituição serão encaminhados pelo Educador para a Secretaria para que seja feito o empréstimo.'
+        keywords: ['celular', 'telefone', 'aparelho', 'carregar', 'tomada'],
+        text: 'DIREITO: Utilizar o celular antes de adentrar nas salas de atividades, com exceção no momento do almoço/refeitório.\n\nDEVER: É de total responsabilidade dos educandos cuidar de seus pertences. O educador irá armazenar o celular no case porta celular.\n\nRessalva: A entidade NÃO pode pegar o celular para carregar, bem como emprestar o carregador. O educando pode utilizar as tomadas do pátio no horário de almoço, sob sua total responsabilidade.'
       },
       {
         keywords: ['calçado', 'tênis', 'chinelo', 'salto', 'sapato'],
@@ -155,10 +146,6 @@
         text: 'DEVER (Ressalva): Serão submetidos às orientações e encaminhamentos os educandos que danificarem e/ou extraviar o patrimônio da entidade, tendo que indenizar o prejuízo através da reposição em âmbito individual ou coletivo.'
       },
       {
-        keywords: ['crachá', 'identificação'],
-        text: 'DEVER: Utilizar o crachá de identificação diariamente de modo visível no pescoço. O crachá deverá ser devolvido, obrigatoriamente, no encerramento dos vínculos com a entidade.'
-      },
-      {
         keywords: ['bicicleta', 'skate', 'patins', 'transporte', 'moto'],
         text: 'PROIBIÇÃO: Deslocar-se no trajeto casa à entidade e vice-versa utilizando bicicleta, skate, roller/patins ou motocicleta, devido a entidade não possuir ambiente para guardar com segurança, exceto para unidades rurais com termo assinado.'
       },
@@ -171,12 +158,8 @@
         text: 'DEVER: Dirigir-se aos colegas, educadores e demais com respeito e educação, utilizando-se de vocabulário adequado, sem gírias e vulgar.\n\nPROIBIÇÃO: Ofender ou agredir fisicamente, verbalmente ou moralmente. A entidade repudia quaisquer tipos de violência.'
       },
       {
-        keywords: ['comida', 'trazer', 'bala', 'chiclete', 'pirulito', 'refrigerante', 'bebida', 'dieta'],
+        keywords: ['trazer', 'bala', 'chiclete', 'pirulito', 'dieta'],
         text: 'PROIBIÇÃO: Trazer e/ou consumir qualquer tipo de alimento (sólido ou líquido) inclusive balas, chicletes, pirulitos e outros, exceto água.\n\nRessalva: Educandos com dieta especial (intolerância, diabetes, etc.) deverão comunicar a entidade na matrícula. Não autorizamos que o educando traga alimentos de casa.'
-      },
-      {
-        keywords: ['bebida', 'álcool', 'cigarro', 'narguille', 'drogas', 'arma', 'faca'],
-        text: 'PROIBIÇÃO: Trazer e/ou consumir e/ou ter ingerido bebidas alcoólicas, substâncias psicoativas tóxicas lícitas e ilícitas; utilizar equipamentos eletrônicos (cigarro, narguille), portar armas brancas ou de fogo. O material será recolhido e os responsáveis comunicados.'
       },
       {
         keywords: ['namoro', 'namorar', 'beijo', 'abraço', 'carícia', 'colo'],
@@ -186,6 +169,190 @@
         keywords: ['dormir', 'deitar', 'sono'],
         text: 'PROIBIÇÃO: Dormir, deitar, debruçar nas salas de atividades. Caso o educando esteja se sentindo mal ou com muito sono, poderá procurar a pedagoga/supervisão para tomar as providências.'
       },
+      
+      // --- FLUXOS OPERACIONAIS ---
+      {
+        keywords: ['orientação', 'geral', 'vocabulário', 'impróprio', 'amizade'],
+        text: `ORIENTAÇÃO GERAL:\n
+PÁTIO: Caso os educandos terminem a atividade proposta mais cedo, pensar em uma atividade alternativa para realizarem dentro do coletivo. OBS: caso for usar o pátio, deve ser colocado no planejamento com objetivo e intencionalidade.
+PACTO: Reforçar o pacto com os educandos sempre que necessário.
+VOCABULÁRIO IMPRÓPRIO: Reforçar sempre este ponto com os educandos, pois eles estão esquecendo que estão dentro de uma instituição de ensino e usando muitos palavrões.
+GUARDA DE PERTENCES: Reforçar a importância de guardar os pertences e devolver ao término da aula. Caso a equipe técnica pegue algum pertence com o educando, o mesmo será recolhido e entregue somente para o responsável.
+CHICLETES: É proibido o consumo de chicletes ou trazer outros alimentos para a instituição.
+CHEFIAS: Atenção às chefias. Aos locais que tem que estar e ao que tem que ser feito.
+EDUCANDO FORA DE SEUS COLETIVOS: Educadores, atenção quanto a educandos que estão fora do coletivo, devem ser direcionados para seus respectivos coletivos.
+AUTONOMIA: Algumas demandas o educador tem autonomia para resolver "dentro" do coletivo, caso as possibilidade se esgote deve ser acionada a equipe técnica.
+AMIZADE: É de extrema importância que o educador seja referência para os educandos, mas lembrando, o educando não é seu amigo, deve haver tratamento de respeito em ambas as partes.`
+      },
+      {
+        keywords: ['van', 'transporte', 'condução', 'perua', 'vagas', 'pontos', 'lerroville', 'eli vive', 'csu', 'centro b', 'gilmar'],
+        text: `ORIENTAÇÕES E FLUXO PARA USO DO TRANSPORTE VAN:\n
+OBJETIVO: Promover o acesso dos educandos de 6 a 12 anos (Modalidade 01) às unidades Centro B, CSU, e para qualquer idade nas unidades Lerroville e Eli Vive.\n
+VAGAS DISPONÍVEIS:
+- CENTRO B: 32 de manhã, 32 à tarde.
+- CSU: 25 de manhã, 25 à tarde.
+- LERROVILLE: 16 de manhã.
+- ELI VIVE: 25 de manhã, 25 à tarde.\n
+PRIORIDADE: A prioridade segue o mapeamento territorial de cada unidade. Existem pontos de encontro pactuados para a van. Exceções para Mod 2 ou 3 ocorrem com laudo médico ou em transição do Mod 1 (prazo de 60 dias).\n
+COMUNICAÇÃO: Cada território tem um grupo no WhatsApp para comunicação entre famílias, motoristas e equipe da unidade. A supervisão da unidade articula diretamente com o responsável pelas vans (Gilmar) sobre cancelamentos, mudanças, etc.`
+      },
+      {
+        keywords: ['desligamento', 'desligar', 'transferência', 'transferir', 'mudar', 'modalidade', 'período', 'evasão'],
+        text: `ORIENTAÇÕES SOBRE DESLIGAMENTO E TRANSFERÊNCIA:\n
+QUEM DESLIGA?
+- Para a APRENDIZAGEM: A Supervisora Pedagógica.
+- Outros casos (solicitação, evasão): A Assistente Social.\n
+PRAZOS:
+- Desligamento no sistema: Na sexta-feira da semana do pedido.
+- Desligamento no IRSAS: Apenas no último dia do mês (dia 31).
+- Migração de modalidade (Mod 2 para Mod 3): No último dia do mês.
+- Migração de Mod 1 para Mod 2: Somente em Julho e Dezembro.\n
+EVASÃO: Para desligar por evasão, o educando deve ter mais de 30 dias de faltas consecutivas e todas as tentativas de contato (Busca Ativa, Visita Domiciliar, articulação com a rede) devem ter sido esgotadas e registradas no IRSAS.\n
+DEVOLUÇÃO: No ato do desligamento, a família é informada sobre a necessidade de devolver a camiseta e o crachá.`
+      },
+      {
+        keywords: ['supervisor', 'supervisão', 'demandas', 'rotina', 'funções'],
+        text: `DEMANDAS DO SUPERVISOR DE UNIDADE:\n
+- Monitorar e apoiar em Matrícula e Desligamentos (metas).
+- Monitorar e apoiar na Busca Ativa dos faltosos e Frequência diária.
+- Realizar a escala de Acompanhamento dos projetos operacionais.
+- Monitorar entrega de Crachá e Uniforme.
+- Providenciar e monitorar o Projeto Higiene (talco, desodorante, etc.).
+- Fazer checklist das salas (organização 5S).
+- Solicitar pedidos de materiais no sistema.
+- Supervisionar rotina da Limpeza e Cozinha.
+- Acompanhar escala dos Oficineiros e execução dos Projetos Operacionais.
+- Cuidar dos eventos da unidade e solicitar reparos.`
+      },
+      {
+        keywords: ['auxiliar', 'administrativo', 'secretaria', 'sandiele'],
+        text: `DEMANDAS DA AUXILIAR ADMINISTRATIVO:\n
+- Lançamento da frequência mensal de todos coletivos no IRSAS.
+- Lançamento do conhecimento ministrado de todos coletivos no IRSAS.
+- Agendamento de matrícula na agenda da assistente social.
+- Processo CMTU (requerimento e malote).
+- Organização dos coletivos no Sistema NOVO.
+- Apoio na Busca Ativa, quando solicitado.`
+      },
+      {
+        keywords: ['matrícula', 'matricular', 'inscrição', 'inscrever', 'vaga', 'agendar', 'cmtu'],
+        text: `ORIENTAÇÕES E FLUXO DA MATRÍCULA:\n
+QUEM AGENDA?
+- A Auxiliar Administrativo (Sandiele), através da Central de Vagas.\n
+QUEM EXECUTA A MATRÍCULA?
+- A Assistente Social. Na ausência, outro membro da equipe técnica.\n
+PROCEDIMENTO PÓS-MATRÍCULA:
+1. A Assistente Social entrega o arquivo físico para a supervisão.
+2. A Supervisão finaliza o processo: insere no envelope, cadastra no sistema GML, providencia camiseta, crachá e kit higiene.
+3. O Requerimento da CMTU é separado para a Auxiliar Administrativo dar continuidade.\n
+INÍCIO DAS ATIVIDADES: Educandos matriculados iniciam sempre na segunda-feira da semana seguinte à matrícula.`
+      },
+      {
+        keywords: ['redes sociais', 'instagram', 'facebook', 'fotos', 'imagens', 'publicação', 'postar', 'divulgar'],
+        text: `FLUXO – PUBLICAÇÃO REDES SOCIAIS:\n
+O QUE DIVULGAR? Atividades, eventos, passeios, reuniões, etc., com participação de educandos, famílias ou colaboradores.\n
+COMO SALVAR? As imagens devem ser salvas no Google Drive em uma pasta padrão (Ex: 01.03.24-GUARAVERA-ENCONTRO.DE.FAMILIAS) e um arquivo WORD com a descrição deve ser preenchido.\n
+RESPONSÁVEIS: O envio para o Drive e o preenchimento do Word são feitos pelas supervisoras pedagógicas ou coordenação. Elas também enviam a pasta por e-mail para o RH e a Coordenação.\n
+PRAZO: A publicação será feita no prazo de 01 semana após o recebimento do material.`
+      },
+      {
+        keywords: ['ping pong', 'pingue-pongue', 'tênis de mesa', 'jogo'],
+        text: `ORIENTAÇÕES E FLUXO DO PING PONG:\n
+HORÁRIOS: O kit fica disponível aos educandos nos horários de Lanche (25 minutos) e na hora do almoço (13h às 13h25).\n
+RESPONSABILIDADE: O colaborador responsável pela chefia do Ping Pong deverá recolher o material no horário determinado.\n
+MAU USO/AVARIA: Se um equipamento for danificado, o educando será encaminhado para a pedagoga para atendimento comportamental.\n
+ALMOÇO: O educador da chefia deve orientar os educandos a irem para o refeitório antes de começar a jogar, pois após 13h20 não se entra mais.`
+      },
+      {
+        keywords: ['pedagoga', 'pedagógico', 'planejamento', 'diários'],
+        text: `DEMANDAS DA PEDAGOGA:\n
+- Atendimento técnico ao educando e seus familiares.
+- Acompanhamento e impressão dos planejamentos dos educadores.
+- Separação de materiais e organização dos Diários dos Coletivos.
+- Mapeamento de salas e estudo de coletivos com os educadores.
+- Lançamento de atividades e eventos no Irsas.
+- Intervenção nos Coletivos, conforme cronograma.
+- Monitorar e providenciar itens dos Armários das Salas e Kit Pedagógico.`
+      },
+      {
+        keywords: ['metas', 'central', 'vagas', 'irsas', 'busca ativa'],
+        text: `ORIENTAÇÃO FLUXO CUMPRIMENTO DAS METAS:\n
+1. EXPORTAÇÃO: A Supervisão/Analista deve exportar a planilha da Central de Vagas do IRSAS toda sexta-feira para o Drive.\n
+2. CONTATO: Devem ser realizados contatos telefônicos diários para pelo menos 5 famílias da Central de Vagas. Após 4 tentativas sem sucesso, o caso é sinalizado em vermelho na planilha.\n
+3. ENCAMINHAMENTO: Os casos sem sucesso são encaminhados para a Assistente Social, que fará a Articulação com a Rede para localizar a família.`
+      },
+      {
+        keywords: ['busca', 'ativa', 'faltosos', 'faltas'],
+        text: `ORIENTAÇÕES E FLUXO DA BUSCA ATIVA (Atualizado fev/2025):\n
+QUANDO? Quando o educando estiver com 2 faltas consecutivas ou mais.\n
+QUEM REALIZA?
+- Unidades Urbanas: Supervisora, educador de apoio ou educadores de janela.
+- Unidades Rurais: Sandiele.\n
+REGISTRO: A busca ativa deve ser registrada apenas na aba "acompanhamento / perfil familiar" do sistema GML.\n
+SEM CONTATO: Após 3 tentativas sem sucesso (dias e horários diferentes), o caso deve ser enviado por e-mail para a assistente social da unidade, que articulará com a rede (CRAS, etc.).`
+      },
+      {
+        keywords: ['comportamental', 'comportamento', 'regras', 'pacto'],
+        text: `ATENDIMENTO COMPORTAMENTAL AO EDUCANDO (Atualizado junho/2025):\n
+O atendimento ao educando ocorre sempre que for identificada a quebra das regras do Pacto de Convivência, seja por encaminhamento dos educadores ou por relato de outros educandos aos técnicos.`
+      },
+      {
+        keywords: ['drogas', 'spa', 'cigarro', 'vape', 'porte', 'fumar', 'pod'],
+        text: `ORIENTAÇÕES FLUXO - IDENTIFICAÇÃO DE PORTE DE DROGAS:\n
+PROCEDIMENTO:
+1. O educando é chamado para atendimento e sensibilizado sobre as regras e leis.
+2. O item (droga, cigarro, vape) é solicitado e a família é acionada.
+3. O educando é dispensado para retornar apenas com a presença do familiar.\n
+ATENDIMENTO À FAMÍLIA:
+- Se for droga ou cigarro comum, o material é descartado na privada, com a família como testemunha.
+- Se for VAPE (cigarro eletrônico), o objeto é devolvido à família.\n
+AVISO LEGAL: O porte desses dispositivos é proibido, considerado ato infracional, e em caso de flagrante, a Polícia Militar e o Conselho Tutelar podem ser acionados.`
+      },
+      {
+        keywords: ['bazar', 'roupas', 'doação', 'blusa', 'esquecida', 'achados', 'perdidos'],
+        text: `ORIENTAÇÕES E FLUXO DO BAZAR E BLUSAS ESQUECIDAS:\n
+BAZAR:
+- ORGANIZAÇÃO: As unidades devem ter uma arara com roupas e sapatos de doação, organizados para que as famílias possam retirar livremente nos dias de encontro.
+- RESPONSÁVEIS: As assistentes sociais organizam o bazar. Na SEDE, a responsabilidade é da secretaria.
+- QUEM PODE PEGAR? Apenas Educandos e Seus Familiares.\n
+BLUSAS ESQUECIDAS:
+- PROCEDIMENTO: Peças esquecidas devem ser entregues à supervisão, que tentará encontrar o dono (fotos em grupo, aviso em sala).
+- PRAZO: Se o dono não aparecer em 15 dias, a peça irá para o BAZAR.
+- ATENÇÃO: Os familiares devem estar cientes desta regra.`
+      },
+      {
+        keywords: ['técnico', 'referência', 'assistente', 'social', 'psicólogo', 'pedagogo'],
+        text: `DEMANDAS DO TÉCNICO DE REFERÊNCIA (Assistente Social, Psicólogo Social ou Pedagogo Social):\n
+- Atendimento social ao educando e familiares em casos de desproteção.
+- Realizar o Encontro com as Famílias bimestralmente.
+- Acompanhar casos prioritários com a rede (Discussão de Caso, Ofícios, Audiências).
+- Realização de matrículas e desligamentos.
+- Entrega de doações às famílias (ex: PAA).
+- Visitas Domiciliares e articulação com outras políticas públicas.
+- Busca Ativa de faltosos quando o contato inicial falha.`
+      },
+      {
+        keywords: ['uniforme', 'camiseta', 'crachá', 'empréstimo', 'custo'],
+        text: `UNIFORME e CRACHÁ (Atualizado março/2025):\n
+CUSTO: Não há cobrança para aquisição de camiseta ou crachá novos, mesmo em caso de perda, dano ou substituição.\n
+REGRAS DE USO DO UNIFORME:
+1. Educando sem uniforme deve ser encaminhado à secretaria para retirar uma camiseta de empréstimo.
+2. Na TERCEIRA vez que pegar emprestado, o educando não participará da atividade em sala, ficando em outra atividade na secretaria, e a família será informada.
+3. A família deve ser informada TODAS AS VEZES que o educando comparecer sem uniforme.
+4. Uniforme avariado (manchado, cortado) deve ser trocado por um novo após atendimento familiar.
+5. É proibido ficar no refeitório ou no pátio sem o uniforme.`
+      },
+      {
+        keywords: ['higiene', 'escova', 'dente', 'dental', 'creme'],
+        text: `PROJETO HIGIENE - ESCOVA DE DENTE:\n
+ARMAZENAMENTO: As escovas são guardadas em carrinhos de PVC com gaveteiros, separados por período e gênero.\n
+REGRAS:
+- Não é permitido o empréstimo de escova de dente. A entrega é efetiva, com troca a cada 4 meses.
+- Toda primeira semana do mês, o educador dedica um tempo para a limpeza dos cases das escovas e do gaveteiro.
+- Os cases devem ser etiquetados com o nome do educando.
+- O creme dental é passado nas escovas pelo colaborador da chefia.
+- Não é permitido levar a escova para casa.`
+      }
     ];
 
     function sendMessage() {
@@ -211,11 +378,9 @@
       container.scrollTop = container.scrollHeight;
     }
     
-    // Lista de palavras comuns para ignorar
-    const stopWords = new Set(['a', 'o', 'e', 'é', 'de', 'do', 'da', 'em', 'um', 'uma', 'com', 'como', 'para', 'por', 'que', 'qual', 'os', 'as', 'são', 'ser', 'posso', 'pode', 'devo', 'fazer', 'usar', 'sobre']);
+    const stopWords = new Set(['a', 'o', 'e', 'é', 'de', 'do', 'da', 'em', 'um', 'uma', 'com', 'como', 'para', 'por', 'que', 'qual', 'os', 'as', 'são', 'ser', 'posso', 'pode', 'devo', 'fazer', 'usar', 'sobre', 'gostaria', 'saber', 'funciona', 'quais']);
 
     function getBestMatch(query) {
-      // Limpa a pergunta do usuário, mantendo apenas as palavras relevantes
       const queryWords = query.toLowerCase()
                               .split(/[\s,.;:!?]+/)
                               .filter(word => word && !stopWords.has(word));
@@ -224,19 +389,19 @@
         return "Por favor, faça uma pergunta mais específica.";
       }
 
-      let bestMatch = { score: 0, text: "Desculpe, não encontrei uma resposta exata. Tente usar palavras-chave como 'uniforme', 'celular' ou 'atraso'." };
+      let bestMatch = { score: 0, text: "Desculpe, não encontrei uma resposta exata. Tente usar palavras-chave diferentes ou reformular sua pergunta." };
 
-      // Itera sobre a base de conhecimento
       for (const item of knowledgeBase) {
         let currentScore = 0;
-        // Verifica se alguma palavra da pergunta corresponde às palavras-chave do item
+        const matchedKeywords = new Set();
+
         for (const queryWord of queryWords) {
-          if (item.keywords.includes(queryWord)) {
+          if (item.keywords.includes(queryWord) && !matchedKeywords.has(queryWord)) {
             currentScore++;
+            matchedKeywords.add(queryWord);
           }
         }
 
-        // Se a pontuação deste item for a maior até agora, ele se torna a melhor resposta
         if (currentScore > bestMatch.score) {
           bestMatch = { score: currentScore, text: item.text };
         }
@@ -245,7 +410,6 @@
       return bestMatch.text;
     }
 
-    // Listener para a tecla "Enter"
     document.getElementById("user-input").addEventListener("keypress", function(e) {
       if (e.key === "Enter") {
         sendMessage();
@@ -253,4 +417,4 @@
     });
   </script>
 </body>
-</html>
+</html>```
