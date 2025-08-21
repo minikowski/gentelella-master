@@ -1,222 +1,228 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acesso Negado - Sistema Unificado</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-
-        :root {
-            --primary-color: #e0e0e0;
-            --secondary-color: #a9a9b1;
-            --background-start: #0f0c29;
-            --background-mid: #302b63;
-            --background-end: #24243e;
-            --accent-color-1: #ff4757;
-            --accent-color-2: #37a2ff;
-            --shadow-color: rgba(0, 0, 0, 0.6);
-            --glass-background: rgba(26, 26, 38, 0.45);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(45deg, var(--background-start), var(--background-mid), var(--background-end));
-            background-size: 400% 400%;
-            color: var(--primary-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
-            animation: gradientBG 15s ease infinite;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Animação de partículas no fundo */
-        .background-shapes {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .shape {
-            position: absolute;
-            list-style: none;
-            display: block;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: animateParticles 20s linear infinite;
-            bottom: -150px;
-        }
-
-        .shape:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
-        .shape:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
-        .shape:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
-        .shape:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
-        .shape:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
-        .shape:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
-        .shape:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
-        .shape:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
-        .shape:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
-        .shape:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
-
-        @keyframes animateParticles {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
-        }
-
-        .container {
-            background: var(--glass-background);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 50px 60px;
-            border-radius: 20px;
-            text-align: center;
-            width: 90%;
-            max-width: 650px;
-            box-shadow: 0 15px 35px var(--shadow-color);
-            z-index: 2;
-            animation: fadeInScale 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Borda animada */
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 20px;
-            padding: 1px;
-            background: linear-gradient(135deg, var(--accent-color-1), var(--accent-color-2));
-            -webkit-mask: 
-                linear-gradient(#fff 0 0) content-box, 
-                linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            animation: rotateBorder 5s linear infinite;
-        }
-
-        @keyframes rotateBorder {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        .icon-warning {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 15px auto;
-            color: var(--accent-color-1);
-        }
-
-        .logo {
-            width: 110px;
-            height: auto;
-            margin-bottom: 25px;
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            line-height: 1.4;
-            color: var(--primary-color);
-            text-shadow: 0 0 10px rgba(255,255,255,0.2);
-        }
-
-        p.main-message {
-            color: var(--secondary-color);
-            font-size: 18px;
-            font-weight: 300;
-            margin-bottom: 35px;
-            max-width: 450px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .support-info {
-            font-size: 15px;
-            color: var(--secondary-color);
-            font-weight: 400;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 25px;
-            margin-top: 25px;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 40px 30px;
-            }
-
-            h1 {
-                font-size: 22px;
-            }
-
-            .logo {
-                width: 90px;
-            }
-            
-            p.main-message {
-                font-size: 16px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download de Arquivos por Filtros</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-xl">
+    <h1 class="text-2xl font-bold text-center mb-6">Frequência - Baixar CSV para o IRSAS</h1>
+<p class="text-center text-sm text-red-600 mb-6">Em fase de testes. Não utilizar até validação.</p>
 
-    <ul class="background-shapes">
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-        <li class="shape"></li>
-    </ul>
 
-    <div class="container">
-        <!-- Ícone de Aviso em SVG -->
-        <svg class="icon-warning" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
-        </svg>
-
-        <img src="unificado2.jpg" alt="Logo do Sistema Unificado" class="logo">
-        
-        <h1>Acesso Negado</h1>
-        
-        <p class="main-message">Desculpe, a sua instituição não está cadastrada no Sistema Unificado.</p>
-        
-        <div class="support-info">
-            <p>Em caso de dúvidas, entre em contato com a sua coordenação.</p>
-        </div>
+    <!-- COLÉGIO -->
+    <div class="mb-4">
+      <label class="block font-semibold mb-1" for="colegio">Colégio:</label>
+      <select id="colegio" class="w-full p-2 border rounded-xl">
+        <option value="">Selecione um colégio</option>
+        <option value="vista_bela">Vista Bela</option>
+        <option value="roseli_piotto">Roseli Piotto</option>
+        <option value="thiago_terra">Thiago Terra</option>
+      </select>
     </div>
 
+    <!-- FREQUÊNCIA -->
+    <div class="mb-4">
+      <label class="block font-semibold mb-1" for="frequencia">Frequência:</label>
+      <select id="frequencia" class="w-full p-2 border rounded-xl">
+        <option value="">Selecione a frequência</option>
+        <option value="sup70">Sup. 70%</option>
+        <option value="inf70">Inf. 70%</option>
+        <option value="inf30">Inf. 30%</option>
+        <option value="inf70_just">Inf. 70% c/Just.</option>
+        <option value="inf30_just">Inf. 30% c/Just.</option>
+        <option value="sem_freq">Sem Freq.</option>
+        <option value="todos_freq">Todos Frequentes</option>
+      </select>
+    </div>
+
+    <!-- MÊS -->
+    <div class="mb-6">
+      <label class="block font-semibold mb-1" for="mes">Mês:</label>
+      <select id="mes" class="w-full p-2 border rounded-xl">
+        <option value="">Selecione o mês</option>
+        <option value="abril">Abril</option>
+        <option value="maio">Maio</option>
+        <option value="junho">Junho</option>
+        <option value="julho">Julho</option>
+      </select>
+    </div>
+
+    <!-- BOTÃO DE DOWNLOAD -->
+    <button 
+      onclick="baixarArquivo()" 
+      class="bg-blue-600 text-white font-semibold px-6 py-2 rounded-xl hover:bg-blue-700 w-full"
+    >
+      Baixar Arquivo
+    </button>
+    
+    <!-- MENSAGEM -->
+    <p id="mensagem" class="text-center text-red-600 mt-4 font-semibold hidden"></p>
+  </div>
+
+  <script>
+    function baixarArquivo() {
+      const colegio = document.getElementById("colegio").value;
+      const frequencia = document.getElementById("frequencia").value;
+      const mes = document.getElementById("mes").value;
+      const mensagem = document.getElementById("mensagem");
+
+      if (!colegio || !frequencia || !mes) {
+        mensagem.textContent = "Por favor, selecione todas as opções.";
+        mensagem.classList.remove("hidden");
+        return;
+      }
+
+      mensagem.classList.add("hidden");
+
+      const links = {
+        vista_bela: {
+          sup70: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=0&single=true&output=csv",
+            maio: "LINK_VISTA_SUP70_MAIO", // COLE AQUI O LINK CORRESPONDENTE
+            junho: "LINK_VISTA_SUP70_JUNHO", // COLE AQUI O LINK CORRESPONDENTE
+            julho: "LINK_VISTA_SUP70_JULHO", // COLE AQUI O LINK CORRESPONDENTE
+          },
+          inf70: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1605156569&single=true&output=csv",
+            maio: "LINK_VISTA_INF70_MAIO",
+            junho: "LINK_VISTA_INF70_JUNHO",
+            julho: "LINK_VISTA_INF70_JULHO",
+          },
+          inf30: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1355830230&single=true&output=csv",
+            maio: "LINK_VISTA_INF30_MAIO",
+            junho: "LINK_VISTA_INF30_JUNHO",
+            julho: "LINK_VISTA_INF30_JULHO",
+          },
+          inf70_just: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1904133753&single=true&output=csv",
+            maio: "LINK_VISTA_INF70JUST_MAIO",
+            junho: "LINK_VISTA_INF70JUST_JUNHO",
+            julho: "LINK_VISTA_INF70JUST_JULHO",
+          },
+          inf30_just: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=506309245&single=true&output=csv",
+            maio: "LINK_VISTA_INF30JUST_MAIO",
+            junho: "LINK_VISTA_INF30JUST_JUNHO",
+            julho: "LINK_VISTA_INF30JUST_JULHO",
+          },
+          sem_freq: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=800808456&single=true&output=csv",
+            maio: "LINK_VISTA_SEMFREQ_MAIO",
+            junho: "LINK_VISTA_SEMFREQ_JUNHO",
+            julho: "LINK_VISTA_SEMFREQ_JULHO",
+          },
+          todos_freq: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=416792976&single=true&output=csv",
+            maio: "LINK_VISTA_TODOSFREQ_MAIO",
+            junho: "LINK_VISTA_TODOSFREQ_JUNHO",
+            julho: "LINK_VISTA_TODOSFREQ_JULHO",
+          },
+        },
+
+        roseli_piotto: {
+          sup70: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1336783174&single=true&output=csv",
+            maio: "LINK_ROSELI_SUP70_MAIO",
+            junho: "LINK_ROSELI_SUP70_JUNHO",
+            julho: "LINK_ROSELI_SUP70_JULHO",
+          },
+          inf70: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1573031030&single=true&output=csv",
+            maio: "LINK_ROSELI_INF70_MAIO",
+            junho: "LINK_ROSELI_INF70_JUNHO",
+            julho: "LINK_ROSELI_INF70_JULHO",
+          },
+          inf30: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1902325096&single=true&output=csv",
+            maio: "LINK_ROSELI_INF30_MAIO",
+            junho: "LINK_ROSELI_INF30_JUNHO",
+            julho: "LINK_ROSELI_INF30_JULHO",
+          },
+          inf70_just: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1412065868&single=true&output=csv",
+            maio: "LINK_ROSELI_INF70JUST_MAIO",
+            junho: "LINK_ROSELI_INF70JUST_JUNHO",
+            julho: "LINK_ROSELI_INF70JUST_JULHO",
+          },
+          inf30_just: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1678255044&single=true&output=csv",
+            maio: "LINK_ROSELI_INF30JUST_MAIO",
+            junho: "LINK_ROSELI_INF30JUST_JUNHO",
+            julho: "LINK_ROSELI_INF30JUST_JULHO",
+          },
+          sem_freq: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1413450225&single=true&output=csv",
+            maio: "LINK_ROSELI_SEMFREQ_MAIO",
+            junho: "LINK_ROSELI_SEMFREQ_JUNHO",
+            julho: "LINK_ROSELI_SEMFREQ_JULHO",
+          },
+          todos_freq: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=463001542&single=true&output=csv",
+            maio: "LINK_ROSELI_TODOSFREQ_MAIO",
+            junho: "LINK_ROSELI_TODOSFREQ_JUNHO",
+            julho: "LINK_ROSELI_TODOSFREQ_JULHO",
+          },
+        },
+
+        thiago_terra: {
+          sup70: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=2124529553&single=true&output=csv",
+            maio: "LINK_THIAGO_SUP70_MAIO",
+            junho: "LINK_THIAGO_SUP70_JUNHO",
+            julho: "LINK_THIAGO_SUP70_JULHO",
+          },
+          inf70: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1228540006&single=true&output=csv",
+            maio: "LINK_THIAGO_INF70_MAIO",
+            junho: "LINK_THIAGO_INF70_JUNHO",
+            julho: "LINK_THIAGO_INF70_JULHO",
+          },
+          inf30: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1910059112&single=true&output=csv",
+            maio: "LINK_THIAGO_INF30_MAIO",
+            junho: "LINK_THIAGO_INF30_JUNHO",
+            julho: "LINK_THIAGO_INF30_JULHO",
+          },
+          inf70_just: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1500745230&single=true&output=csv",
+            maio: "LINK_THIAGO_INF70JUST_MAIO",
+            junho: "LINK_THIAGO_INF70JUST_JUNHO",
+            julho: "LINK_THIAGO_INF70JUST_JULHO",
+          },
+          inf30_just: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1932416335&single=true&output=csv",
+            maio: "LINK_THIAGO_INF30JUST_MAIO",
+            junho: "LINK_THIAGO_INF30JUST_JUNHO",
+            julho: "LINK_THIAGO_INF30JUST_JULHO",
+          },
+          sem_freq: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=96719374&single=true&output=csv",
+            maio: "LINK_THIAGO_SEMFREQ_MAIO",
+            junho: "LINK_THIAGO_SEMFREQ_JUNHO",
+            julho: "LINK_THIAGO_SEMFREQ_JULHO",
+          },
+          todos_freq: {
+            abril: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROYVcTCaYcHkg-QnRjtzK-KpCnBThdCVN2gCGuZE2wdz3y3oH9rZPOhy9-MUwdfPrag5HIUyOMrjb7/pub?gid=1664187556&single=true&output=csv",
+            maio: "LINK_THIAGO_TODOSFREQ_MAIO",
+            junho: "LINK_THIAGO_TODOSFREQ_JUNHO",
+            julho: "LINK_THIAGO_TODOSFREQ_JULHO",
+          },
+        },
+      };
+
+      const link = links[colegio]?.[frequencia]?.[mes];
+
+      if (link) {
+        window.location.href = link;
+      } else {
+        mensagem.textContent = "Arquivo não encontrado para essa combinação.";
+        mensagem.classList.remove("hidden");
+      }
+    }
+  </script>
 </body>
 </html>
