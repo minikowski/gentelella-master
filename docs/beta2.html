@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema Unificado</title>
+  <title>Sistema Unificado Otimizado com Palavras-Chave</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -28,7 +28,8 @@
       margin: 10px 0;
       padding: 10px;
       border-radius: 8px;
-      max-width: 70%;
+      max-width: 80%;
+      line-height: 1.5;
     }
     .user-message {
       background: #007bff;
@@ -39,6 +40,7 @@
       background: #e9ecef;
       color: black;
       margin-right: auto;
+      white-space: pre-wrap;
     }
     #input-container {
       display: flex;
@@ -71,223 +73,120 @@
     <h2>Sistema Unificado</h2>
   </header>
 
-  <div id="chat-container"></div>
+  <div id="chat-container">
+    <div class="message bot-message">Olá! Faça uma pergunta sobre o Pacto de Convivência.</div>
+  </div>
 
   <div id="input-container">
-    <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+    <input type="text" id="user-input" placeholder="Ex: Pode usar boné?">
     <button onclick="sendMessage()">Enviar</button>
   </div>
 
   <footer>
-    Desenvolvido por Victor Luis Minikowski
+    Desenvolvido por Victor Luis Minikowski (Otimizado por IA)
   </footer>
 
   <script>
-    let baseText = `
-Constituirão os DIREITOS DOS EDUCANDOS (AS):
-
-Solicitar orientação a qualquer colaborador da entidade e propor atividades colaborativas com educadores, colegas e comunidade.
-Utilizar os espaços institucionais de aprendizado e convivência social (sala de atividades, laboratório de inclusão digital, sala de leitura, laboratório de panificação, quadra, pátio e refeitório) prezando pela organização e reserva previamente destes espaços.
-Consumir livremente o lanche e almoço oferecido de acordo com o cardápio nutricional da entidade respeitando os horários vigentes.
-Utilizar o celular antes de adentrar nas salas de atividades, com exceção no momento do almoço/refeitório.
-
-DE ACORDO , POREM A DUVIDA SOBRE O CONSUMO LIVRE DO LANCHE 
-
-Acessar os ambientes da entidade respeitando os limitadores (correntes/faixas), fazer um tour com o coletivo/turma, com prévia autorização e em determinados locais fazer uso de equipamentos de segurança.
-Receber duas camisetas gratuitamente, uma única vez, e caso necessite devido avarias ou manchas, poderá receber outra, mediante avaliação da equipe técnica.
-
-Ressalva 1: É permitido a utilização de qualquer tipo de calçado aos educandos(as) do SCFV, exceto salto acima de 3cm e exceto chinelo\descalços nas atividades esportivas, onde os educandos precisam estar com calçado fechado, visando a prevenção de acidentes envolvendo os pés, dedos e tornozelo.
- ESTA NO PACTO POREM NÃO É CUMPRIDO NA OFICNA EM EXECUÇÃO DE FUTSAL POREM NAS ATIVIDADES DE ESPORTE NÃO TEM ESSA MESMA.
-
-Ressalva 2: Em relação à vestimenta, é permitido  todos(as) os(as) educandos(as) qualquer tipo de peça debaixo (calça/bermuda/saia/vestido), exceto as que ficam mais que 7 cm acima do joelho e transparentes. As calças jeans estilo ou com marcação destroyed são permitidas, porém as calças destroyed abertas nas regiões da virilha, coxas e bumbum não serão permitidas, prezando em não expor as partes físicas íntimas das crianças e adolescentes. Exemplos de peças permitidas: calças de moletom, de tactel, jeans e leggings de qualquer tonalidade. 
-AS CRIANÇAS DO MOD 1 SEMPRE VÊM COM SHORTINHOS CURTOS, QUAL PROJETO PARA AS CRIANÇAS QUE APRESENTAM ESSA DEMANDA 
-Obter permissão de atraso e saídas antecipadas, obrigatoriamente a partir do contato telefônico com o responsável e registro nos protocolos internos de acompanhamento dos educandos.
-
-Ressalva: As autorizações de entrada e saída serão emitidas pela supervisão da unidade e o educando deverá entregá-la ao seu educador e assinar o Registro de Orientação Comportamental e Social(somente o protocolo de entrada)
-
-Ser acompanhado e orientado individualmente pelo educador e equipe técnica por meio do processo de registro de Orientação Comportamental e Social a partir do descumprimento do Pacto de Convivência Social, visando a reflexão do erro para que o educando seja assertivo em suas próximas ações.
-
-DE ACORDO
-
- Ser comunicado com antecedência de atividades internas ou externas que demandem autorizações dos responsáveis legais por meio de bilhetes ou contato telefônico (ligação, sms ou whatsapp). Cabe aos educandos entregar os bilhetes aos responsáveis para ciência e assinatura, exceto aos aprendizes maiores de 18 anos. 
- Justificar as ausências com a supervisão da unidade, apresentando os devidos atestados médicos, odontológicos, autoescola, reservista e escola/cursos e/ou declarações que comprovem e justifiquem a ausência do(a) educando(a) nas atividades da entidade, previstas e registradas em calendário anual. 
-Ressalva: A entidade apenas considera abono de falta os atestados médicos e odontológicos (somente extração), entregues no prazo de 72 horas, as demais justificativas serão analisadas pela equipe técnica pautadas nas legislações vigentes e nas Convenções Coletivas do Trabalho.
- Fazer uso de medicação prescrita por médico em horário necessário desde que apresentado o receituário original e informado à secretaria pelos responsáveis legais do educando via telefone ou presencialmente.
-
-Ressalva: A entidade não pode medicar e/ou fornecer o medicamento aos educandos.
-
- Ausentar-se de ambiente de atividades quando for estritamente necessário, sempre fazendo uso da placa de identificação banheiro/água ou secretária, não permanecendo ausente além do tempo necessário, a partir de 20 minutos de cada entrada e até 15 minutos que antecede o horário.
-
-DE ACORDO, 
-
-
-Ressalva: Educandos com problemas de incontinência urinária e afins serão autorizados mediante a documentação médica.
-
- Caso apresente algum problema de saúde, notificar o educador presente em seu coletivo e em seguida dirigir-se à secretaria para que seja feito o contato com seu responsável.
-
- Utilizar dos recursos áudio visuais no desenvolvimento das atividades, preservando os equipamentos e os manuseando com cautela e responsabilidade.
-
-Ressalva 1: durante os intervalos a música poderá ser socializada à todos os educandos da entidade no pátio com uma playlist do cardápio musical e/ou outra seleção aprovada pela coordenação, previamente, que não estejam associadas a apologia a criminalidade, que não incitem a violência, a reprodução do machismo, a propagação de estereótipos, a deturpação da figura da mulher e os preconceitos de gêneros e etnias, independente do idioma. 
-
-Ressalva 2: a entidade preza para que os ritmos rap e funk não sejam utilizados visando a realidade social presente no cotidiano de grande parte de nossos educandos, possibilitando novas oportunidades que contemplem a diversidade musical, porém a batida desses ritmos podem ser utilizadas na construção de paródias durante as atividades dos educadores.
-DE ACORDO, APRESENTAR  E TRABALHAR SIM ALGUNS RITMOS MUSICAIS PARA OS EDUCANDOS TRABALHAR A MUSICA E RITIMOS. USAR OS RITIMOS SEM AS LETRAS EM ATIVIDADES DIVERSAS.
-
-
-
-Ressalva 3:  utilizar somente música instrumental durante as atividades em sala.
-
-
-2.	Constituirão DEVERES DOS EDUCANDOS:
-
-2.1 Utilizar os projetos socioeducacionais (alimentação, higiene, autogestão e jogos) e dependências da entidade, de acordo com as normas vigentes.
-DE ACORDO 
-
-2.2 Atender às orientações dos diversos setores (quaisquer educadores e colaboradores) da entidade independente do seu cargo. 
-
-2.3 Dirigir-se aos colegas, educadores e demais com respeito e educação, utilizando-se de vocabulário adequado de acordo com a ocasião, uma linguagem padrão, coloquial, sem gírias e vulgar, aquela que respeite e, sendo assim, não ofenda o outro. 
-
-2.4 É de total responsabilidade dos educandos, com ciência de sua família, cuidar de seus pertences, não cabendo a entidade a responsabilidade de reembolso em caso de roubo ou furto dos mesmos. No início das atividades diárias será disponibilizado guarda volume para o armazenamento dos pertences pela equipe da autogestão do dia, na presença do educador. O educador irá armazenar o celular, fone de ouvido, carteira e cartão de vale transporte no case porta celular. A posse da chave é de responsabilidade do educador, que em hipótese alguma deverá entregar ao educando para adentrar ao ambiente de aprendizado ou usar da chave sem a sua presença, evitando assim possíveis constrangimentos de roubo e/ou furto.
-DE ACORDO, POREM TEM EDUCANDOS QUE AO FAZER O ARMAZENAMENTO DOS PERTENCES ACABAM DERRUBANDO, O CELULAR DO OUTRO NO CHAO QUEM É O RESPONSAVEL POR ESSE MOMENTO, TEM RESISTENCIA EM GUARDAR O CARTÃO VT NA CAIXA, É ORIENTADO GUARDAR PORÉM É ORIENTADO QUE A RESPONSABILIDADE É DO MESMO.
-
-
-Ressalva: A entidade NÃO pode pegar o celular para carregar, bem como emprestar o carregador para uso, contudo permitimos que o educando utilize o tempo do almoço para realizar o carregamento nas tomadas do pátio, consequentemente a responsabilidade, o cuidado e o monitoramento do celular é do educando. Em caso de urgência a entidade se disponibiliza em realizar o contato familiar.
-
-Comparecer pontualmente e assiduamente às atividades propostas pela entidade com empenho, dedicação, apresentando produtividade, resultado e respeitando os horários estabelecidos para cada período e unidades de acordo com a realidade vivenciada e ações estabelecidas no cronograma institucional.
-
-Ressalva 4: O Projeto Alimentação e o Sorriso Mirim, tem cronograma vigente do serviço específico e período de realização. Sendo assim, chegar à instituição após o horário estabelecido para realizar o pedido de lanche ou após o horário de disponibilidade do almoço no refeitório, poderá culminar na não realização da alimentação daquele momento, sendo avaliado pelas supervisões de unidade as questões que levaram o atraso do educando em questão.
-DE ACORDO, 
-Para saída antecipada da entidade, o educando deverá solicitar autorização prévia para a supervisão, mediante a autorização dos responsáveis via contato telefônico.
-Apresentar-se adequadamente uniformizado com camiseta da Guarda Mirim. 
-Ressalva: Educandos que comparecerem sem uniforme na instituição serão encaminhados pelo Educador para a Secretaria para que seja feito o empréstimo. Educador fará o registro no cadastro do educando dentro do sistema dessa quebra de fluxo.
-
-DE ACORDO, POREM NÃO TINHAM A INFORMAÇÃO DA NECESIDADES DE REGISTRAR 
-
-
-
-
-Participar das atividades e cooperar com a autogestão, organização, higiene e conservação do ambiente de aprendizado e convívio social, arrumando cadeiras, mesas, materiais didáticos antes de sair. Inclusive zelando pela limpeza e organização dos banheiros, não jogando papéis no chão ou no vaso sanitário e dando descarga após uso.
-
-DE ACORDO 
-
-
-Ressalva: Serão submetidos às orientações e encaminhamentos os educandos que danificarem e/ou extraviar o patrimônio da entidade, tendo que indenizar o prejuízo através da reposição em âmbito individual ou coletivo.
-
-ORIENTAÇÃO SOBRE A COBRANÇA ?
-
-Preservar o patrimônio ambiental e físico, zelando pelas floreiras e espaços verdes de todas as unidades da Guarda Mirim de Londrina.
-
- Ao utilizar o espaço de atividades esportivas, de sala, de acolhida, deve-se prezar pela organização do mesmo: utilizou – guardou, não chutando bolas que não sejam da modalidade específica e obrigatoriamente portar a placa de identificação banheiro/água, um educando por vez, prezando que zele pela limpeza, pelo uso consciente dos materiais didáticos, equipamentos, instrumentos musicais e recursos disponibilizados.
-
-DE ACORDO
-2.11 Ao utilizar os climatizadores, seguir o procedimento orientativo do uso correto do mesmo e obrigatoriamente com janelas e portas abertas.
-
-2.12 Na realização da autogestão, pela equipe do dia, referente à contagem do lanche diário, deve-se solicitar exclusivamente 1 lanche para cada educando de acordo com a orientação nutricional sem repetição. Inclusive atentar-se aos horários de entrega da solicitação para operacionalização da cozinha, considerando as especificidades de horário das unidades. A solicitação deve estar identificada com o nome da turma ou coletivo, quantidade de lanches e bebidas. O tempo do lanche é de até 15 minutos para comer e 15 minutos para a realização da autogestão referente à limpeza da sala de atividade.
-DE ACORDO, EXISTE MOMENTOS QUE O PÃO CHEGA EM ATRASOS NA UNIDADE, E TAMBEM O ATRASO NA ENTREGA DO PAPEL DO LANCHE TEM SIDO RECORRENTE, EM DIAS DE OFERTA DE SALGADO, O ATRASO É RECORRENTE DEVIDO UNIDADE TER APENAS 1 MICROONDAS PARA ESQUENTAR E O TEMPO CURTO. 
-
-
-2.13 Evitar desperdício de alimentos nas refeições, servindo-se do suficiente para satisfazer-se nutricionalmente.
-
-DE ACORDO, POREM MOD 1 ACABA SE ALIMENTANDO PRIMEIRO DASOBREMESA E ACABA NÃO COMENDO A REFEIÇÃO, CABE A ORIENTAÇÃO DO EDUCADOR QUANDO A ISSO?
-
-2.15 Utilizar o crachá de identificação diariamente de modo visível no pescoço. Seu uso traz segurança para o próprio educando, pois possibilita que a Guarda Mirim evite que pessoas não autorizadas e que tenham má intenção pratiquem atos contra os educandos ou contra a própria entidade.	.
-
-Ressalva: O crachá de identificação deverá ser devolvido, obrigatoriamente, no encerramento dos vínculos com a entidade.
-
-
-
-
-
-Constituirão PROIBIÇÕES AOS EDUCANDOS:
-
-Entrar ou retirar-se da entidade em horário de atividades e ambientes de aprendizado sem autorização, de um educador ou colaborador com autorização do responsável.
-
-DE ACORDO 
-
-Retirar-se da sala de atividades ou outras dependências institucionais sem fazer o uso  das placas de secretaria ou banheiro, o educando deve estar portando a placa de identificação. É permitido a liberação de um educando por vez, por placa.
-
-
-DE ACORDO 
-
-Estar acompanhado de pessoas não autorizadas nas dependências da entidade. 
-Deslocar-se no trajeto casa à entidade e vice-versa utilizando bicicleta, skate, roller/patins ou motocicleta, devido a entidade não possuir ambiente para guardar com segurança.
-
-Ressalva 1: Somente podem utilizar a bicicleta como meio de transporte os educandos do SCFV das unidades rurais, mediante assinatura do termo de autorização pelo seu responsável legal; 
-Ressalva 3: Entidade não dispõe de bicicletário ou espaço de armazenamento dos meios de transporte não permitidos, resultando nos espaços externos para uso. É de total responsabilidade dos educandos com ciência de sua família cuidar de seus pertences, não cabendo a entidade a responsabilidade de reembolso em caso de roubo, furto dos mesmos.
-
-Impedir a entrada de colegas ou incitá-los a ausências coletivas.
-Comparecer à entidade fora do seu período de permanência de atividades, sem validação da equipe técnica.
-Permanecer fora do ambiente de aprendizado(seja da sala ou qualquer outro espaço onde o educador está orientando atividade) após o horário de entrada e intervalo.
-Permanecer em outros ambientes de atividades sem a permissão do educador social.
-Jogar comida fora, considerando que somente o descarte autorizado é de ossos, cebola, gordura e cascas de frutas. Consideramos que a repetição é permitida, devendo o educando se posicionar atrás do quarto integrante da fila, a fim de prezamos pelo não desperdício dos alimentos. Não é permitido sair do refeitório com qualquer tipo de alimento ofertado pela entidade.
-
-TEM MUITOS EDUANDOS QUE DESPERDIÇA A SOBREMESA DEVIDO NÃO CONHECER E NÃO SABER O SABOR, COMO PORECEDER NESSE CASO. PARA QUE ELES TEM A VONTADE, ESTA SENDO FEITO A SEGUINTE FORMA ELES EXPERIMENTA COM UMA COLHER.
-
- Uso de qualquer vestimenta e adereço complementar ao uniforme: boné, gorro, óculos de sol, turbante, lenços, coletes, blusas, camisa, camiseta, bermudas, shorts, saias e minissaias e vestidos curtos, transparências, calção de jogar futebol, calças estilo ou com marcação Destroyed que exponha partes do corpo (pele).
-
-Ressalva 1: Não é permitido customizar o uniforme (cortar, desfiar, entre outras formas de uso). Consideramos bermudas/saias/vestidos permitidos até 7 cm da altura dos joelhos. Roupas que não estão discriminadas serão avaliadas individualmente.
-
-Ressalva 2: Não é permitido o uso camisas de manga curta e colete sobre o uniforme, porém jaquetas, moletom, tactel, camisas de manga longa e outras blusas de frio, poderão ser utilizadas sobre a camiseta da Guarda Mirim abertas ou fechadas.
-
-Ressalva 3: Turbantes e lenços, em casos específicos, serão analisados pela equipe técnica junto à família.
-
-Ressalva 4: Barras desfiadas ou descosturadas na dobra da barra serão permitidas, pois entendemos que temos educandos que vestem um número específico e a barra fica curta e um número maior ficaria desproporcional ao corpo do educando.
-
-Ressalva 5: Toucas e capuz serão permitidos, exclusivamente, no período de outono e inverno, nos espaços externos das salas de atividades, ou seja, somente no pátio devido às condições climáticas de chuva, vento e frio.
-
-ACHAM NECESSARIO LIBERAÇÃO DA TOUCA DEVIDO O FRIO NA UNIDADE
-
- Uso de calçados de salto superior a 3 cm.
- Deixar de utilizar o uniforme dentro dos espaços de atividades e refeitório.
-
-Ressalva 1: É autorizado retirar o uniforme (somente nos banheiros da entidade, após o horário de saída com exceção dos aprendizes depois do registro biométrico) durante a atividade da prática esportiva de futebol com a utilização do colete ou camiseta esportiva disponibilizado para a atividade. 
-
-Priorizamos que os educandos  respeitem a ordem na fila do refeitório, bem como, não reservem lugares e que não utilize acessórios como boné, fone de ouvido e celular, prezando pela harmonia do espaço, controlando o tom de voz e respeitando o momento da refeição.
-
-DE ACORDO.
-
-Tratar colegas e colaboradores por apelidos, gírias, palavrões, alterar o tom de voz e realizar brincadeiras inadequadas.
-
-
-DE ACORDO
-
- Ofender ou agredir fisicamente, verbalmente ou moralmente os colegas, responsáveis legais dos educandos, comunidade, colaboradores e educadores sociais em atividades internas e externas.
-
-Ressalva 1: Em ações que resultem em agressões físicas os educandos envolvidos serão orientados, bem como a família,  sobre a atividades pendentes de atendimento familiar, mediante os procedimentos institucionais e jurídicos cabíveis, pois a entidade repudia quaisquer tipos de violência.
-
-DE ACORDO
-
- Ocupar-se durante atividades de aprendizado e convívio social com atividades escolares e ou alheias a proposta socioassistencial do Serviço, exceto em casos autorizados e avaliados pela equipe técnica.
- 
-3.16 Trazer e/ou consumir qualquer tipo de alimento (sólido ou líquido) inclusive balas, chicletes, pirulitos e outros, exceto água.
-
-Ressalva 1: Aos educandos que possuem uma dieta especial (intolerância a glúten e a lactose), diabetes, religiosa e a processos alérgicos à temperos e ingredientes, deverá avisar no processo de matrícula e/ou apresentar um comunicado por escrito de seu responsável ou orientação médica. Não autorizamos que o educando traga alimentos para a entidade, a fim de evitar problemas de intoxicação e processos alérgicos.
-
-Ressalva 2: Consideramos que a entidade contempla as questões de redução de sal e gordura, qualificando nossa alimentação com proteína vegetal (feijão e outros tipos de proteína quando há doação), carboidrato (arroz ou macarrão), legumes refogados, proteína animal (carne de boi, frango ou porco), saladas e sobremesas seguindo as orientações nutricionais prevista em legislações em vigor.
-
-Ressalva 3: Os educandos que deixarem ou jogarem papéis de bala no ambiente, chicletes colados nas superfícies e espaços físicos serão orientados devido à depredação ao patrimônio. O consumo de pirulitos pode ocasionar acidentes, bem como perfurar a boca e outros problemas que já aconteceram na entidade por meio desses alimentos. 
-
- Trazer e/ou consumir e/ou ter ingerido bebidas alcoólicas, substâncias psicoativas tóxicas lícitas e ilícitas; utilizar rádios e equipamentos eletrônicos (cigarro, narguille, dentre outros), portar armas brancas (facas, tesouras, choque, soco inglês, dentre outros) ou de fogo, bem como simulacros, materiais inflamáveis, fogos de artifício ou qualquer objeto estranho a proposta institucional em atividades internas e externas.
-Ressalva: Caso essas regras não sejam cumpridas o educando identificado será orientado, bem como a família, sobre atividades pendentes de atendimento familiar, mediante os procedimentos institucionais e jurídicos cabíveis. Sendo que o equipamento e material será recolhido e somente devolvido ao responsável quando o educando for de idade inferior à 18 anos e aos educandos maiores de idade ou emancipados serão devolvidos mediante assinatura do termo de compromisso junto à equipe técnica e comunicação familiar ou até mesmo acionamento dos órgãos competentes para os devidos procedimentos legais.
-
-DE ACORDO 
-
-
- Namorar ou expressar carícias nas dependências da entidade e atividades externas.
-Ressalva: A entidade respeita o namoro, porém não pactuamos com abraço, beijos, carícias e sentar no colo entre os namorados(as) e colegas.
-
-DE ACORDO 
-
-
- Apoiar os pés nas cadeiras, mesas, bancos, paredes e portas, inclusive rabiscar, pixar e dentre outras ações relacionadas.
- Colar cartazes diretamente em janelas, paredes, grades de ferro das portas visando conservar a pintura e layout institucional, desta forma utilizar o madeirite disposto nas paredes dos ambientes ou em cordões para a fixação das atividades desenvolvidas em ambientes internos e externos de aprendizado e convívio social.
- Comportar-se de forma desrespeitosa ou promover nas imediações da entidade (interno e externo), terminais rodoviários e transportes coletivos, atividades que configurem arruaças ou que comprometem moralmente a idoneidade dos educandos, da entidade e empresas conveniadas e/ou fisicamente o patrimônio privado e/ou público (em anexo mapa do perímetro).
-
-Ressalva: Ao educando que for identificado causando danos ao patrimônio privado e/ou público (rabiscando, pixando, quebrando dentre outras ações) deverá repor o patrimônio e/ou responder judicialmente.
-DE ACORDO 
- Divulgar e utilizar através de qualquer meio de publicidade por meio verbal, impresso e rede sociais sobre  assuntos que envolvam direta ou indiretamente o nome da entidade, colaboradores e educandos sem autorização, assim como promoção de rifas e eventos (festas, comemorações) de qualquer espécie.
-
- Dormir, deitar, debruçar nas salas de atividades e nos espaços da entidade visando o uso adequado da postura pessoal e profissional. Caso o educando esteja se sentindo mal ou com muito sono, poderá procurar a pedagoga\supervisão para tomar as providências.
-DE ACORDO `;
+    /**
+     * NOVA ESTRUTURA: BASE DE CONHECIMENTO
+     * Cada objeto contém:
+     * - `keywords`: Uma lista de palavras-chave e sinônimos que ativam esta resposta.
+     * - `text`: A resposta completa a ser exibida.
+     */
+    const knowledgeBase = [
+      {
+        keywords: ['orientação', 'ajuda', 'propor', 'atividades', 'colaboradores'],
+        text: 'DIREITO: Solicitar orientação a qualquer colaborador da entidade e propor atividades colaborativas com educadores, colegas e comunidade.'
+      },
+      {
+        keywords: ['espaços', 'sala', 'laboratório', 'quadra', 'pátio', 'refeitório', 'reserva', 'usar'],
+        text: 'DIREITO: Utilizar os espaços institucionais de aprendizado e convivência social (sala de atividades, laboratório de inclusão digital, sala de leitura, laboratório de panificação, quadra, pátio e refeitório) prezando pela organização e reserva previamente destes espaços.'
+      },
+      {
+        keywords: ['comida', 'lanche', 'almoço', 'refeição', 'cardápio', 'consumir'],
+        text: 'DIREITO: Consumir livremente o lanche e almoço oferecido de acordo com o cardápio nutricional da entidade respeitando os horários vigentes.'
+      },
+      {
+        keywords: ['celular', 'telefone', 'aparelho'],
+        text: 'DIREITO: Utilizar o celular antes de adentrar nas salas de atividades, com exceção no momento do almoço/refeitório.\n\nDEVER: É de total responsabilidade dos educandos cuidar de seus pertences. O educador irá armazenar o celular, fone de ouvido, etc. no case porta celular.'
+      },
+      {
+        keywords: ['carregar', 'tomada', 'carregador'],
+        text: 'DEVER (Ressalva): A entidade NÃO pode pegar o celular para carregar, bem como emprestar o carregador para uso, contudo permitimos que o educando utilize o tempo do almoço para realizar o carregamento nas tomadas do pátio, consequentemente a responsabilidade, o cuidado e o monitoramento do celular é do educando.'
+      },
+      {
+        keywords: ['camiseta', 'uniforme', 'vestimenta', 'empréstimo', 'roupa'],
+        text: 'DIREITO: Receber duas camisetas gratuitamente, uma única vez, e caso necessite devido avarias ou manchas, poderá receber outra, mediante avaliação da equipe técnica.\n\nDEVER: Apresentar-se adequadamente uniformizado com camiseta da Guarda Mirim. \n\nRessalva: Educandos que comparecerem sem uniforme na instituição serão encaminhados pelo Educador para a Secretaria para que seja feito o empréstimo.'
+      },
+      {
+        keywords: ['calçado', 'tênis', 'chinelo', 'salto', 'sapato'],
+        text: 'DIREITO (Ressalva 1): É permitido a utilização de qualquer tipo de calçado, exceto salto acima de 3cm e exceto chinelo/descalços nas atividades esportivas, onde os educandos precisam estar com calçado fechado.'
+      },
+      {
+        keywords: ['short', 'saia', 'vestido', 'bermuda', 'calça', 'destroyed', 'curto'],
+        text: 'DIREITO (Ressalva 2): Em relação à vestimenta, é permitido qualquer tipo de peça debaixo (calça/bermuda/saia/vestido), exceto as que ficam mais que 7 cm acima do joelho e transparentes. Calças destroyed são permitidas, desde que não exponham partes íntimas.'
+      },
+      {
+        keywords: ['atraso', 'saída', 'antecipada', 'sair', 'entrar', 'autorização'],
+        text: 'DIREITO: Obter permissão de atraso e saídas antecipadas, obrigatoriamente a partir do contato telefônico com o responsável. As autorizações de entrada e saída serão emitidas pela supervisão da unidade.'
+      },
+      {
+        keywords: ['falta', 'ausência', 'justificar', 'atestado'],
+        text: 'DIREITO: Justificar as ausências com a supervisão da unidade, apresentando os devidos atestados médicos, odontológicos, etc. \n\nRessalva: A entidade apenas considera abono de falta os atestados médicos e odontológicos (somente extração), entregues no prazo de 72 horas.'
+      },
+      {
+        keywords: ['remédio', 'medicação', 'medicamento', 'receita'],
+        text: 'DIREITO: Fazer uso de medicação prescrita por médico em horário necessário desde que apresentado o receituário original. \n\nRessalva: A entidade não pode medicar e/ou fornecer o medicamento aos educandos.'
+      },
+      {
+        keywords: ['saúde', 'doente', 'passando mal'],
+        text: 'DIREITO: Caso apresente algum problema de saúde, notificar o educador presente em seu coletivo e em seguida dirigir-se à secretaria para que seja feito o contato com seu responsável.'
+      },
+      {
+        keywords: ['música', 'som', 'funk', 'rap', 'playlist', 'ritmo'],
+        text: 'DIREITO (Ressalvas): Durante os intervalos a música poderá ser socializada no pátio com uma playlist aprovada pela coordenação, que não faça apologia a criminalidade ou violência. A entidade preza para que os ritmos rap e funk não sejam utilizados, visando apresentar diversidade musical. Utilizar somente música instrumental durante as atividades em sala.'
+      },
+      {
+        keywords: ['pertences', 'mochila', 'roubo', 'furto', 'guarda-volume'],
+        text: 'DEVER: É de total responsabilidade dos educandos, com ciência de sua família, cuidar de seus pertences, não cabendo a entidade a responsabilidade de reembolso em caso de roubo ou furto dos mesmos. No início das atividades diárias será disponibilizado guarda volume.'
+      },
+      {
+        keywords: ['patrimônio', 'danificar', 'quebrar', 'indenizar', 'prejuízo', 'rabiscar', 'pixar'],
+        text: 'DEVER (Ressalva): Serão submetidos às orientações e encaminhamentos os educandos que danificarem e/ou extraviar o patrimônio da entidade, tendo que indenizar o prejuízo através da reposição em âmbito individual ou coletivo.'
+      },
+      {
+        keywords: ['crachá', 'identificação'],
+        text: 'DEVER: Utilizar o crachá de identificação diariamente de modo visível no pescoço. O crachá deverá ser devolvido, obrigatoriamente, no encerramento dos vínculos com a entidade.'
+      },
+      {
+        keywords: ['bicicleta', 'skate', 'patins', 'transporte', 'moto'],
+        text: 'PROIBIÇÃO: Deslocar-se no trajeto casa à entidade e vice-versa utilizando bicicleta, skate, roller/patins ou motocicleta, devido a entidade não possuir ambiente para guardar com segurança, exceto para unidades rurais com termo assinado.'
+      },
+      {
+        keywords: ['boné', 'gorro', 'touca', 'capuz', 'óculos', 'sol', 'turbante', 'adereço'],
+        text: 'PROIBIÇÃO: Uso de qualquer vestimenta e adereço complementar ao uniforme: boné, gorro, óculos de sol, turbante, lenços, etc.\n\nRessalva: Toucas e capuz serão permitidos, exclusivamente, no período de outono e inverno, nos espaços externos das salas de atividades (pátio).'
+      },
+      {
+        keywords: ['respeito', 'educação', 'gírias', 'palavrão', 'ofender', 'apelido', 'briga', 'agredir', 'agressão'],
+        text: 'DEVER: Dirigir-se aos colegas, educadores e demais com respeito e educação, utilizando-se de vocabulário adequado, sem gírias e vulgar.\n\nPROIBIÇÃO: Ofender ou agredir fisicamente, verbalmente ou moralmente. A entidade repudia quaisquer tipos de violência.'
+      },
+      {
+        keywords: ['comida', 'trazer', 'bala', 'chiclete', 'pirulito', 'refrigerante', 'bebida', 'dieta'],
+        text: 'PROIBIÇÃO: Trazer e/ou consumir qualquer tipo de alimento (sólido ou líquido) inclusive balas, chicletes, pirulitos e outros, exceto água.\n\nRessalva: Educandos com dieta especial (intolerância, diabetes, etc.) deverão comunicar a entidade na matrícula. Não autorizamos que o educando traga alimentos de casa.'
+      },
+      {
+        keywords: ['bebida', 'álcool', 'cigarro', 'narguille', 'drogas', 'arma', 'faca'],
+        text: 'PROIBIÇÃO: Trazer e/ou consumir e/ou ter ingerido bebidas alcoólicas, substâncias psicoativas tóxicas lícitas e ilícitas; utilizar equipamentos eletrônicos (cigarro, narguille), portar armas brancas ou de fogo. O material será recolhido e os responsáveis comunicados.'
+      },
+      {
+        keywords: ['namoro', 'namorar', 'beijo', 'abraço', 'carícia', 'colo'],
+        text: 'PROIBIÇÃO: Namorar ou expressar carícias nas dependências da entidade. A entidade respeita o namoro, porém não pactuamos com abraço, beijos, carícias e sentar no colo entre os namorados(as) e colegas.'
+      },
+      {
+        keywords: ['dormir', 'deitar', 'sono'],
+        text: 'PROIBIÇÃO: Dormir, deitar, debruçar nas salas de atividades. Caso o educando esteja se sentindo mal ou com muito sono, poderá procurar a pedagoga/supervisão para tomar as providências.'
+      },
+    ];
 
     function sendMessage() {
       const input = document.getElementById("user-input");
@@ -300,38 +199,57 @@ DE ACORDO `;
       setTimeout(() => {
         const response = getBestMatch(message);
         addMessage(response, "bot-message");
-      }, 500);
+      }, 300);
     }
 
     function addMessage(text, className) {
       const container = document.getElementById("chat-container");
       const div = document.createElement("div");
       div.className = `message ${className}`;
-      div.innerHTML = text;
+      div.textContent = text;
       container.appendChild(div);
       container.scrollTop = container.scrollHeight;
     }
+    
+    // Lista de palavras comuns para ignorar
+    const stopWords = new Set(['a', 'o', 'e', 'é', 'de', 'do', 'da', 'em', 'um', 'uma', 'com', 'como', 'para', 'por', 'que', 'qual', 'os', 'as', 'são', 'ser', 'posso', 'pode', 'devo', 'fazer', 'usar', 'sobre']);
 
     function getBestMatch(query) {
-      const queryWords = query.toLowerCase().split(/\W+/).filter(Boolean);
-      const sentences = baseText.split(/[.!?]/);
-      let bestSentence = "Nenhum trecho encontrado.";
-      let maxScore = 0;
+      // Limpa a pergunta do usuário, mantendo apenas as palavras relevantes
+      const queryWords = query.toLowerCase()
+                              .split(/[\s,.;:!?]+/)
+                              .filter(word => word && !stopWords.has(word));
 
-      for (let sentence of sentences) {
-        const sentenceWords = sentence.toLowerCase().split(/\W+/);
-        let score = queryWords.filter(word => sentenceWords.includes(word)).length;
-        if (score > maxScore) {
-          maxScore = score;
-          bestSentence = sentence.trim();
+      if (queryWords.length === 0) {
+        return "Por favor, faça uma pergunta mais específica.";
+      }
+
+      let bestMatch = { score: 0, text: "Desculpe, não encontrei uma resposta exata. Tente usar palavras-chave como 'uniforme', 'celular' ou 'atraso'." };
+
+      // Itera sobre a base de conhecimento
+      for (const item of knowledgeBase) {
+        let currentScore = 0;
+        // Verifica se alguma palavra da pergunta corresponde às palavras-chave do item
+        for (const queryWord of queryWords) {
+          if (item.keywords.includes(queryWord)) {
+            currentScore++;
+          }
+        }
+
+        // Se a pontuação deste item for a maior até agora, ele se torna a melhor resposta
+        if (currentScore > bestMatch.score) {
+          bestMatch = { score: currentScore, text: item.text };
         }
       }
 
-      return bestSentence || "Nenhum trecho encontrado.";
+      return bestMatch.text;
     }
 
+    // Listener para a tecla "Enter"
     document.getElementById("user-input").addEventListener("keypress", function(e) {
-      if (e.key === "Enter") sendMessage();
+      if (e.key === "Enter") {
+        sendMessage();
+      }
     });
   </script>
 </body>
