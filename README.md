@@ -73,7 +73,7 @@ Embora tenha sido criado para o **SCFV (Serviço de Convivência e Fortaleciment
 - **Coleta de Dados:** `Google Forms`  
 - **Geração de Relatórios:** Conversão de HTML para PDF nativa do navegador.
 - **Chatboat automático:** Interação entre usuário e documentos sobre fluxos e regras.
-- Trata-se de um chatbot estático de execução client-side, cuja lógica opera inteiramente no navegador do usuário via JavaScript, sem dependência de um backend ou banco de dados.
+Trata-se de um chatbot estático de execução client-side, cuja lógica opera inteiramente no navegador do usuário via JavaScript, sem dependência de um backend ou banco de dados.
 Seu funcionamento pode ser descrito em quatro componentes principais:
 Interface (UI): Construída com HTML e CSS, a interface é atualizada dinamicamente através da manipulação do DOM. Novas mensagens do usuário e do bot são criadas e anexadas ao contêiner do chat em tempo real.
 Base de Conhecimento (Knowledge Base): É uma estrutura de dados in-memory, implementada como um array de objetos JavaScript. Cada objeto representa uma "intenção" e associa um array de keywords (palavras-chave) pré-definidas a um text (a resposta correspondente).
