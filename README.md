@@ -72,11 +72,22 @@ Embora tenha sido criado para o **SCFV (Serviço de Convivência e Fortaleciment
 - **Frontend:** `HTML5`, `CSS3`, `JavaScript` (baseado no template [Gentelella Admin](https://github.com/ColorlibHQ/gentelella))  
 - **Coleta de Dados:** `Google Forms`  
 - **Geração de Relatórios:** Conversão de HTML para PDF nativa do navegador.
+- **Chatboat automático:** Interação entre usuário e documentos sobre fluxos e regras.
+- Trata-se de um chatbot estático de execução client-side, cuja lógica opera inteiramente no navegador do usuário via JavaScript, sem dependência de um backend ou banco de dados.
+Seu funcionamento pode ser descrito em quatro componentes principais:
+Interface (UI): Construída com HTML e CSS, a interface é atualizada dinamicamente através da manipulação do DOM. Novas mensagens do usuário e do bot são criadas e anexadas ao contêiner do chat em tempo real.
+Base de Conhecimento (Knowledge Base): É uma estrutura de dados in-memory, implementada como um array de objetos JavaScript. Cada objeto representa uma "intenção" e associa um array de keywords (palavras-chave) pré-definidas a um text (a resposta correspondente).
+Mecanismo de Matching (Matching Engine): O núcleo do sistema, que opera da seguinte forma:
+Normalização da Entrada: A pergunta do usuário passa por um processo de normalização que inclui: conversão para minúsculas, remoção de acentos (diacríticos) e filtragem de stop words (palavras comuns e sem peso semântico).
+Algoritmo de Scoring: O sistema itera pela base de conhecimento e aplica um algoritmo de pontuação simples. Para cada entrada, ele conta quantas palavras-chave normalizadas correspondem às palavras na pergunta do usuário.
+Seleção da Resposta: A resposta associada à entrada com a maior pontuação é selecionada. A correspondência é literal e baseada em palavras-chave, não em análise semântica ou Processamento de Linguagem Natural (NLP).
+Fallback: Caso nenhuma palavra-chave seja encontrada (pontuação zero), um mecanismo de fallback exibe uma mensagem padrão, informando que a resposta não foi encontrada.
 
 ---
 
 ## 📂 Módulos Principais
 
+- **💬 Agente Virtual:** Chat virtual que permite aos colaboradores fazerem perguntas sobre o pacto de convivência e fluxos de trabalho. Explicação sobre o seu funcionamento no campo "Stack Tecnológico".
 - **📈 KPIs e Métricas Institucionais:** Acompanhamento de indicadores de desempenho e impacto dos colaboradores. Exemplo: O KPI pedagógico acompanha a efetividade dos planejamentos dos educadores, tornando possível, por exemplo, identificar com qual modalidade (idade dos educandos) ele tem melhor desenvoltura. É possível, ainda, acompanhar o atingimento de metas de matrícula e busca ativa em tempo real, a partir da integração com as agendas dos técnicos de referência.
 - **🖼️ Ferramentas de Comunicação:** Geradores de imagens e templates para comunicação externa. São geradas imagens padronizadas para as redes sociais (com logo, identidade visual e enquadramento); avisos e convites para o Whatsapp. Esta ferramenta é útil para agilizar a comunicação de encontros com famílias, atividades intergeracionais, eventos externos, etc.
 - **📊 Avaliação de Colaboradores:** Sistema de avaliação vertical mútua (180°), com geração automática de ofícios a serem assinados pelas partes. Permite o acompanhamento da evolução dos colaboradores por meio de visualizações detalhadas ou gráficos, além de acesso rápido para que educadores forneçam feedback sobre sua supervisão em sua plataforma.  
