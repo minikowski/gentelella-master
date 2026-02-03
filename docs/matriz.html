@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz Curricular - Pedagogia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Biblioteca para gerar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px 0;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: #f1c40f;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        select, input {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: none;
+            background-color: white;
+            color: #333;
+            font-weight: 500;
+            min-width: 150px;
+        }
+
+        button {
+            padding: 8px 20px;
+            background-color: #f1c40f;
+            color: #2c3e50;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #f39c12;
+            transform: translateY(-2px);
+        }
+
+        .button-secondary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .button-secondary:hover {
+            background-color: #2980b9;
+        }
+
+        .button-success {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .button-success:hover {
+            background-color: #219653;
+        }
+
+        .button-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .button-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 25px 0;
+            gap: 15px;
+        }
+
+        .stat-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .stat-card h3 {
+            color: #2c3e50;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #3498db;
+        }
+
+        .table-container {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        thead {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        td {
+            padding: 15px;
+            color: #555;
+        }
+
+        .semestre-tag {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 40px;
+        }
+
+        .semestre-1 {
+            background-color: #e8f4fc;
+            color: #2980b9;
+        }
+
+        .semestre-2 {
+            background-color: #f9f0e6;
+            color: #e67e22;
+        }
+
+        .modalidade-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            background-color: #f1f8e9;
+            color: #689f38;
+        }
+
+        .carga-horaria {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .departamento {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 3px;
+        }
+
+        .disciplina-nome {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .codigo-disciplina {
+            font-size: 12px;
+            color: #7f8c8d;
+            font-family: 'Courier New', monospace;
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-top: 3px;
+            display: inline-block;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }
+
+        .legenda {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .legenda-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legenda-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+        }
+
+        .teorica {
+            background-color: #e8f4fc;
+        }
+
+        .pratica {
+            background-color: #f9f0e6;
+        }
+
+        .teor-pratica {
+            background-color: #f1f8e9;
+        }
+
+        .extensao {
+            background-color: #fff3e0;
+        }
+
+        .série-header {
+            background-color: #f8f9fa;
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+
+        .série-header td {
+            padding: 12px 15px;
+        }
+
+        .carga-serie {
+            background-color: #f0f7ff;
+            font-weight: 600;
+        }
+
+        /* Abas */
+        .tabs {
+            display: flex;
+            background-color: white;
+            border-radius: 10px 10px 0 0;
+            overflow: hidden;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #7f8c8d;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #3498db;
+            border-bottom: 3px solid #3498db;
+            background-color: #f8fafc;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: #f5f7fa;
+        }
+
+        .tab-content {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Estilos para a aba de impressão */
+        .impressao-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .config-turma {
+            flex: 1;
+            min-width: 300px;
+            background-color: #f8fafc;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #e0e6ed;
+        }
+
+        .config-turma h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid #e0e6ed;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .checkbox-item:hover {
+            background-color: #f0f7ff;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #3498db;
+        }
+
+        .checkbox-item label {
+            margin-bottom: 0;
+            cursor: pointer;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .checkbox-item .disciplina-info {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .turmas-container {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .turma-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #e0e6ed;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .turma-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e6ed;
+        }
+
+        .turma-card-header h3 {
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .turma-card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .turma-disciplinas {
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        .turma-disciplina {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .turma-disciplina:last-child {
+            border-bottom: none;
+        }
+
+        .turma-disciplina .disciplina-detalhes h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .turma-disciplina .disciplina-detalhes .info {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .turma-disciplina .carga-turma {
+            text-align: right;
+            font-weight: 600;
+            color: #3498db;
+            font-size: 13px;
+        }
+
+        .turma-total {
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: right;
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+
+        .acoes-impressao {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .modalidade-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .turmas-lista {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        /* Pré-visualização de impressão (escondida) - PAISAGEM */
+        #pdf-preview {
+            position: absolute;
+            left: -10000px;
+            top: 0;
+            width: 297mm; /* Largura A4 paisagem */
+            height: 210mm; /* Altura A4 paisagem */
+            padding: 10mm; /* Margens menores para paisagem */
+            background: white;
+            color: #000;
+            font-family: 'Arial', sans-serif;
+            box-sizing: border-box;
+            page-break-inside: avoid;
+            font-size: 9pt; /* Fonte menor para caber mais conteúdo */
+        }
+
+        .pdf-page {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pdf-header {
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 10px;
+        }
+
+        .pdf-header h1 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 11px;
+            color: #333;
+        }
+
+        .pdf-turma {
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+
+        .pdf-turma-header {
+            background-color: #f0f0f0;
+            padding: 8px 12px;
+            font-weight: bold;
+            border-left: 4px solid #2c3e50;
+            margin-bottom: 8px;
+            font-size: 13px;
+            page-break-inside: avoid;
+            page-break-after: avoid;
+        }
+
+        .pdf-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8pt; /* Fonte menor para tabela */
+            margin-bottom: 10px;
+            page-break-inside: avoid;
+        }
+
+        .pdf-table th {
+            background-color: #2c3e50;
+            border: 1px solid #ddd;
+            padding: 6px 4px; /* Padding menor */
+            text-align: left;
+            font-weight: bold;
+            white-space: nowrap;
+            color: white !important; /* TEXTO BRANCO FIXADO */
+        }
+
+        .pdf-table td {
+            border: 1px solid #ddd;
+            padding: 6px 4px; /* Padding menor */
+            font-size: 8pt;
+            line-height: 1.2;
+        }
+
+        /* Ajuste específico para colunas em paisagem COM CÓDIGO */
+        .pdf-table th:nth-child(1), .pdf-table td:nth-child(1) { width: 6%; } /* Código */
+        .pdf-table th:nth-child(2), .pdf-table td:nth-child(2) { width: 5%; } /* Série */
+        .pdf-table th:nth-child(3), .pdf-table td:nth-child(3) { width: 6%; } /* Semestre */
+        .pdf-table th:nth-child(4), .pdf-table td:nth-child(4) { width: 10%; } /* Departamento */
+        .pdf-table th:nth-child(5), .pdf-table td:nth-child(5) { width: 40%; } /* Componente Curricular */
+        .pdf-table th:nth-child(6), .pdf-table td:nth-child(6) { width: 8%; } /* Carga Sem. */
+        .pdf-table th:nth-child(7), .pdf-table td:nth-child(7) { width: 10%; } /* Carga Total */
+        .pdf-table th:nth-child(8), .pdf-table td:nth-child(8) { width: 8%; } /* Modalidade */
+
+        .pdf-total {
+            text-align: right;
+            font-weight: bold;
+            font-size: 10px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #000;
+            page-break-inside: avoid;
+        }
+
+        .pdf-footer {
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            font-size: 8px;
+            color: #666;
+        }
+
+        .page-break {
+            page-break-after: always;
+            height: 0;
+            visibility: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .filters {
+                width: 100%;
+                margin-top: 20px;
+            }
+            
+            .stat-card {
+                min-width: 100%;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+            }
+            
+            .tab {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+            
+            .impressao-container {
+                flex-direction: column;
+            }
+            
+            table {
+                min-width: 1100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i> Matriz <span>Curricular</span>
+                </div>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="filter-serie"><i class="fas fa-filter"></i> Série</label>
+                        <select id="filter-serie">
+                            <option value="all">Todas as séries</option>
+                            <option value="1">1ª Série</option>
+                            <option value="2">2ª Série</option>
+                            <option value="3">3ª Série</option>
+                            <option value="4">4ª Série</option>
+                            <option value="5">5ª Série</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-semestre"><i class="fas fa-calendar-alt"></i> Semestre</label>
+                        <select id="filter-semestre">
+                            <option value="all">Todos os semestres</option>
+                            <option value="1">1º Semestre</option>
+                            <option value="2">2º Semestre</option>
+                            <option value="X">Modular/Outros</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-modalidade"><i class="fas fa-chalkboard-teacher"></i> Modalidade</label>
+                        <select id="filter-modalidade">
+                            <option value="all">Todas modalidades</option>
+                            <option value="Teórica">Teórica</option>
+                            <option value="Prática">Prática</option>
+                            <option value="Teor./Prática">Teor./Prática</option>
+                            <option value="Extensão">Extensão</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>&nbsp;</label>
+                        <button id="reset-filters"><i class="fas fa-redo"></i> Limpar Filtros</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Abas de navegação -->
+        <div class="tabs">
+            <div class="tab active" data-tab="visualizacao">
+                <i class="fas fa-table"></i> Visualização da Matriz
+            </div>
+            <div class="tab" data-tab="impressao">
+                <i class="fas fa-print"></i> Montar Turmas para Impressão
+            </div>
+        </div>
+
+        <!-- Conteúdo da aba Visualização -->
+        <div class="tab-content active" id="visualizacao-content">
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Total de Disciplinas</h3>
+                    <div class="stat-value" id="total-disciplinas">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Carga Horária Total</h3>
+                    <div class="stat-value" id="total-carga-horaria">0</div>
+                    <div>horas/aula</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Média por Série</h3>
+                    <div class="stat-value" id="media-serie">0</div>
+                    <div>horas/série</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="matriz-table">
+                    <thead>
+                        <tr>
+                            <th width="8%">Código</th>
+                            <th width="6%">Série</th>
+                            <th width="6%">Semestre</th>
+                            <th width="10%">Departamento</th>
+                            <th width="30%">Componente Curricular</th>
+                            <th width="8%">Carga Sem.</th>
+                            <th width="10%">Carga Total</th>
+                            <th width="15%">Modalidade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Os dados serão inseridos aqui dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="legenda">
+                <div class="legenda-item">
+                    <div class="legenda-color teorica"></div>
+                    <span>Teórica</span>
+                </div>
+                <div class="legenda-item">
+                    <div class="legenda-color pratica"></div>
+                    <span>Prática</span>
+                </div>
+                <div class="legenda-item">
+                    <div class="legenda-color teor-pratica"></div>
+                    <span>Teor./Prática</span>
+                </div>
+                <div class="legenda-item">
+                    <div class="legenda-color extensao"></div>
+                    <span>Extensão</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo da aba Impressão -->
+        <div class="tab-content" id="impressao-content">
+            <div class="impressao-container">
+                <div class="config-turma">
+                    <h3><i class="fas fa-cog"></i> Configurar Nova Turma</h3>
+                    
+                    <div class="form-group">
+                        <label for="turma-titulo"><i class="fas fa-heading"></i> Título da Turma</label>
+                        <input type="text" id="turma-titulo" placeholder="Ex: Turma A - 1ª Série - 1º Semestre 2023" value="Turma A - 1ª Série - 1º Semestre 2023">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-filter"></i> Filtrar por Série e Semestre</label>
+                        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                            <select id="filtro-impressao-serie" style="flex: 1;">
+                                <option value="all">Todas as séries</option>
+                                <option value="1">1ª Série</option>
+                                <option value="2">2ª Série</option>
+                                <option value="3">3ª Série</option>
+                                <option value="4">4ª Série</option>
+                                <option value="5">5ª Série</option>
+                            </select>
+                            <select id="filtro-impressao-semestre" style="flex: 1;">
+                                <option value="all">Todos os semestres</option>
+                                <option value="1">1º Semestre</option>
+                                <option value="2">2º Semestre</option>
+                                <option value="X">Modular/Outros</option>
+                            </select>
+                        </div>
+                        <button id="aplicar-filtro-impressao" class="button-secondary" style="width: 100%;">
+                            <i class="fas fa-search"></i> Aplicar Filtro
+                        </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-list-check"></i> Selecionar Disciplinas</label>
+                        <div class="checkbox-group" id="disciplinas-checkbox">
+                            <!-- Checkboxes serão inseridos dinamicamente -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button id="selecionar-todas" class="button-secondary" style="width: 100%; margin-bottom: 10px;">
+                            <i class="fas fa-check-square"></i> Selecionar Todas
+                        </button>
+                        <button id="desmarcar-todas" class="button-secondary" style="width: 100%; margin-bottom: 10px;">
+                            <i class="fas fa-square"></i> Desmarcar Todas
+                        </button>
+                        <button id="adicionar-turma" class="button-success" style="width: 100%;">
+                            <i class="fas fa-plus-circle"></i> Adicionar Turma
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="turmas-container">
+                    <h3 style="color: #2c3e50; margin-bottom: 20px;">
+                        <i class="fas fa-users"></i> Turmas Criadas
+                        <span id="contador-turmas" style="background-color: #3498db; color: white; padding: 2px 10px; border-radius: 20px; font-size: 14px; margin-left: 10px;">0</span>
+                    </h3>
+                    
+                    <div class="turmas-lista" id="turmas-lista">
+                        <!-- Turmas serão adicionadas aqui dinamicamente -->
+                        <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+                            <i class="fas fa-users-slash" style="font-size: 48px; margin-bottom: 15px;"></i>
+                            <p>Nenhuma turma criada ainda.</p>
+                            <p>Configure uma turma ao lado e clique em "Adicionar Turma".</p>
+                        </div>
+                    </div>
+                    
+                    <div class="acoes-impressao">
+                        <button id="gerar-pdf" class="button-success">
+                            <i class="fas fa-file-pdf"></i> Gerar PDF para Impressão
+                        </button>
+                        <button id="limpar-todas-turmas" class="button-danger">
+                            <i class="fas fa-trash-alt"></i> Limpar Todas as Turmas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container para pré-visualização do PDF (escondido) -->
+    <div id="pdf-preview">
+        <!-- Conteúdo será gerado dinamicamente -->
+    </div>
+
+    <div class="footer">
+        <p>Matriz Curricular - Curso de Pedagogia | Dados atualizados conforme resolução curricular</p>
+        <p>© 2023 - Sistema de Visualização de Matriz Curricular</p>
+    </div>
+
+    <script>
+        // Dados da matriz curricular COM CÓDIGOS - ORDENADOS POR CÓDIGO CRESCENTE
+        const matrizData = [
+            // 1ª Série - Códigos: 0000, 8297, 8298, 8301, 8302, 8303, 8304, 8335, 10998
+            { id: 1, codigo: "0000", serie: "5ª", semestre: "1º", departamento: "DFE/DTP", componente: "Práticas Extensionistas – avaliação e projetos", cargaSemanal: "4", cargaTotal: "68", modalidade: "Extensão" },
+            { id: 49, codigo: "0000", serie: "5ª", semestre: "1º", departamento: "DLP", componente: "Língua Brasileira de Sinais - LIBRAS", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 2, codigo: "8297", serie: "1ª", semestre: "1º", departamento: "DFE", componente: "Introdução a Educação a Distância", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 3, codigo: "8298", serie: "1ª", semestre: "1º", departamento: "DFE", componente: "Educação e Novas Tecnologias", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 5, codigo: "8301", serie: "1ª", semestre: "2º", departamento: "DFE", componente: "Fundamentos Históricos da Educação", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 6, codigo: "8302", serie: "1ª", semestre: "2º", departamento: "DFE", componente: "Fundamentos Históricos da Educação do Brasil", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 7, codigo: "8303", serie: "1ª", semestre: "2º", departamento: "DFE", componente: "Fundamentos Filosóficos da Educação", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 8, codigo: "8304", serie: "1ª", semestre: "2º", departamento: "DFE", componente: "Fundamentos Filosóficos da Educação Infantil", cargaSemanal: "2+2", cargaTotal: "34+34", modalidade: "Teor./Prática" },
+            { id: 4, codigo: "8335", serie: "1ª", semestre: "2º", departamento: "DTP", componente: "Arte e Educação", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 52, codigo: "10997", serie: "2ª", semestre: "2º", departamento: "DFE", componente: "História da Infância no Brasil", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 3, codigo: "10998", serie: "1ª", semestre: "1º", departamento: "DFE", componente: "Iniciação à Pesquisa Científica", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            
+            // 2ª Série - Códigos: 8306, 8307, 8308, 8309, 8310, 8312, 8314, 8315, 8322, 8323, 10988, 10989, 11002
+            { id: 11, codigo: "8306", serie: "2ª", semestre: "1º", departamento: "DFE", componente: "Antropologia, Cultura e Educação", cargaSemanal: "2+2", cargaTotal: "34+34", modalidade: "Teor./Prática" },
+            { id: 12, codigo: "8307", serie: "2ª", semestre: "1º", departamento: "DFE", componente: "Sociologia da Educação: Múltiplos Olhares", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 13, codigo: "8308", serie: "2ª", semestre: "1º", departamento: "DFE", componente: "Sociologia da Educação: Olhares para a Escola de Hoje", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 14, codigo: "8309", serie: "2ª", semestre: "1º", departamento: "DTP", componente: "Psicologia e Educação: Compartilhando Saberes", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 15, codigo: "8310", serie: "2ª", semestre: "1º", departamento: "DTP", componente: "Psicologia da Educação e os Processos de Aprendizagem e de Desenvolvimento", cargaSemanal: "2+2", cargaTotal: "34+34", modalidade: "Teor./Prática" },
+            { id: 18, codigo: "8312", serie: "2ª", semestre: "2º", departamento: "DTP", componente: "Didática: Processos de Trabalho em Sala de Aula", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 51, codigo: "8314", serie: "5ª", semestre: "1º", departamento: "DFE", componente: "Práticas Sociais e Diversidade Cultural", cargaSemanal: "2+2", cargaTotal: "34+34", modalidade: "Teor./Prática" },
+            { id: 20, codigo: "8315", serie: "2ª", semestre: "2º", departamento: "DTP", componente: "Política Educacional Brasileira", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 21, codigo: "8322", serie: "2ª", semestre: "2º", departamento: "DTP", componente: "Práticas Pedagógicas e Educação Infantil", cargaSemanal: "2+2", cargaTotal: "68", modalidade: "Teor./Prática" },
+            { id: 19, codigo: "8323", serie: "2ª", semestre: "2º", departamento: "DTP", componente: "Práticas Pedagógicas e Literatura Infantil", cargaSemanal: "2+2", cargaTotal: "68", modalidade: "Teor./Prática" },
+            { id: 10, codigo: "10988", serie: "2ª", semestre: "1º", departamento: "DTP", componente: "Estágio Curricular Supervisionado na Educação Infantil I", cargaSemanal: "5", cargaTotal: "85", modalidade: "Prática" },
+            { id: 16, codigo: "10989", serie: "2ª", semestre: "2º", departamento: "DTP", componente: "Estágio Curricular Supervisionado na Educação Infantil II", cargaSemanal: "5", cargaTotal: "85", modalidade: "Prática" },
+            { id: 17, codigo: "11002", serie: "2ª", semestre: "2º", departamento: "DFE", componente: "Ciência, Métodos e Técnicas de Pesquisa em Educação", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            
+            // 3ª Série - Códigos: 8313, 8318, 8319, 8321, 8324, 8327, 8339, 10992, 10993, 10999, 11000, 13914
+            { id: 25, codigo: "8313", serie: "3ª", semestre: "1º", departamento: "DFE", componente: "Gestão Educacional", cargaSemanal: "2+2", cargaTotal: "34+34", modalidade: "Teor./Prática" },
+            { id: 26, codigo: "8318", serie: "3ª", semestre: "1º", departamento: "DTL", componente: "Concepções de Linguagem e o Ensino de Língua Portuguesa", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 27, codigo: "8319", serie: "3ª", semestre: "1º", departamento: "DLP", componente: "Leitura e Ensino", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 29, codigo: "8321", serie: "3ª", semestre: "1º", departamento: "DTP", componente: "Práticas Pedagógicas e Alfabetização", cargaSemanal: "2+2", cargaTotal: "34+34", modalidade: "Teor./Prática" },
+            { id: 32, codigo: "8324", serie: "3ª", semestre: "2º", departamento: "DMA", componente: "Educação Matemática e as Operações Fundamentais", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 34, codigo: "8327", serie: "3ª", semestre: "2º", departamento: "DMA", componente: "Espaço e Forma", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 31, codigo: "8339", serie: "3ª", semestre: "2º", departamento: "DFE", componente: "Gestão do Trabalho Pedagógico", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 24, codigo: "10992", serie: "3ª", semestre: "1º", departamento: "DFE", componente: "Estágio Curricular Supervisionado em Gestão Educacional", cargaSemanal: "5", cargaTotal: "85", modalidade: "Prática" },
+            { id: 30, codigo: "10993", serie: "3ª", semestre: "2º", departamento: "DFE", componente: "Estágio Curricular Supervisionado em Gestão Escolar", cargaSemanal: "5", cargaTotal: "85", modalidade: "Prática" },
+            { id: 33, codigo: "10999", serie: "3ª", semestre: "2º", departamento: "DMA", componente: "Grandezas e Medidas: Encaminhamentos Metodológicos para os Anos Iniciais do Ensino Fundamental", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 28, codigo: "11000", serie: "3ª", semestre: "1º", departamento: "DLP", componente: "O Trabalho com a Escrita nos Anos Iniciais do Ensino Fundamental", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 23, codigo: "13914", serie: "3ª", semestre: "X", departamento: "DFE/DTP", componente: "Práticas Extensionistas I", cargaSemanal: "8", cargaTotal: "136", modalidade: "Extensão" },
+            
+            // 4ª Série - Códigos: 8229, 8329, 8330, 8331, 8332, 8336, 8338, 8342, 8343, 8345, 8346, 10990, 10991, 10994, 13915
+            { id: 45, codigo: "8229", serie: "4ª", semestre: "2º", departamento: "DFE", componente: "Educação, Comunicação e Mídia", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 37, codigo: "8329", serie: "4ª", semestre: "1º", departamento: "DBC", componente: "História e Metodologia da Ciência", cargaSemanal: "2+2", cargaTotal: "34+34", modalidade: "Teor./Prática" },
+            { id: 38, codigo: "8330", serie: "4ª", semestre: "1º", departamento: "DFE", componente: "Educação Ambiental e Prática Científica", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 39, codigo: "8331", serie: "4ª", semestre: "1º", departamento: "DBC", componente: "Biologia dos Organismos", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 50, codigo: "8332", serie: "5ª", semestre: "1º", departamento: "DFE", componente: "Corpo, Gênero e Sexualidade", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 43, codigo: "8336", serie: "4ª", semestre: "2º", departamento: "DGE", componente: "Introdução ao Estudo de Geografia", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 44, codigo: "8338", serie: "4ª", semestre: "2º", departamento: "DGE", componente: "Geografia: Metodologia do Ensino", cargaSemanal: "2+2", cargaTotal: "34+34", modalidade: "Teor./Prática" },
+            { id: 48, codigo: "8342", serie: "5ª", semestre: "1º", departamento: "DTP", componente: "Tópicos Especiais para a Inclusão Educacional", cargaSemanal: "2+2", cargaTotal: "34+34", modalidade: "Teor./Prática" },
+            { id: 40, codigo: "8343", serie: "4ª", semestre: "1º", departamento: "DHI", componente: "Introdução ao Estudo da História", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 41, codigo: "8345", serie: "4ª", semestre: "1º", departamento: "DHI", componente: "História: Metodologia do Ensino", cargaSemanal: "2+2", cargaTotal: "34+34", modalidade: "Teor./Prática" },
+            { id: 52, codigo: "8346", serie: "5ª", semestre: "1º", departamento: "DTP", componente: "Educação e Processos Não Escolares", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 36, codigo: "10990", serie: "4ª", semestre: "1º", departamento: "DTP", componente: "Estágio Curricular Supervisionado nos Anos Iniciais do Ensino Fundamental I", cargaSemanal: "5", cargaTotal: "85", modalidade: "Prática" },
+            { id: 42, codigo: "10991", serie: "4ª", semestre: "2º", departamento: "DTP", componente: "Estágio Curricular Supervisionado nos Anos Iniciais do Ensino Fundamental II", cargaSemanal: "5", cargaTotal: "85", modalidade: "Prática" },
+            { id: 46, codigo: "10994", serie: "4ª", semestre: "2º", departamento: "DFE/DTP", componente: "Projeto Político-Pedagógico na Educação Básica", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" },
+            { id: 35, codigo: "13915", serie: "4ª", semestre: "X", departamento: "DFE/DTP", componente: "Práticas Extensionistas II", cargaSemanal: "8", cargaTotal: "136", modalidade: "Extensão" },
+            
+            // 5ª Série - Códigos já incluídos acima (0000, 8314, 8332, 8342, 8346)
+            { id: 9, codigo: "13913", serie: "2ª", semestre: "1º", departamento: "DFE", componente: "Introdução à Extensão Universitária", cargaSemanal: "4", cargaTotal: "68", modalidade: "Teórica" }
+        ].sort((a, b) => {
+            // Ordenar por código numérico (convertendo para número)
+            const codigoA = parseInt(a.codigo) || 0;
+            const codigoB = parseInt(b.codigo) || 0;
+            return codigoA - codigoB;
+        });
+
+        // Variáveis globais
+        let disciplinasSelecionadasAtuais = new Set();
+        let turmasCriadas = [];
+        let turmaIdCounter = 1;
+
+        // Elementos DOM - Visualização
+        const tableBody = document.getElementById('table-body');
+        const filterSerie = document.getElementById('filter-serie');
+        const filterSemestre = document.getElementById('filter-semestre');
+        const filterModalidade = document.getElementById('filter-modalidade');
+        const resetFiltersBtn = document.getElementById('reset-filters');
+        const totalDisciplinasEl = document.getElementById('total-disciplinas');
+        const totalCargaHorariaEl = document.getElementById('total-carga-horaria');
+        const mediaSerieEl = document.getElementById('media-serie');
+
+        // Elementos DOM - Impressão
+        const turmaTitulo = document.getElementById('turma-titulo');
+        const filtroImpressaoSerie = document.getElementById('filtro-impressao-serie');
+        const filtroImpressaoSemestre = document.getElementById('filtro-impressao-semestre');
+        const aplicarFiltroImpressao = document.getElementById('aplicar-filtro-impressao');
+        const disciplinasCheckbox = document.getElementById('disciplinas-checkbox');
+        const selecionarTodasBtn = document.getElementById('selecionar-todas');
+        const desmarcarTodasBtn = document.getElementById('desmarcar-todas');
+        const adicionarTurmaBtn = document.getElementById('adicionar-turma');
+        const turmasLista = document.getElementById('turmas-lista');
+        const contadorTurmas = document.getElementById('contador-turmas');
+        const gerarPdfBtn = document.getElementById('gerar-pdf');
+        const limparTodasTurmasBtn = document.getElementById('limpar-todas-turmas');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const pdfPreview = document.getElementById('pdf-preview');
+
+        // =============== FUNÇÕES PARA A ABA DE VISUALIZAÇÃO ===============
+
+        function renderTable(data) {
+            tableBody.innerHTML = '';
+            let currentSerie = '';
+            let disciplinaCount = 0;
+            let cargaHorariaTotal = 0;
+            
+            // Ordenar os dados por código antes de renderizar
+            const dataOrdenada = [...data].sort((a, b) => {
+                const codigoA = parseInt(a.codigo) || 0;
+                const codigoB = parseInt(b.codigo) || 0;
+                return codigoA - codigoB;
+            });
+            
+            dataOrdenada.forEach(item => {
+                if (item.serie !== currentSerie) {
+                    currentSerie = item.serie;
+                    const serieHeader = document.createElement('tr');
+                    serieHeader.className = 'série-header';
+                    serieHeader.innerHTML = `
+                        <td colspan="8">
+                            <i class="fas fa-book-open"></i> ${currentSerie} SÉRIE
+                        </td>
+                    `;
+                    tableBody.appendChild(serieHeader);
+                }
+                
+                const row = document.createElement('tr');
+                
+                let semestreClass = '';
+                if (item.semestre === '1º') {
+                    semestreClass = 'semestre-1';
+                } else if (item.semestre === '2º') {
+                    semestreClass = 'semestre-2';
+                }
+                
+                let modalidadeClass = '';
+                if (item.modalidade === 'Teórica') {
+                    modalidadeClass = 'teorica';
+                } else if (item.modalidade === 'Prática') {
+                    modalidadeClass = 'pratica';
+                } else if (item.modalidade === 'Teor./Prática') {
+                    modalidadeClass = 'teor-pratica';
+                } else if (item.modalidade === 'Extensão') {
+                    modalidadeClass = 'extensao';
+                }
+                
+                row.innerHTML = `
+                    <td>
+                        <div class="codigo-disciplina">${item.codigo}</div>
+                    </td>
+                    <td>${item.serie}</td>
+                    <td>
+                        ${item.semestre ? `<span class="semestre-tag ${semestreClass}">${item.semestre}</span>` : ''}
+                    </td>
+                    <td>
+                        <div>${item.departamento}</div>
+                        ${item.departamento ? `<div class="departamento">Departamento</div>` : ''}
+                    </td>
+                    <td>
+                        <div class="disciplina-nome">${item.componente}</div>
+                        <div class="codigo-disciplina">Código: ${item.codigo}</div>
+                    </td>
+                    <td class="carga-horaria">${item.cargaSemanal}</td>
+                    <td class="carga-horaria">${item.cargaTotal}</td>
+                    <td>
+                        <span class="modalidade-tag ${modalidadeClass}">${item.modalidade}</span>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+                
+                disciplinaCount++;
+                
+                const cargaMatch = item.cargaTotal.match(/\d+/);
+                if (cargaMatch) {
+                    cargaHorariaTotal += parseInt(cargaMatch[0]);
+                }
+            });
+            
+            totalDisciplinasEl.textContent = disciplinaCount;
+            totalCargaHorariaEl.textContent = cargaHorariaTotal;
+            mediaSerieEl.textContent = Math.round(cargaHorariaTotal / 5);
+        }
+
+        function filterData() {
+            const serieFilter = filterSerie.value;
+            const semestreFilter = filterSemestre.value;
+            const modalidadeFilter = filterModalidade.value;
+            
+            const filtered = matrizData.filter(item => {
+                if (serieFilter !== 'all') {
+                    const itemSerie = item.serie.replace('ª', '');
+                    if (itemSerie !== serieFilter) return false;
+                }
+                
+                if (semestreFilter !== 'all') {
+                    if (semestreFilter === 'X' && item.semestre !== 'X') return false;
+                    if (semestreFilter !== 'X' && item.semestre !== `${semestreFilter}º`) return false;
+                }
+                
+                if (modalidadeFilter !== 'all') {
+                    if (item.modalidade !== modalidadeFilter) return false;
+                }
+                
+                return true;
+            });
+            
+            // Ordenar por código
+            return filtered.sort((a, b) => {
+                const codigoA = parseInt(a.codigo) || 0;
+                const codigoB = parseInt(b.codigo) || 0;
+                return codigoA - codigoB;
+            });
+        }
+
+        function applyFilters() {
+            const filteredData = filterData();
+            renderTable(filteredData);
+        }
+
+        function resetFilters() {
+            filterSerie.value = 'all';
+            filterSemestre.value = 'all';
+            filterModalidade.value = 'all';
+            renderTable(matrizData);
+        }
+
+        // =============== FUNÇÕES PARA A ABA DE IMPRESSÃO ===============
+
+        function renderCheckboxes(data) {
+            disciplinasCheckbox.innerHTML = '';
+            
+            // Ordenar por código
+            const dataOrdenada = [...data].sort((a, b) => {
+                const codigoA = parseInt(a.codigo) || 0;
+                const codigoB = parseInt(b.codigo) || 0;
+                return codigoA - codigoB;
+            });
+            
+            dataOrdenada.forEach(item => {
+                const checkboxItem = document.createElement('div');
+                checkboxItem.className = 'checkbox-item';
+                
+                let modalidadeBadgeClass = '';
+                if (item.modalidade === 'Teórica') {
+                    modalidadeBadgeClass = 'teorica';
+                } else if (item.modalidade === 'Prática') {
+                    modalidadeBadgeClass = 'pratica';
+                } else if (item.modalidade === 'Teor./Prática') {
+                    modalidadeBadgeClass = 'teor-pratica';
+                } else if (item.modalidade === 'Extensão') {
+                    modalidadeBadgeClass = 'extensao';
+                }
+                
+                checkboxItem.innerHTML = `
+                    <input type="checkbox" id="disciplina-${item.id}" value="${item.id}" ${disciplinasSelecionadasAtuais.has(item.id) ? 'checked' : ''}>
+                    <div>
+                        <label for="disciplina-${item.id}">${item.componente}</label>
+                        <div class="disciplina-info">
+                            Código: ${item.codigo} | ${item.serie} | ${item.semestre} | ${item.cargaTotal}h 
+                            <span class="modalidade-badge ${modalidadeBadgeClass}">${item.modalidade}</span>
+                        </div>
+                    </div>
+                `;
+                
+                disciplinasCheckbox.appendChild(checkboxItem);
+                
+                const checkbox = checkboxItem.querySelector('input[type="checkbox"]');
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        disciplinasSelecionadasAtuais.add(parseInt(this.value));
+                    } else {
+                        disciplinasSelecionadasAtuais.delete(parseInt(this.value));
+                    }
+                });
+            });
+        }
+
+        function filterDataImpressao() {
+            const serieFilter = filtroImpressaoSerie.value;
+            const semestreFilter = filtroImpressaoSemestre.value;
+            
+            const filtered = matrizData.filter(item => {
+                if (serieFilter !== 'all') {
+                    const itemSerie = item.serie.replace('ª', '');
+                    if (itemSerie !== serieFilter) return false;
+                }
+                
+                if (semestreFilter !== 'all') {
+                    if (semestreFilter === 'X' && item.semestre !== 'X') return false;
+                    if (semestreFilter !== 'X' && item.semestre !== `${semestreFilter}º`) return false;
+                }
+                
+                return true;
+            });
+            
+            // Ordenar por código
+            return filtered.sort((a, b) => {
+                const codigoA = parseInt(a.codigo) || 0;
+                const codigoB = parseInt(b.codigo) || 0;
+                return codigoA - codigoB;
+            });
+        }
+
+        function aplicarFiltroImpressaoHandler() {
+            const filteredData = filterDataImpressao();
+            renderCheckboxes(filteredData);
+        }
+
+        function adicionarTurma() {
+            if (disciplinasSelecionadasAtuais.size === 0) {
+                alert("Selecione pelo menos uma disciplina para criar uma turma.");
+                return;
+            }
+            
+            const titulo = turmaTitulo.value || "Turma sem título";
+            
+            const disciplinas = matrizData.filter(item => disciplinasSelecionadasAtuais.has(item.id));
+            
+            // Ordenar disciplinas por código
+            const disciplinasOrdenadas = [...disciplinas].sort((a, b) => {
+                const codigoA = parseInt(a.codigo) || 0;
+                const codigoB = parseInt(b.codigo) || 0;
+                return codigoA - codigoB;
+            });
+            
+            let totalCargaHoraria = 0;
+            disciplinasOrdenadas.forEach(item => {
+                const cargaMatch = item.cargaTotal.match(/\d+/);
+                if (cargaMatch) {
+                    totalCargaHoraria += parseInt(cargaMatch[0]);
+                }
+            });
+            
+            const novaTurma = {
+                id: turmaIdCounter++,
+                titulo: titulo,
+                disciplinas: disciplinasOrdenadas,
+                totalDisciplinas: disciplinasOrdenadas.length,
+                totalCargaHoraria: totalCargaHoraria,
+                dataCriacao: new Date().toLocaleDateString('pt-BR')
+            };
+            
+            turmasCriadas.push(novaTurma);
+            
+            disciplinasSelecionadasAtuais.clear();
+            const checkboxes = disciplinasCheckbox.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            atualizarListaTurmas();
+            
+            turmaTitulo.value = `Turma ${String.fromCharCode(64 + turmasCriadas.length + 1)} - ${disciplinasOrdenadas[0]?.serie || '1ª'} Série - ${disciplinasOrdenadas[0]?.semestre || '1º'} Semestre`;
+        }
+
+        function atualizarListaTurmas() {
+            if (turmasCriadas.length === 0) {
+                turmasLista.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+                        <i class="fas fa-users-slash" style="font-size: 48px; margin-bottom: 15px;"></i>
+                        <p>Nenhuma turma criada ainda.</p>
+                        <p>Configure uma turma ao lado e clique em "Adicionar Turma".</p>
+                    </div>
+                `;
+                contadorTurmas.textContent = '0';
+                return;
+            }
+            
+            turmasLista.innerHTML = '';
+            contadorTurmas.textContent = turmasCriadas.length;
+            
+            turmasCriadas.forEach((turma, index) => {
+                const turmaCard = document.createElement('div');
+                turmaCard.className = 'turma-card';
+                turmaCard.innerHTML = `
+                    <div class="turma-card-header">
+                        <h3>${turma.titulo}</h3>
+                        <div class="turma-card-actions">
+                            <button class="button-danger remover-turma" data-id="${turma.id}" style="padding: 5px 10px; font-size: 12px;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="turma-disciplinas">
+                        ${turma.disciplinas.map(disciplina => {
+                            let modalidadeBadgeClass = '';
+                            if (disciplina.modalidade === 'Teórica') {
+                                modalidadeBadgeClass = 'teorica';
+                            } else if (disciplina.modalidade === 'Prática') {
+                                modalidadeBadgeClass = 'pratica';
+                            } else if (disciplina.modalidade === 'Teor./Prática') {
+                                modalidadeBadgeClass = 'teor-pratica';
+                            } else if (disciplina.modalidade === 'Extensão') {
+                                modalidadeBadgeClass = 'extensao';
+                            }
+                            
+                            return `
+                                <div class="turma-disciplina">
+                                    <div class="disciplina-detalhes">
+                                        <h4>${disciplina.componente}</h4>
+                                        <div class="info">
+                                            Código: ${disciplina.codigo} | ${disciplina.serie} | ${disciplina.semestre} | Depto: ${disciplina.departamento}
+                                            <span class="modalidade-badge ${modalidadeBadgeClass}">${disciplina.modalidade}</span>
+                                        </div>
+                                    </div>
+                                    <div class="carga-turma">
+                                        <div>${disciplina.cargaSemanal} h/sem</div>
+                                        <div>${disciplina.cargaTotal} h</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                    <div class="turma-total">
+                        Total: ${turma.totalDisciplinas} disciplina${turma.totalDisciplinas !== 1 ? 's' : ''} | Carga horária: ${turma.totalCargaHoraria} horas
+                    </div>
+                `;
+                
+                turmasLista.appendChild(turmaCard);
+                
+                const removerBtn = turmaCard.querySelector('.remover-turma');
+                removerBtn.addEventListener('click', function() {
+                    removerTurma(parseInt(this.dataset.id));
+                });
+            });
+        }
+
+        function removerTurma(id) {
+            if (confirm("Tem certeza que deseja remover esta turma?")) {
+                turmasCriadas = turmasCriadas.filter(turma => turma.id !== id);
+                atualizarListaTurmas();
+            }
+        }
+
+        function limparTodasTurmas() {
+            if (turmasCriadas.length === 0) {
+                return;
+            }
+            
+            if (confirm("Tem certeza que deseja remover todas as turmas criadas?")) {
+                turmasCriadas = [];
+                turmaIdCounter = 1;
+                atualizarListaTurmas();
+            }
+        }
+
+        function selecionarTodasDisciplinas() {
+            const checkboxes = disciplinasCheckbox.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = true;
+                disciplinasSelecionadasAtuais.add(parseInt(checkbox.value));
+            });
+        }
+
+        function desmarcarTodasDisciplinas() {
+            const checkboxes = disciplinasCheckbox.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                disciplinasSelecionadasAtuais.delete(parseInt(checkbox.value));
+            });
+        }
+
+
+        // =============== FUNÇÕES PARA GERENCIAMENTO DE ABAS ===============
+
+        function switchTab(tabName) {
+            tabs.forEach(tab => {
+                if (tab.dataset.tab === tabName) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            tabContents.forEach(content => {
+                if (content.id === `${tabName}-content`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+            
+            if (tabName === 'impressao') {
+                aplicarFiltroImpressaoHandler();
+                atualizarListaTurmas();
+            }
+        }
+
+        // =============== INICIALIZAÇÃO ===============
+
+        // Inicializar a visualização
+        renderTable(matrizData);
+
+        // Event listeners para a aba de visualização
+        filterSerie.addEventListener('change', applyFilters);
+        filterSemestre.addEventListener('change', applyFilters);
+        filterModalidade.addEventListener('change', applyFilters);
+        resetFiltersBtn.addEventListener('click', resetFilters);
+
+        // Event listeners para a aba de impressão
+        aplicarFiltroImpressao.addEventListener('click', aplicarFiltroImpressaoHandler);
+        selecionarTodasBtn.addEventListener('click', selecionarTodasDisciplinas);
+        desmarcarTodasBtn.addEventListener('click', desmarcarTodasDisciplinas);
+        adicionarTurmaBtn.addEventListener('click', adicionarTurma);
+        gerarPdfBtn.addEventListener('click', gerarPDF);
+        limparTodasTurmasBtn.addEventListener('click', limparTodasTurmas);
+
+        // Event listeners para as abas
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                switchTab(tab.dataset.tab);
+            });
+        });
+
+        // Inicializar a aba de impressão com dados filtrados
+        aplicarFiltroImpressaoHandler();
+        
+        // Adicionar algumas turmas de exemplo
+        setTimeout(() => {
+            if (turmasCriadas.length === 0) {
+                // Turma 1 - Ordenada por código
+                const disciplinasExemplo1 = [1, 2, 3, 5, 6, 7, 8];
+                disciplinasSelecionadasAtuais = new Set(disciplinasExemplo1);
+                turmaTitulo.value = "Turma A - 1ª Série - Ordenada por Código";
+                adicionarTurma();
+                
+                // Turma 2 - Ordenada por código
+                const disciplinasExemplo2 = [9, 10, 11, 12, 13, 14, 15];
+                disciplinasSelecionadasAtuais = new Set(disciplinasExemplo2);
+                turmaTitulo.value = "Turma B - 2ª Série - Ordenada por Código";
+                adicionarTurma();
+                
+                // Turma 3 - Ordenada por código
+                const disciplinasExemplo3 = [23, 24, 25, 26, 27, 28, 29];
+                disciplinasSelecionadasAtuais = new Set(disciplinasExemplo3);
+                turmaTitulo.value = "Turma C - 3ª Série - Ordenada por Código";
+                adicionarTurma();
+                
+                // Limpar seleção
+                disciplinasSelecionadasAtuais.clear();
+                aplicarFiltroImpressaoHandler();
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
